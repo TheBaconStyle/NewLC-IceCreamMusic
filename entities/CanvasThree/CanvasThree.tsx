@@ -20,10 +20,8 @@ import {
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
 
 extend({ MeshLineGeometry, MeshLineMaterial });
-useGLTF.preload("/models/123.glb");
-useTexture.preload(
-  "https://assets.vercel.com/image/upload/contentful/image/e5382hct74si/SOT1hmCesOHxEYxL7vkoZ/c57b29c85912047c414311723320c16b/band.jpg"
-);
+useGLTF.preload("/models/card.glb");
+useTexture.preload("/models/ICM.png");
 
 export default function CanvasThree() {
   return (
@@ -76,10 +74,8 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
     angularDamping: 2,
     linearDamping: 2,
   };
-  const { nodes, materials } = useGLTF("/models/123.glb");
-  const texture = useTexture(
-    "https://assets.vercel.com/image/upload/contentful/image/e5382hct74si/SOT1hmCesOHxEYxL7vkoZ/c57b29c85912047c414311723320c16b/band.jpg"
-  );
+  const { nodes, materials } = useGLTF("/models/card.glb");
+  const texture = useTexture("/models/ICM.png");
   const { width, height } = useThree((state) => state.size);
   const [curve] = useState(
     () =>
