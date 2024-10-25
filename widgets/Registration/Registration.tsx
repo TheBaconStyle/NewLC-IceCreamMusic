@@ -10,6 +10,7 @@ import MyInput from "@/shared/MyInput/MyInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import style from "./Registration.module.css";
+import { SnackbarProvider, enqueueSnackbar } from "notistack";
 
 const RegistrationWidget = () => {
   const { handleSubmit, register } = useForm<TSignUpClientSchema>({
@@ -28,20 +29,27 @@ const RegistrationWidget = () => {
   });
 
   return (
-    <form
-      className={style.form}
-      onSubmit={handleSubmit((data) => registerUser(data).catch(() => false))}
-    >
-      <MyInput {...register("email")} label="Email" type="email" />
-      <MyInput {...register("name")} label="Имя" type="text" />
-      <MyInput {...register("password")} label="Пароль" type="password" />
-      <MyInput
-        {...register("confirmPassword")}
-        label="Подтвердите пароль"
-        type="password"
-      />
-      <MyButton text="Регистрация" view="primary" type="submit" />
-    </form>
+    <SnackbarProvider>
+      <form
+        className={style.form}
+        onSubmit={handleSubmit((data) => {
+          registerUser(data).catch(() => false);
+          enqueueSnackbar("That was easy!", {
+            anchorOrigin: { horizontal: "right", vertical: "bottom" },
+          });
+        })}
+      >
+        <MyInput {...register("email")} label="Email" type="email" />
+        <MyInput {...register("name")} label="Имя" type="text" />
+        <MyInput {...register("password")} label="Пароль" type="password" />
+        <MyInput
+          {...register("confirmPassword")}
+          label="Подтвердите пароль"
+          type="password"
+        />
+        <MyButton text="Регистрация" view="primary" type="submit" />
+      </form>
+    </SnackbarProvider>
   );
 };
 export default RegistrationWidget;
