@@ -29,11 +29,11 @@ export const users = schema.table("user", {
   resetPasswordToken: text("resetPasswordToken"),
   isVerifiedAuthor: boolean("isVerifiedAuthor").notNull().default(false),
   isAdmin: boolean("isAdmin").notNull().default(false),
-  isSuperUser: boolean("isSuperUser").notNull().default(false),
   isSubscribed: boolean("isSubscribed").notNull().default(false),
   subscriptionLevel: subscriptionLevels("subscribeLevel"),
   subscriptionExpires: timestamp("expiresAt"),
   freeReleases: doublePrecision("freeReleases").notNull().default(0),
+  balance: doublePrecision("balance").notNull().default(0),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
@@ -41,6 +41,21 @@ export const usersRelations = relations(users, ({ many }) => ({
   verifications: many(verification),
   orders: many(orders),
   payment_methods: many(payment_method),
+  socialLinks: many(socialLink),
+  payouts: many(payouts),
+}));
+
+export const socialLink = schema.table("social_links", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  type: text("type").notNull(),
+  link: text("link").notNull(),
+});
+
+export const socialLinkRelations = relations(socialLink, ({ one }) => ({
+  user: one(users, { fields: [socialLink.userId], references: [users.id] }),
 }));
 
 export const news = schema.table("news", {
@@ -241,6 +256,22 @@ export const payment_method = schema.table("payment_methods", {
 export const payment_methodRelations = relations(payment_method, ({ one }) => ({
   user: one(users, {
     fields: [payment_method.userId],
+    references: [users.id],
+  }),
+}));
+
+export const payouts = schema.table("payouts", {
+  id: uuid("id").primaryKey(),
+  userId: uuid("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  createdAt: timestamp("createdAt").defaultNow(),
+  confirmed: boolean("confirmed").default(false),
+});
+
+export const payouts_relations = relations(payouts, ({ one }) => ({
+  user: one(users, {
+    fields: [payouts.userId],
     references: [users.id],
   }),
 }));
