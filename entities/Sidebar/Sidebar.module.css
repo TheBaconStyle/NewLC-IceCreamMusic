@@ -3,6 +3,22 @@
   padding: 15px 5px;
   position: fixed;
 }
+.inWork {
+  position: relative;
+}
+.inWork::after {
+  content: "Скоро";
+  font-size: 11px;
+  position: absolute;
+  border: 1px solid var(--current-color);
+  padding: 5px;
+  border-radius: 5px;
+  right: 10px;
+  top: 0;
+  height: fit-content;
+  bottom: 0;
+  margin: auto 0;
+}
 .menu {
   display: flex;
   flex-direction: column;
