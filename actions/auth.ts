@@ -31,15 +31,10 @@ export async function credentialsSignIn(credentials: TSignInClientSchema) {
 
   const { email, password, rememberMe } = credentials;
 
-  const oneDaySeconds = 24 * 60 * 60;
-
-  const oneMonthSeconds = 30 * oneDaySeconds;
+  const oneMonthSeconds = 30 * 24 * 60 * 60;
 
   const sessionOptions = createSessionOptions({
-    cookieOptions: {
-      ...defaultSessionOptions.cookieOptions,
-      maxAge: !!rememberMe ? oneMonthSeconds : oneDaySeconds,
-    },
+    ttl: !!rememberMe ? oneMonthSeconds : defaultSessionOptions.ttl,
   });
 
   const user = await db.query.users.findFirst({
@@ -70,11 +65,9 @@ export async function credentialsSignIn(credentials: TSignInClientSchema) {
 export async function signOutAction() {
   const session = await getAuthSession();
 
-  const callbackPath = await getPathname();
-
   session.destroy();
 
-  redirect(callbackPath);
+  redirect("/signin");
 }
 
 export async function getAuthSession(options?: SessionOptions) {

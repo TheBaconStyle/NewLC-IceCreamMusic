@@ -1,15 +1,16 @@
 import { getAuthSession } from "@/actions/auth";
+import { NextRequest, NextResponse } from "next/server";
 
-const handler = async (req: Request) => {
+const handler = async (req: NextRequest) => {
   const session = await getAuthSession();
 
   session.destroy();
 
-  const callbackUrl = new URL(req.url);
+  const callbackUrl = req.nextUrl.clone();
 
   callbackUrl.pathname = "/signin";
 
-  return Response.redirect(callbackUrl);
+  return NextResponse.redirect(callbackUrl);
 };
 
 export { handler as GET, handler as POST };

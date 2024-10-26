@@ -24,7 +24,9 @@ export const defaultSessionOptions: SessionOptions = {
   cookieOptions: {
     httpOnly: true,
     sameSite: "lax",
+    secure: true,
   },
+  ttl: 60 * 60 * 24,
 };
 
 export function createSessionOptions(

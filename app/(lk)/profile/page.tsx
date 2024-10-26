@@ -28,11 +28,18 @@ export default async function ProfilePage() {
       <div className={classNames("row", "gap50")}>
         <div className={classNames("col", "gap30")}>
           <Image
-            src={`/avatars/${userData!.id}.${userData!.avatar}`}
+            src={
+              userData?.avatar
+                ? `${process.env.NEXT_PUBLIC_S3_URL!}/avatars/${userData!.id}.${
+                    userData!.avatar
+                  }`
+                : "/assets/avatar.jpg"
+            }
             alt={"Avatar"}
             width={250}
             height={250}
             className="rounded"
+            unoptimized
           />
           <Link href={"/profile/edit/"} className="linkButton">
             Редактировать

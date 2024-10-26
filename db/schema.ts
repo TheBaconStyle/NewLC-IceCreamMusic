@@ -34,6 +34,14 @@ export const users = schema.table("user", {
   subscriptionExpires: timestamp("expiresAt"),
   freeReleases: doublePrecision("freeReleases").notNull().default(0),
   balance: doublePrecision("balance").notNull().default(0),
+  birthDate: timestamp("birthDate"),
+  country: text("country"),
+  label: text("label"),
+  personalSiteUrl: text("personalSiteUrl"),
+  telegram: text("telegram"),
+  vk: text("vk"),
+  whatsapp: text("whatsup"),
+  viber: text("viber"),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
@@ -41,21 +49,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   verifications: many(verification),
   orders: many(orders),
   payment_methods: many(payment_method),
-  socialLinks: many(socialLink),
   payouts: many(payouts),
-}));
-
-export const socialLink = schema.table("social_links", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("userId")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
-  type: text("type").notNull(),
-  link: text("link").notNull(),
-});
-
-export const socialLinkRelations = relations(socialLink, ({ one }) => ({
-  user: one(users, { fields: [socialLink.userId], references: [users.id] }),
 }));
 
 export const news = schema.table("news", {
