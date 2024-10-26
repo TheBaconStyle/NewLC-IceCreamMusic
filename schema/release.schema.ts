@@ -1,6 +1,7 @@
 import { release, track } from "@/db/schema";
 import { z } from "zod";
 import { createInsertSchema } from "drizzle-zod";
+import { fileSchema, stringAsDateSchema } from "./shared.schema";
 
 export const trackInsertSchema = createInsertSchema(track).omit({
   id: true,
@@ -9,44 +10,13 @@ export const trackInsertSchema = createInsertSchema(track).omit({
 
 export type TTrackInsert = z.infer<typeof trackInsertSchema>;
 
-const stringAsDateSchema = z.string().refine((value) => {
-  try {
-    const date = new Date(value);
-    return date instanceof Date && !isNaN(date.getTime());
-  } catch (e) {
-    return false;
-  }
-});
-
 export const trackFormSchema = trackInsertSchema.extend({
   title: z.string().min(1),
-  track: z.any().refine((file: File) => {
-    return file instanceof File;
-  }),
-  text_sync: z
-    .any()
-    .refine((file: File) => {
-      return file instanceof File;
-    })
-    .optional(),
-  ringtone: z
-    .any()
-    .refine((file: File) => {
-      return file instanceof File;
-    })
-    .optional(),
-  video: z
-    .any()
-    .refine((file: File) => {
-      return file instanceof File;
-    })
-    .optional(),
-  video_shot: z
-    .any()
-    .refine((file: File) => {
-      return file instanceof File;
-    })
-    .optional(),
+  track: fileSchema,
+  text_sync: fileSchema.optional(),
+  ringtone: fileSchema.optional(),
+  video: fileSchema.optional(),
+  video_shot: fileSchema.optional(),
   instant_gratification: stringAsDateSchema.optional(),
   roles: z
     .object({

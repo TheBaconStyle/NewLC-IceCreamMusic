@@ -1,4 +1,4 @@
-FROM node:lts-alpine3.20 as base
+FROM node:lts-alpine3.20 AS base
 
 FROM base AS build
 
@@ -8,19 +8,17 @@ COPY . .
 
 RUN npm install
 
-RUN npm run build
+RUN npm run build:app
 
 FROM base AS main
+
+WORKDIR /app
 
 COPY --from=build /app/.next/standalone ./
 
 COPY --from=build /app/.next/static ./.next/static
 
 COPY --from=build /app/public ./public
-
-ENV PORT 3000
-
-ENV HOSTNAME localhost
 
 EXPOSE 3000
 

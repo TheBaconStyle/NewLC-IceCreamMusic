@@ -1,13 +1,15 @@
 "use server";
 
+import { minioS3 } from "@/config/s3";
 import { db } from "@/db";
 import { users } from "@/db/schema";
+import { profileFormSchema, TProfileSchema } from "@/schema/profile.schema";
 import { signUpSchema, TSignUpClientSchema } from "@/schema/signup.schema";
 import { hashPassword } from "@/utils/hashPassword";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
-import { sendSignUpConfirmEmail } from "./email";
 import { getAuthSession } from "./auth";
+import { sendSignUpConfirmEmail } from "./email";
 
 export async function registerUser(userData: TSignUpClientSchema) {
   const { email, name, password } = signUpSchema.parse(userData);
@@ -70,4 +72,94 @@ export async function getUserSubscriptionLevel() {
   if (user.isSubscribed) return user.subscriptionLevel ?? false;
 
   return false;
+}
+
+export async function editProfile(profileData: FormData) {
+  const session = await getAuthSession();
+
+  if (!session.user) {
+    return { success: false, message: "You need to log in first" };
+  }
+
+  const user = await db.query.users.findFirst({
+    where: eq(users.id, session.user.id),
+  });
+
+  if (!user) return { success: false, message: "You need to log in first" };
+
+  const profileObjectProto = await new Promise((res, rej) => {
+    try {
+      res({
+        ...Object.fromEntries(profileData.entries()),
+        avatar: profileData.get("avatar") ?? undefined,
+      });
+    } catch (e) {
+      rej(null);
+    }
+  });
+
+  const profileResult = profileFormSchema.safeParse(profileObjectProto);
+
+  if (!profileResult.success) {
+    return {
+      success: false,
+      message: JSON.stringify(profileResult.error),
+    };
+  }
+
+  if (profileResult.data.avatar instanceof File) {
+    const avatarFile = profileResult.data.avatar;
+
+    const avatarBytes = await avatarFile.arrayBuffer();
+
+    const avatarType = avatarFile.type.split("/")[1];
+
+    const fileName = `${user.id}.${avatarType}`;
+
+    const isAvatarLoaded = await minioS3
+      .putObject("avatars", fileName, Buffer.from(avatarBytes))
+      .then(() => true)
+      .catch((e) => console.error(e));
+
+    if (!isAvatarLoaded) {
+      return {
+        success: false,
+        message: "Can not upload avatar",
+      };
+    }
+
+    profileResult.data.avatar = avatarType;
+  }
+
+  const newProfile: TProfileSchema = {
+    ...profileResult.data,
+    birthDate: !!profileResult.data.birthDate
+      ? new Date(profileResult.data.birthDate)
+      : undefined,
+  };
+
+  const newUser = await db
+    .update(users)
+    .set(newProfile)
+    .where(eq(users.id, user.id))
+    .returning({
+      id: users.id,
+      avatar: users.avatar,
+      name: users.name,
+      email: users.email,
+    })
+    .catch((e) => {
+      console.error(e);
+      return null;
+    });
+
+  if (!!!newUser) {
+    return { success: false, message: "Something went wrong" };
+  }
+
+  session.user = newUser.at(0);
+
+  session.save();
+
+  redirect("/profile");
 }

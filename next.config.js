@@ -5,12 +5,13 @@ const nextConfig = {
   reactStrictMode: true,
   cleanDistDir: true,
   output: "standalone",
+  swcMinify: true,
   experimental: {
     serverActions: {
       allowedOrigins: [
-        "https://06julvh5he00.share.zrok.io",
         "http://localhost:3000",
         "https://icecreammusic.qwe/",
+        "http://94.103.12.98:3000",
       ],
     },
   },
@@ -49,6 +50,21 @@ const nextConfig = {
         permanent: false,
       },
     ];
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "9000",
+        pathname: "**/**",
+      },
+      {
+        protocol: "https",
+        hostname: "s3.icecreammusic.net",
+        pathname: "**/**",
+      },
+    ],
   },
 };
 

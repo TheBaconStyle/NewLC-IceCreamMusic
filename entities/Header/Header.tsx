@@ -16,7 +16,16 @@ import ThemeToggle from "@/widgets/ThemeToggle/ThemeToggle";
 import Script from "next/script";
 import YouKassaWallet from "./YouKassaWallet/YouKassaWallet";
 
-const Header = () => {
+import Link from "next/link";
+
+
+export type THeader = {
+  userid: string;
+  username: string;
+  avatar: string | null;
+};
+
+const Header = ({ avatar, username, userid }: THeader) => {
   const [showWallet, setShowWallet] = useState(false);
   const [showYouKassa, setShowYouKassa] = useState(false);
 
@@ -51,18 +60,23 @@ const Header = () => {
             </div>
           </button>
 
-          <button className={style.noStyle}>
+          <Link className={style.noStyle} href="/profile">
             <div className={style.header__wrapper_avatar}>
               <Image
                 className={style.avatar}
                 alt="Аватарка"
-                src={"/assets/avatar.jpg"}
+                src={
+                  !!avatar
+                    ? `${process.env.NEXT_PUBLIC_S3_URL}/avatars/${userid}.${avatar}`
+                    : "/assets/avatar.jpg"
+                }
                 height={40}
                 width={40}
+                unoptimized
               />
-              <MyText>Noiker</MyText>
+              <MyText>{username}</MyText>
             </div>
-          </button>
+          </Link>
         </div>
       </div>
       {showWallet && (
