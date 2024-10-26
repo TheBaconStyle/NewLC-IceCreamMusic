@@ -31,23 +31,32 @@ export async function verifyData(data: TVerificationFormSchema) {
   });
 
   if (user) {
-    return { success: true };
+    return { success: false, message: "Пользователь верифицирован" };
   }
 
   const res = serverVerificationSchema.safeParse(data);
 
   if (res.success) {
-    const verificationTickets = await db
+    const isSuccess = await db
       .insert(verification)
       .values({
         ...res.data,
         userId: session.user.id,
       })
-      .returning({ id: verification.id });
+      .catch(() => false)
+      .then(() => true);
+
+    return {
+      success: isSuccess,
+      message: isSuccess
+        ? "Открыт запрос на верификацию"
+        : "Не получается открыть запрос на вериифкацию",
+    };
   }
 
   return {
-    success: res.success,
+    success: false,
+    message: "Что-то пошло не так",
   };
 }
 
@@ -58,10 +67,16 @@ export async function approveVerification(id: string) {
     return { success: false, message: "Unauthorized" };
   }
 
-  await db
+  const isSuccess = await db
     .update(verification)
     .set({ status: "approved" })
-    .where(eq(verification.id, id));
+    .where(eq(verification.id, id))
+    .then(() => true)
+    .catch(() => false);
+
+  if (!isSuccess) {
+    return { success: false, message: "Что-то пошло не так" };
+  }
 
   await revalidateCurrentPath();
 
@@ -75,10 +90,16 @@ export async function rejectVerification(id: string) {
     return { success: false, message: "Unauthorized" };
   }
 
-  await db
+  const isSuccess = await db
     .update(verification)
     .set({ status: "rejected" })
-    .where(eq(verification.id, id));
+    .where(eq(verification.id, id))
+    .then(() => true)
+    .catch(() => false);
+
+  if (!isSuccess) {
+    return { success: false, message: "Что-то пошло не так" };
+  }
 
   await revalidateCurrentPath();
 

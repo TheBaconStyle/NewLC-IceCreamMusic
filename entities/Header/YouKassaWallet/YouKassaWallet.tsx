@@ -1,4 +1,6 @@
+import { makePayout } from "@/actions/payments";
 import ModalPopup from "@/widgets/ModalPopup/ModalPopup";
+import { enqueueSnackbar } from "notistack";
 import { useEffect } from "react";
 
 export default function YouKassaWallet({
@@ -6,20 +8,34 @@ export default function YouKassaWallet({
   setShowYouKassa,
 }: {
   showYouKassa: boolean;
-  setShowYouKassa: () => {};
+  setShowYouKassa: (stat: boolean) => void;
 }) {
   useEffect(() => {
+    // @ts-ignore
     const pay = new window.PayoutsData({
       type: "payout",
       account_id: "407649", //Идентификатор шлюза (agentId в личном кабинете)
-      success_callback: function (data) {
-        console.log(data);
+      success_callback: async function (data: any) {
+        await makePayout(data.payout_token).then((payoutData) => {
+          enqueueSnackbar({
+            message: payoutData.message,
+            variant: payoutData.success ? "success" : "error",
+          });
+        });
+        setShowYouKassa(false);
       },
-      error_callback: function (error) {
-        console.log(error);
+      error_callback: function (error: any) {
+        enqueueSnackbar({
+          variant: "error",
+          message: "Не удается определить платежные данные",
+        });
+        setShowYouKassa(false);
       },
     });
     pay.render("payout-form").then(() => {});
+    return () => {
+      pay.clearListeners();
+    };
   }, []);
 
   return (

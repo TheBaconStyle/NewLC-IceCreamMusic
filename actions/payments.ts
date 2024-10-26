@@ -166,7 +166,7 @@ export async function topUp(userId: string, amount: number) {
   return { success: true };
 }
 
-export async function makePayout(userId: string, payoutToken: string) {
+export async function makePayout(payoutToken: string) {
   const session = await getAuthSession();
 
   if (!session || !session.user || !session.user.id) {
@@ -174,7 +174,7 @@ export async function makePayout(userId: string, payoutToken: string) {
   }
 
   const user = await db.query.users.findFirst({
-    where: (us, { eq }) => eq(us.id, userId),
+    where: (us, { eq }) => eq(us.id, session.user!.id),
   });
 
   if (!user) {
@@ -184,7 +184,7 @@ export async function makePayout(userId: string, payoutToken: string) {
   if (user.balance === 0) {
     return {
       success: false,
-      message: "Can not make payout. Your balance is 0.",
+      message: "Невозможно выполнить выплату при нулевом балансе",
     };
   }
 
@@ -213,10 +213,13 @@ export async function makePayout(userId: string, payoutToken: string) {
     .catch(() => null);
 
   if (!payout) {
-    return { success: false, message: "Smth went wrong" };
+    return { success: false, message: "Что-то пошло не так" };
   }
 
   await db.insert(payouts).values({ id: payout.id, userId: user.id });
 
-  return { success: true };
+  return {
+    success: true,
+    message: "Деньги поступят к Вам на счет в ближайшее время",
+  };
 }

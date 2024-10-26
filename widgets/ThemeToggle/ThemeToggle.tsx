@@ -4,9 +4,13 @@ import style from "./ThemeToggle.module.css";
 import { useTheme } from "next-themes";
 import { useState } from "react";
 
-const ThemeToggle = () => {
+export type TThemeToggler = {
+  currentTheme: string;
+};
+
+const ThemeToggle = ({ currentTheme }: TThemeToggler) => {
   const { setTheme, theme } = useTheme();
-  const [checked, setChecked] = useState(true);
+  const [checked, setChecked] = useState(currentTheme === "dark");
 
   const handleChangeTheme = () => {
     setChecked((checked) => !checked);
