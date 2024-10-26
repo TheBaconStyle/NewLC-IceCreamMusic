@@ -149,3 +149,7 @@ body {
     background-color: var(--current-hover-color);
   }
 }
+
+.MuiBox-root {
+  background-color: red !important;
+}

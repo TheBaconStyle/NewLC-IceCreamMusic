@@ -3,7 +3,7 @@ import classNames from "classnames";
 import style from "./ModalPopup.module.css";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import CloseIcon from "../../public/InfoIcon/close.svg";
-import { ReactNode } from "react";
+import { DetailedHTMLProps, HTMLAttributes, ReactNode } from "react";
 
 export type TModalPopup = {
   active: boolean;
@@ -12,6 +12,7 @@ export type TModalPopup = {
   children: ReactNode;
   width: number;
   height: number;
+  view?: "dark" | "white";
 };
 
 const ModalPopup = ({
@@ -21,16 +22,20 @@ const ModalPopup = ({
   children,
   width,
   height,
+  view,
 }: TModalPopup) => {
   return (
     <div
-      className={classNames(style.modal, { [style.active]: active })}
+      className={classNames(style.modal, {
+        [style.active]: active,
+      })}
       onClick={() => setActive(false)}
     >
       <div
         style={{ width: `${width}`, height: `${height}` }}
         className={classNames(style.modal__content, {
           [style.active_modal]: active,
+          [style.light]: view === "white",
         })}
         onClick={(e) => e.stopPropagation()}
       >

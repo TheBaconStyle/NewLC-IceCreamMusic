@@ -5,6 +5,7 @@ import "./static.css";
 import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 import Loading from "./loading";
+import Script from "next/script";
 
 export const metadata = {
   title: "Create Next App",
@@ -22,6 +23,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <Script src="https://yookassa.ru/payouts-data/3.1.0/widget.js" />
       <body className={roboto.className}>
         <Suspense fallback={<Loading />}>{children}</Suspense>
       </body>

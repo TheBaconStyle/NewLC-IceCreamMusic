@@ -4,7 +4,7 @@ import PlusIcon from "../../public/InfoIcon/Plus.svg";
 import NotificationIcon from "../../public/InfoIcon/Notification.svg";
 import MyText from "@/shared/MyText/MyText";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalPopup from "@/widgets/ModalPopup/ModalPopup";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import classNames from "classnames";
@@ -13,12 +13,20 @@ import moneyFormatter from "@/utils/moneyFormatter";
 import { useTheme } from "next-themes";
 import { cookies } from "next/headers";
 import ThemeToggle from "@/widgets/ThemeToggle/ThemeToggle";
+import Script from "next/script";
+import YouKassaWallet from "./YouKassaWallet/YouKassaWallet";
 
 const Header = () => {
   const [showWallet, setShowWallet] = useState(false);
+  const [showYouKassa, setShowYouKassa] = useState(false);
 
   const handleShowWalletPopup = () => {
     setShowWallet(true);
+  };
+
+  const payYoukassa = () => {
+    setShowWallet(false);
+    setShowYouKassa(true);
   };
 
   return (
@@ -84,9 +92,16 @@ const Header = () => {
               className="mt30"
               text={`Получить ${moneyFormatter(3000)}`}
               view={"secondary"}
+              onClick={payYoukassa}
             />
           </div>
         </ModalPopup>
+      )}
+      {showYouKassa && (
+        <YouKassaWallet
+          showYouKassa={showYouKassa}
+          setShowYouKassa={setShowYouKassa}
+        />
       )}
     </header>
   );
