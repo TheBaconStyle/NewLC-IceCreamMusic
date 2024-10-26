@@ -20,6 +20,7 @@ import ChatIcon from "./SidebarIcons/Chat.svg";
 import LikeIcon from "./SidebarIcons/Like.svg";
 import ArrowIcon from "./SidebarIcons/arrow.svg";
 import QueryIcon from "./SidebarIcons/Query.svg";
+import classNames from "classnames";
 
 const Sidebar = () => {
   return (
@@ -40,14 +41,17 @@ const Sidebar = () => {
             <ControlPanelIcon className={style.section__icon} />
             Новый релиз
           </Link>
-          <Link className={style.section__item} href={"#"}>
+          <Link
+            className={classNames(style.section__item, style.inWork)}
+            href={"#"}
+          >
             <AnalyticIcon className={style.section__icon} />
             Аналитика
           </Link>
-          <Link className={style.section__item} href={"#"}>
+          {/* <Link className={style.section__item} href={"#"}>
             <WalletIcon className={style.section__icon} />
             Кошелек
-          </Link>
+          </Link> */}
 
           <Link className={style.section__item} href="/dashboard/faq">
             <QueryIcon className={style.section__icon} />
@@ -57,11 +61,17 @@ const Sidebar = () => {
 
         <div className={style.section}>
           <MyText className={style.section__name}>Маркетинг</MyText>
-          <Link className={style.section__item} href={"#"}>
+          <Link
+            className={classNames(style.section__item, style.inWork)}
+            href={"#"}
+          >
             <MasspostingIcon className={style.section__icon} />
             Масспостинг
           </Link>
-          <Link className={style.section__item} href={"#"}>
+          <Link
+            className={classNames(style.section__item, style.inWork)}
+            href={"#"}
+          >
             <BitMarketIcon className={style.section__icon} />
             Маркет битов
           </Link>
@@ -69,22 +79,22 @@ const Sidebar = () => {
             <PromotionIcon className={style.section__icon} />
             Продвижение
           </Link>
-          <Link className={style.section__item} href={"/marketing/charts"}>
+          {/* <Link className={style.section__item} href={"/marketing/charts"}>
             <LightningIcon className={style.section__icon} />
             Чарты
-          </Link>
+          </Link> */}
         </div>
 
         <div className={style.section}>
           <MyText className={style.section__name}>Инструменты</MyText>
-          <Link className={style.section__item} href={"#"}>
+          {/* <Link className={style.section__item} href={"#"}>
             <LinksIcon className={style.section__icon} />
             Смарт-ссылки
-          </Link>
-          <Link className={style.section__item} href={"#"}>
+          </Link> */}
+          {/* <Link className={style.section__item} href={"#"}>
             <StarsIcon className={style.section__icon} />
             Генератор
-          </Link>
+          </Link> */}
           <Link className={style.section__item} href={"/instruments/license"}>
             <SuccessIcon className={style.section__icon} />
             Верификация
@@ -101,10 +111,10 @@ const Sidebar = () => {
             <LightningIcon className={style.section__icon} />
             Тарифы
           </Link>
-          <Link className={style.section__item} href={"/premium/current"}>
+          {/* <Link className={style.section__item} href={"/premium/current"}>
             <LikeIcon className={style.section__icon} />
             Мои подписки
-          </Link>
+          </Link> */}
         </div>
       </div>
     </aside>
