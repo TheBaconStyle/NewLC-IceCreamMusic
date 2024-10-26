@@ -16,6 +16,12 @@ const BreadCrumbRoutes = {
   marketing: "Маркетинг",
   instruments: "Инструменты",
   promotion: "Продвижение",
+  news: "Новости",
+  dashboard: "Основное",
+  catalog: "Релиз",
+  faq: "Вопрос-ответ",
+  premium: "Премиум",
+  plans: "Тарифы",
 };
 
 export function BreadCrumbs({ separator = "/", home }: TBreadCrumbs) {

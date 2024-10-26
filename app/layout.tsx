@@ -1,12 +1,11 @@
 import { roboto } from "@/fonts";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, Suspense } from "react";
 import "./globals.css";
 import "./static.css";
 import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 import Loading from "./loading";
 import Script from "next/script";
-
 
 export const metadata = {
   title: "ICECREAMMUSIC",

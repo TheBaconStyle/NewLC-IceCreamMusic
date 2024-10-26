@@ -2,6 +2,7 @@
   width: 260px;
   padding: 15px 5px;
   position: fixed;
+  height: 100%;
 }
 .inWork {
   position: relative;
@@ -22,6 +23,7 @@
 .menu {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 .section {
   display: flex;
@@ -40,6 +42,8 @@
 
 .section__icon > * {
   stroke: var(--medium-text-color);
+  width: 12px;
+  height: 12px;
 }
 .section__icon {
   transform: scale(1.3);
@@ -67,4 +71,19 @@
 }
 .section__item:hover > svg {
   transform: scale(1.65);
+}
+.exit {
+  width: 14px !important;
+  height: 14px !important;
+}
+.exit > * {
+  stroke: var(--medium-text-color);
+}
+.user {
+  width: 14px !important;
+  height: 14px !important;
+  fill: var(--medium-text-color);
+}
+.user > * {
+  stroke: var(--medium-text-color);
 }

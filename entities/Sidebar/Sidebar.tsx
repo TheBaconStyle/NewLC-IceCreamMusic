@@ -20,6 +20,8 @@ import ChatIcon from "./SidebarIcons/Chat.svg";
 import LikeIcon from "./SidebarIcons/Like.svg";
 import ArrowIcon from "./SidebarIcons/arrow.svg";
 import QueryIcon from "./SidebarIcons/Query.svg";
+import ExitIcon from "./SidebarIcons/exit.svg";
+import UserIcon from "./SidebarIcons/User.svg";
 import classNames from "classnames";
 
 const Sidebar = () => {
@@ -116,14 +118,14 @@ const Sidebar = () => {
             Мои подписки
           </Link> */}
         </div>
-        <div className={style.section}>
+        <div className={classNames(style.section, style.bottom)}>
           <MyText className={style.section__name}>Учетная запись</MyText>
           <Link className={style.section__item} href={"/profile"}>
-            <LightningIcon className={style.section__icon} />
+            <UserIcon className={style.user} />
             Профиль
           </Link>
           <Link className={style.section__item} href={"/signout"}>
-            <LikeIcon className={style.section__icon} />
+            <ExitIcon className={style.exit} />
             Выход
           </Link>
         </div>

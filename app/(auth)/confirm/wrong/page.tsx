@@ -1,10 +1,9 @@
-import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
-
+import style from "./page.module.css";
 export default function WrongToken() {
   return (
-    <PageTransitionProvider>
-      Время действия ссылки-подтверждения истекло, либо ссылка содержит неверный
-      токен. Попробуйте повторить операцию.
-    </PageTransitionProvider>
+    <div className={style.form}>
+      Время действия ссылки-подтверждения истекло,
+      <br /> либо ссылка содержит неверный токен. Попробуйте повторить операцию.
+    </div>
   );
 }

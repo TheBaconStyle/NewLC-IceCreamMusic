@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { unsealData } from "iron-session";
 import { redirect } from "next/navigation";
 import { ResetPasswordForm } from "@/widgets/ResetPassword/ResetPassword";
-
+import style from "./page.module.css";
 const wrongUrl = "/reset/wrong";
 
 export default async function ResetPasswordPage({
@@ -29,13 +29,11 @@ export default async function ResetPasswordPage({
       .limit(1)
   ).pop();
 
-  if (!user) {
-    redirect(wrongUrl);
-  }
-
   return (
-    <div className="">
-      <ResetPasswordForm token={tokenData.token} />
+    <div className={style.form}>
+      <div className={style.formContent}>
+        <ResetPasswordForm token={tokenData.token} />
+      </div>
     </div>
   );
 }
