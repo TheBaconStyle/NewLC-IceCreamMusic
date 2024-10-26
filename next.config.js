@@ -51,6 +51,21 @@ const nextConfig = {
       },
     ];
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "9000",
+        pathname: "**/**",
+      },
+      {
+        protocol: "https",
+        hostname: "s3.icecreammusic.net",
+        pathname: "**/**",
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;

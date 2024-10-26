@@ -55,9 +55,14 @@ const Header = ({ avatar, username, userid }: THeader) => {
               <Image
                 className={style.avatar}
                 alt="Аватарка"
-                src={`/avatars/${userid}.${avatar}`}
+                src={
+                  !!avatar
+                    ? `${process.env.NEXT_PUBLIC_S3_URL}/avatars/${userid}.${avatar}`
+                    : "/assets/avatar.jpg"
+                }
                 height={40}
                 width={40}
+                unoptimized
               />
               <MyText>{username}</MyText>
             </div>

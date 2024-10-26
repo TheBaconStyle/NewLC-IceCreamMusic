@@ -10,7 +10,9 @@ export function objectToFormData<T extends {}>(obj: T) {
     if (typeof entry[1] === "object") {
       resultFormData.append(entry[0], JSON.stringify(entry[1]));
     }
-    resultFormData.append(entry[0], entry[1] as any);
+    if (typeof entry[1] !== "undefined") {
+      resultFormData.append(entry[0], entry[1] as any);
+    }
   }
 
   return resultFormData;
