@@ -2,15 +2,14 @@
 
 import { db } from "@/db";
 import { users } from "@/db/schema";
+import PasswordRecovery from "@/emails/PasswordRecover";
 import { createSMTPClient } from "@/utils/createSMTPClient";
 import { render } from "@react-email/render";
 import { randomBytes } from "crypto";
 import { eq } from "drizzle-orm";
 import { sealData } from "iron-session";
-import SignUpConfirm from "../emails/SignUpConfirm";
-import { getFullUrl } from "./url";
-import PasswordRecovery from "@/emails/PasswordRecover";
 import { Transporter } from "nodemailer";
+import SignUpConfirm from "../emails/SignUpConfirm";
 
 export async function sendSignUpConfirmEmail(
   email: string,
@@ -26,13 +25,9 @@ export async function sendSignUpConfirmEmail(
     { password: process.env.MAGIC_LINK_SECRET! }
   );
 
-  const url = new URL(await getFullUrl());
-
-  const { href, pathname } = url;
-
-  const domain = href.replace(pathname, "");
-
-  const magicLink = `${domain}/confirm/${encodeURI(magicLinkToken)}`;
+  const magicLink = `${process.env.NEXT_PUBLIC_DOMAIN}/confirm/${encodeURI(
+    magicLinkToken
+  )}`;
 
   const htmlEmail = await render(<SignUpConfirm link={magicLink} />);
 
@@ -62,13 +57,9 @@ export async function sendResetPasswordEmail(email: string) {
     { password: process.env.MAGIC_LINK_SECRET!, ttl: 60 * 10 }
   );
 
-  const url = new URL(await getFullUrl());
-
-  const { href, pathname } = url;
-
-  const domain = href.replace(pathname, "");
-
-  const magicLink = `${domain}/reset/${encodeURI(magicLinkToken)}`;
+  const magicLink = `${process.env.NEXT_PUBLIC_DOMAIN}/reset/${encodeURI(
+    magicLinkToken
+  )}`;
 
   const htmlEmail = await render(<PasswordRecovery link={magicLink} />);
 

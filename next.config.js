@@ -10,8 +10,7 @@ const nextConfig = {
     serverActions: {
       allowedOrigins: [
         "http://localhost:3000",
-        "https://icecreammusic.qwe/",
-        "http://94.103.12.98:3000",
+        "https://www.icecreammusic.net/",
       ],
     },
   },
