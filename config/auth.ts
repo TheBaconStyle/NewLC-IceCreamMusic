@@ -25,6 +25,7 @@ export const defaultSessionOptions: SessionOptions = {
     httpOnly: true,
     sameSite: "lax",
     secure: true,
+    domain: process.env.AUTH_DOMAIN,
   },
   ttl: 60 * 60 * 24,
 };

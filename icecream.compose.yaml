@@ -1,7 +1,7 @@
 services:
   icecream_crud:
     container_name: icecream_cron
-    image: icecreammusic_cron:22-10-2024
+    image: icecreammusic_cron:27-10-2024-20-13
     environment:
       DB_USER: ${DB_USER:?error}
       DB_PASSWORD: ${DB_PASSWORD:?error}
@@ -17,7 +17,7 @@ services:
       - postgres
   icecream:
     container_name: icecream_app
-    image: icecreammusic:22-10-2024
+    image: icecreammusic:27-10-2024-20-13
     environment:
       AUTH_SECRET: ${AUTH_SECRET:?error}
       SALT_ROUNDS: ${SALT_ROUNDS:?error}
@@ -76,7 +76,7 @@ services:
     env_file:
       - .env
     volumes:
-      - icecream_postgres:/var/lib/postgresql/data
+      - icecream_postgres:${PGDATA:?error}
     networks:
       - icecream
     restart: unless-stopped
