@@ -21,6 +21,7 @@ services:
     environment:
       AUTH_SECRET: ${AUTH_SECRET:?error}
       SALT_ROUNDS: ${SALT_ROUNDS:?error}
+      AUTH_DOMAIN: ${AUTH_DOMAIN:?error}
       DB_HOST: postgres
       DB_PORT: ${DB_PORT:?error}
       DB_USER: ${DB_USER:?error}
