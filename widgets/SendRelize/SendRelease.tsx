@@ -31,6 +31,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import IMySelectProps from "../../shared/MySelect/MySelect.props";
 import style from "./SendRelease.module.css";
 import { TrackItem } from "./TrackItem/TrackItem";
+import { enqueueSnackbar } from "notistack";
 
 const SendRelease = () => {
   const [showPlatforms, setShowPlatforms] = useState<boolean>(false);
@@ -46,7 +47,7 @@ const SendRelease = () => {
     progressive: true,
   });
 
-  const { handleSubmit, setValue, register, watch, getValues } = formMethods;
+  const { handleSubmit, setValue, register, watch } = formMethods;
 
   const areas = watch("area");
 
@@ -91,16 +92,26 @@ const SendRelease = () => {
                 return objectToFormData(trackData);
               });
 
-              uploadRelease(releaseFormData, ...tracksFormData).then(
-                console.log
-              );
+              uploadRelease(releaseFormData, ...tracksFormData)
+                .catch((res) => {
+                  enqueueSnackbar({
+                    variant: "error",
+                    message: res.message,
+                  });
+                })
+                .then(() =>
+                  enqueueSnackbar({
+                    variant: "success",
+                    message: "Релиз успешно загружен",
+                  })
+                );
             },
             (e) => console.log(e)
           )}
         >
           <div className={style.row}>
             <div className={classNames(style.wrap, style.w30)}>
-              <MyTitle Tag={"h3"}>Обложка</MyTitle>
+              <MyTitle Tag={"h3"}>Обложка *</MyTitle>
               <MyInpFile
                 onFileChange={(files) => setValue("preview", files?.item(0))}
               />
@@ -120,7 +131,7 @@ const SendRelease = () => {
                 </MyText>
               </div>
               <MySelect
-                label="Язык метаданных"
+                label="Язык метаданных *"
                 options={allLanguages}
                 tooltip={{
                   id: "languageMetadata",
@@ -135,7 +146,7 @@ const SendRelease = () => {
               <div className={style.row}>
                 <MyInput
                   className={style.inp}
-                  label={"Название релиза"}
+                  label={"Название релиза *"}
                   type={"text"}
                   placeholder="Введите название"
                   inpLk
@@ -158,7 +169,7 @@ const SendRelease = () => {
                   {...register("subtitle")}
                 />
               </div>
-              <MyTitle Tag={"h3"}>Тип релиза</MyTitle>
+              <MyTitle Tag={"h3"}>Тип релиза *</MyTitle>
               <div className={style.topRelizes}>
                 <MyRadio
                   id="type1"
@@ -244,7 +255,7 @@ const SendRelease = () => {
 
           <div className={style.wrap}>
             <div>
-              <MyTitle Tag={"h2"}>Жанр</MyTitle>
+              <MyTitle Tag={"h2"}>Жанр *</MyTitle>
             </div>
             <MySelect
               label="Жанр"
@@ -316,7 +327,7 @@ const SendRelease = () => {
 
           <div className={style.wrap}>
             <div>
-              <MyTitle Tag={"h2"}>Даты</MyTitle>
+              <MyTitle Tag={"h2"}>Даты *</MyTitle>
               <MyText className={classNames(style.desc, style.mb20)}>
                 Укажите основные даты для релиза
               </MyText>
@@ -365,7 +376,7 @@ const SendRelease = () => {
 
           <div className={style.wrap}>
             <div>
-              <MyTitle Tag={"h2"}>Площадки </MyTitle>
+              <MyTitle Tag={"h2"}>Площадки *</MyTitle>
               <MyText className={classNames(style.desc, style.mb20)}>
                 Укажите основные площадки для релиза
               </MyText>
@@ -433,7 +444,7 @@ const SendRelease = () => {
 
           <div className={style.wrap}>
             <div>
-              <MyTitle Tag={"h2"}>Территории </MyTitle>
+              <MyTitle Tag={"h2"}>Территории *</MyTitle>
               <MyText className={classNames(style.desc, style.mb20)}>
                 Укажите территории распространения для релиза
               </MyText>

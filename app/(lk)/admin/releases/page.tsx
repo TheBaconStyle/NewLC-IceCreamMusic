@@ -22,11 +22,11 @@ export default async function AdminReleasesPage() {
 
   return (
     <div>
-      <p>
+      <div>
         {data.map((e) => (
-          <p key={e.language}>{e.language}</p>
+          <div key={e.id}>{e.language}</div>
         ))}
-      </p>
+      </div>
     </div>
   );
 }
