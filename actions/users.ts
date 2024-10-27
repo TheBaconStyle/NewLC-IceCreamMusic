@@ -163,3 +163,23 @@ export async function editProfile(profileData: FormData) {
 
   redirect("/profile");
 }
+
+export async function getUserBalance() {
+  const session = await getAuthSession();
+
+  if (!session.user) {
+    return { success: false, message: "You need to log in first" };
+  }
+
+  const user = await db.query.users.findFirst({
+    where: eq(users.id, session.user.id),
+    columns: { balance: true },
+  });
+
+  if (!user) return { success: false, message: "You need to log in first" };
+
+  return {
+    success: true,
+    balance: user.balance,
+  };
+}

@@ -1,28 +1,21 @@
 "use client";
 
-import Logo from "@/shared/Logo/Logo";
-import style from "./Sidebar.module.css";
-import MyTitle from "@/shared/MyTitle/MyTitle";
 import MyText from "@/shared/MyText/MyText";
-import SidebarHeader from "./SidebarHeader/SidebarHeader";
-import Link from "next/link";
-import ControlPanelIcon from "./SidebarIcons/TheControlPanel.svg";
-import AnalyticIcon from "./SidebarIcons/Analytic.svg";
-import WalletIcon from "./SidebarIcons/Wallet.svg";
-import MasspostingIcon from "./SidebarIcons/Massposting.svg";
-import BitMarketIcon from "./SidebarIcons/BitMarket.svg";
-import PromotionIcon from "./SidebarIcons/Promotion.svg";
-import LightningIcon from "./SidebarIcons/Lightning.svg";
-import LinksIcon from "./SidebarIcons/Links.svg";
-import StarsIcon from "./SidebarIcons/Stars.svg";
-import SuccessIcon from "./SidebarIcons/Success.svg";
-import ChatIcon from "./SidebarIcons/Chat.svg";
-import LikeIcon from "./SidebarIcons/Like.svg";
-import ArrowIcon from "./SidebarIcons/arrow.svg";
-import QueryIcon from "./SidebarIcons/Query.svg";
-import ExitIcon from "./SidebarIcons/exit.svg";
-import UserIcon from "./SidebarIcons/User.svg";
 import classNames from "classnames";
+import Link from "next/link";
+import style from "./Sidebar.module.css";
+import SidebarHeader from "./SidebarHeader/SidebarHeader";
+import AnalyticIcon from "./SidebarIcons/Analytic.svg";
+import BitMarketIcon from "./SidebarIcons/BitMarket.svg";
+import ChatIcon from "./SidebarIcons/Chat.svg";
+import ExitIcon from "./SidebarIcons/exit.svg";
+import LightningIcon from "./SidebarIcons/Lightning.svg";
+import MasspostingIcon from "./SidebarIcons/Massposting.svg";
+import PromotionIcon from "./SidebarIcons/Promotion.svg";
+import QueryIcon from "./SidebarIcons/Query.svg";
+import SuccessIcon from "./SidebarIcons/Success.svg";
+import ControlPanelIcon from "./SidebarIcons/TheControlPanel.svg";
+import UserIcon from "./SidebarIcons/User.svg";
 
 const Sidebar = () => {
   return (

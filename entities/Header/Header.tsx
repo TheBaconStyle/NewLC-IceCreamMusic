@@ -1,23 +1,13 @@
-"use client";
-import style from "./Header.module.css";
-import PlusIcon from "../../public/InfoIcon/Plus.svg";
-import NotificationIcon from "../../public/InfoIcon/Notification.svg";
 import MyText from "@/shared/MyText/MyText";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import ModalPopup from "@/widgets/ModalPopup/ModalPopup";
-import MyTitle from "@/shared/MyTitle/MyTitle";
-import classNames from "classnames";
-import MyButton from "@/shared/MyButton/MyButton";
-import moneyFormatter from "@/utils/moneyFormatter";
-import { useTheme } from "next-themes";
-import { cookies } from "next/headers";
-import ThemeToggle from "@/widgets/ThemeToggle/ThemeToggle";
-import Script from "next/script";
-import YouKassaWallet from "./YouKassaWallet/YouKassaWallet";
-
+import NotificationIcon from "../../public/InfoIcon/Notification.svg";
+import style from "./Header.module.css";
 import Link from "next/link";
-
+import { Wallet } from "./Wallet/Wallet";
+import ThemeToggle from "@/widgets/ThemeToggle/ThemeToggle";
+import { cookies } from "next/headers";
+import { getAuthSession } from "@/actions/auth";
+import { db } from "@/db";
 
 export type THeader = {
   userid: string;
@@ -25,35 +15,23 @@ export type THeader = {
   avatar: string | null;
 };
 
-const Header = ({ avatar, username, userid }: THeader) => {
-  const [showWallet, setShowWallet] = useState(false);
-  const [showYouKassa, setShowYouKassa] = useState(false);
+async function Header({ avatar, username, userid }: THeader) {
+  const theme = cookies().get("__theme__")?.value || "system";
 
-  const handleShowWalletPopup = () => {
-    setShowWallet(true);
-  };
+  const session = await getAuthSession();
 
-  const payYoukassa = () => {
-    setShowWallet(false);
-    setShowYouKassa(true);
-  };
+  const userBalance = await db.query.users.findFirst({
+    where: (us, { eq }) => eq(us.id, session!.user!.id),
+    columns: { balance: true },
+  });
 
   return (
     <header className={style.header}>
       <div className={style.headerWrapper}>
         <div className={style.version}>BETA v1.1.2</div>
         <div className={style.header__info}>
-          <ThemeToggle />
-
-          <button
-            className={style.header__button}
-            onClick={handleShowWalletPopup}
-          >
-            <div className={style.header__wrapper__icon}>
-              <PlusIcon className={style.header__icon} />
-            </div>
-            0 ₽
-          </button>
+          <ThemeToggle currentTheme={theme ?? "light"} />
+          <Wallet balance={userBalance?.balance} />
           <button className={style.header__button}>
             <div className={style.header__wrapper_w_h}>
               <NotificationIcon className={style.header__icon} />
@@ -79,45 +57,7 @@ const Header = ({ avatar, username, userid }: THeader) => {
           </Link>
         </div>
       </div>
-      {showWallet && (
-        <ModalPopup
-          title="Кошелек"
-          active={showWallet}
-          setActive={setShowWallet}
-          width={0}
-          height={450}
-        >
-          <div className={classNames("center", "col")}>
-            <Image
-              className={style.image}
-              src={"/assets/dollar.png"}
-              alt={"Dollar"}
-              width={250}
-              height={250}
-            />
-            <MyTitle Tag={"h3"}>Поздравляем!</MyTitle>
-            <MyText className={classNames(style.desc, "mt20")}>
-              Вы заработали {moneyFormatter(3000)}.
-              <br />
-              Вместе с нами вы можете раскрыть свой потенциал, развить свои
-              таланты и оставить след в мире музыки.{" "}
-            </MyText>
-            <MyButton
-              className="mt30"
-              text={`Получить ${moneyFormatter(3000)}`}
-              view={"secondary"}
-              onClick={payYoukassa}
-            />
-          </div>
-        </ModalPopup>
-      )}
-      {showYouKassa && (
-        <YouKassaWallet
-          showYouKassa={showYouKassa}
-          setShowYouKassa={setShowYouKassa}
-        />
-      )}
     </header>
   );
-};
+}
 export default Header;

@@ -5,9 +5,9 @@ import { TSignInClientSchema } from "@/schema/signin.schema";
 import MyButton from "@/shared/MyButton/MyButton";
 import MyCheckbox from "@/shared/MyCheckbox/MyCheckbox";
 import MyInput from "@/shared/MyInput/MyInput";
+import { enqueueSnackbar } from "notistack";
 import { useForm } from "react-hook-form";
 import style from "./Auth.module.css";
-import { SnackbarProvider, enqueueSnackbar } from "notistack";
 
 const Authorization = () => {
   const { handleSubmit, register } = useForm<TSignInClientSchema>({
@@ -19,26 +19,33 @@ const Authorization = () => {
   });
 
   return (
-    <SnackbarProvider>
-      <form
-        className={style.form}
-        onSubmit={handleSubmit((data) => {
-          enqueueSnackbar("That was easy!", {
-            anchorOrigin: { horizontal: "right", vertical: "bottom" },
+    <form
+      className={style.form}
+      onSubmit={handleSubmit((data) => {
+        credentialsSignIn(data)
+          .then(() => {
+            enqueueSnackbar({
+              message: "Авторизация выполнена успешно",
+              variant: "success",
+            });
+          })
+          .catch((e) => {
+            enqueueSnackbar({
+              message: e.message,
+              variant: "error",
+            });
           });
-          credentialsSignIn(data);
-        })}
-      >
-        <MyInput {...register("email")} label="Email" type="text" />
-        <MyInput {...register("password")} label="Пароль" type="password" />
-        <MyCheckbox
-          {...register("rememberMe")}
-          label="Запомнить пароль"
-          className={style.checkbox}
-        />
-        <MyButton text="Войти" view="primary" type="submit" />
-      </form>
-    </SnackbarProvider>
+      })}
+    >
+      <MyInput {...register("email")} label="Email" type="text" />
+      <MyInput {...register("password")} label="Пароль" type="password" />
+      <MyCheckbox
+        {...register("rememberMe")}
+        label="Запомнить пароль"
+        className={style.checkbox}
+      />
+      <MyButton text="Войти" view="primary" type="submit" />
+    </form>
   );
 };
 

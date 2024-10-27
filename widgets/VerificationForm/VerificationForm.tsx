@@ -14,6 +14,8 @@ import {
   verificationFormSchema,
 } from "@/schema/verification.schema";
 import { verifyData } from "@/actions/verification";
+import { enqueueSnackbar } from "notistack";
+import { useRouter } from "next/navigation";
 
 const VerificationForm = () => {
   const { handleSubmit, register } = useForm<TVerificationFormSchema>({
@@ -22,10 +24,20 @@ const VerificationForm = () => {
     progressive: true,
   });
 
+  const router = useRouter();
+
   return (
     <form
       className={style.formWrapper}
-      onSubmit={handleSubmit((data) => verifyData(data))}
+      onSubmit={handleSubmit((data) =>
+        verifyData(data).then((res) => {
+          enqueueSnackbar({
+            variant: res.success ? "success" : "error",
+            message: res.message,
+          });
+          router.push("/dashboard");
+        })
+      )}
     >
       <div className={style.section}>
         <MyTitle Tag={"h4"} className={style.section__title}>
