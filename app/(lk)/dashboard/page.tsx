@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
 import MyText from "@/shared/MyText/MyText";
 import RelizeItem from "@/widgets/RelizeItem/RelizeItem";
+import { resolve } from "path";
 
 export default async function MainPage() {
   const session = await getAuthSession();
@@ -37,7 +38,30 @@ export default async function MainPage() {
         );
       })}
 
-      {releasesData.length === 0 && <MyText>Тут пока ничего нет</MyText>}
+      {releasesData.length === 0 && (
+        <div className="wrap">
+          <MyText>
+            Приветсвуем вас на площадке ICECREAMMUSIC. <br />
+            <br />
+            ICECREAMMUSIC – это российский музыкальный лейбл и дистрибьютор,
+            который активно работает на рынке страны. Лейбл был основан в 2017
+            году и быстро завоевал популярность благодаря сотрудничеству с
+            известными российскими музыкантами и продюсерами.
+            <br />
+            <br />
+            ICECREAMMUSIC занимается выпуском и продвижением музыки различных
+            жанров, включая поп, хип-хоп, электронную музыку и другие
+            направления. Среди артистов лейбла можно найти таких исполнителей,
+            как Mayotak, Miyagi & Andy Panda, Loqiemean, Клава Кока и многие
+            другие.
+            <br />
+            <br />
+            Лейбл также активно развивает свою деятельность в цифровом
+            пространстве, сотрудничая с музыкальными платформами и стриминговыми
+            сервисами для распространения своего контента.
+          </MyText>
+        </div>
+      )}
     </PageTransitionProvider>
   );
 }
