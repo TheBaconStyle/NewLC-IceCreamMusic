@@ -15,6 +15,7 @@ export function ResetPasswordForm({ token }: TResetPasswordForm) {
   const {
     handleSubmit,
     formState: { errors },
+    register,
   } = useForm<TResetPassword>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {},
@@ -25,8 +26,16 @@ export function ResetPasswordForm({ token }: TResetPasswordForm) {
       className={classNames("w100", "center", "col", "gap10")}
       onSubmit={handleSubmit((data) => resetPassword(data.password, token))}
     >
-      <MyInput label="Введите новый пароль" type="text" />
-      <MyInput label="Повторите пароль" type="text" />
+      <MyInput
+        label="Введите новый пароль"
+        type="password"
+        {...register("password")}
+      />
+      <MyInput
+        label="Повторите пароль"
+        type="password"
+        {...register("confirm")}
+      />
       <MyButton
         text="Изменить пароль"
         view="secondary"

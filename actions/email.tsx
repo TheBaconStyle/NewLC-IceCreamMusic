@@ -10,8 +10,13 @@ import { sealData } from "iron-session";
 import SignUpConfirm from "../emails/SignUpConfirm";
 import { getFullUrl } from "./url";
 import PasswordRecovery from "@/emails/PasswordRecover";
+import { Transporter } from "nodemailer";
 
-export async function sendSignUpConfirmEmail(email: string, id: string) {
+export async function sendSignUpConfirmEmail(
+  email: string,
+  id: string,
+  transport: Transporter
+) {
   const verificationToken = randomBytes(16).toString("hex");
 
   await db.update(users).set({ verificationToken }).where(eq(users.id, id));
@@ -31,12 +36,10 @@ export async function sendSignUpConfirmEmail(email: string, id: string) {
 
   const htmlEmail = await render(<SignUpConfirm link={magicLink} />);
 
-  const smtpTransport = await createSMTPClient();
-
-  await smtpTransport.sendMail({
-    from: process.env.SMTP_USER,
+  await transport.sendMail({
+    from: "info@icecreammusic.net",
     to: email,
-    subject: "Account registration confirmation",
+    subject: "Подтверждение регистрации аккаунта",
     html: htmlEmail,
   });
 }
@@ -72,9 +75,9 @@ export async function sendResetPasswordEmail(email: string) {
   const smtpTransport = await createSMTPClient();
 
   await smtpTransport.sendMail({
-    from: process.env.SMTP_USER,
+    from: "info@icecreammusic.net",
     to: email,
-    subject: "Account password recovery",
+    subject: "Восстановление пароля к аккаунту",
     html: htmlEmail,
   });
 }

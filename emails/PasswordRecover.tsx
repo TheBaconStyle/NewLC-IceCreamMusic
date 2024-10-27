@@ -15,12 +15,13 @@ export default function PasswordRecovery({ link }: TPasswordRecovery) {
   return (
     <Html>
       <Head>
-        <title>My email title</title>
+        <title>Восстановление пароля</title>
       </Head>
       <Section
         style={{
-          backgroundColor: "rgb(18 19 22)",
+          backgroundColor: "#121316",
           borderRadius: "5px",
+          padding: "20px",
           width: "500px",
         }}
       >
@@ -34,8 +35,8 @@ export default function PasswordRecovery({ link }: TPasswordRecovery) {
         <Text
           style={{
             color: "#FFFFFF",
-            fontFamily: "fantasy",
             letterSpacing: "5px",
+            fontFamily: "fantasy",
             textAlign: "center",
           }}
         >
@@ -65,16 +66,16 @@ export default function PasswordRecovery({ link }: TPasswordRecovery) {
         </Text>
         <Button
           style={{
-            color: "#FFFFFF",
-            fontFamily: "monospace",
+            color: "#FFFFFF!",
+            textDecoration: "none",
             letterSpacing: "1px",
             padding: "5px 10px",
             borderRadius: "3px",
             display: "flex",
             width: "fit-content",
             margin: "30px auto 30px auto",
-            backgroundColor: "rgb(84 81 255)",
-            border: "1px solid rgb(84 81 255)",
+            backgroundColor: "#5451ff",
+            border: "1px solid #5451ff",
             cursor: "pointer",
           }}
           href={link}

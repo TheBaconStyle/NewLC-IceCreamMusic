@@ -1,4 +1,11 @@
-import { Button, Html, Img, Section, Text } from "@react-email/components";
+import {
+  Button,
+  Head,
+  Html,
+  Img,
+  Section,
+  Text,
+} from "@react-email/components";
 
 export type TSignUpConfirm = {
   link: string;
@@ -7,9 +14,12 @@ export type TSignUpConfirm = {
 export default function SignUpConfirm({ link }: TSignUpConfirm) {
   return (
     <Html>
+      <Head>
+        <title>Подтверждение регистрации</title>
+      </Head>
       <Section
         style={{
-          backgroundColor: "rgb(18 19 22)",
+          backgroundColor: "#121316",
           borderRadius: "5px",
           padding: "20px",
           width: "500px",
@@ -37,6 +47,10 @@ export default function SignUpConfirm({ link }: TSignUpConfirm) {
             fontFamily: "monospace",
             letterSpacing: "1px",
             textAlign: "center",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "0 20px",
           }}
         >
           Чтобы подтвердить свою учетную запись и завершить регистрацию, нажмите
@@ -52,8 +66,8 @@ export default function SignUpConfirm({ link }: TSignUpConfirm) {
             display: "flex",
             width: "fit-content",
             margin: "30px auto 30px auto",
-            backgroundColor: "rgb(84 81 255)",
-            border: "1px solid rgb(84 81 255)",
+            backgroundColor: "#5451ff",
+            border: "1px solid #5451ff",
             cursor: "pointer",
           }}
           href={link}

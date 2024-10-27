@@ -10,6 +10,7 @@ import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { getAuthSession } from "./auth";
 import { sendSignUpConfirmEmail } from "./email";
+import { createSMTPClient } from "@/utils/createSMTPClient";
 
 export async function registerUser(userData: TSignUpClientSchema) {
   const { email, name, password } = signUpSchema.parse(userData);
@@ -24,6 +25,13 @@ export async function registerUser(userData: TSignUpClientSchema) {
     );
   }
 
+  const smtpTransport = await createSMTPClient().catch((e) => {
+    console.log(e);
+    return null;
+  });
+
+  if (!smtpTransport) throw new Error("Что-то пошло не так");
+
   const hashedPassword = await hashPassword(password);
 
   const newUser = (
@@ -35,7 +43,7 @@ export async function registerUser(userData: TSignUpClientSchema) {
 
   if (!newUser) throw new Error("Что-то пошло не так");
 
-  await sendSignUpConfirmEmail(email, newUser.id);
+  await sendSignUpConfirmEmail(email, newUser.id, smtpTransport);
 
   return redirect("/signup/complete");
 }

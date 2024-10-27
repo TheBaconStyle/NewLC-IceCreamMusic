@@ -21,13 +21,13 @@ export default async function ResetPasswordPage({
     redirect(wrongUrl);
   }
 
-  const user = (
-    await db
-      .select()
-      .from(users)
-      .where(eq(users.resetPasswordToken, tokenData.token))
-      .limit(1)
-  ).pop();
+  const user = await db.query.users.findFirst({
+    where: (us, { eq }) => eq(us.resetPasswordToken, tokenData.token),
+  });
+
+  if (!user) {
+    redirect(wrongUrl);
+  }
 
   return (
     <div className={style.form}>
