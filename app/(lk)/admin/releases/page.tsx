@@ -9,7 +9,6 @@ export default async function AdminReleasesPage() {
 
   return (
     <div>
-      {AdminReleasesPage.name}
       <p>
         {data.map((e) => (
           <p key={e.language}>{e.language}</p>

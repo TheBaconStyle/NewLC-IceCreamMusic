@@ -8,7 +8,7 @@ import SidebarHeader from "./SidebarHeader/SidebarHeader";
 import AnalyticIcon from "./SidebarIcons/Analytic.svg";
 import BitMarketIcon from "./SidebarIcons/BitMarket.svg";
 import ChatIcon from "./SidebarIcons/Chat.svg";
-import ExitIcon from "./SidebarIcons/exit.svg";
+import ExitIcon from "./SidebarIcons/Exit.svg";
 import LightningIcon from "./SidebarIcons/Lightning.svg";
 import MasspostingIcon from "./SidebarIcons/Massposting.svg";
 import PromotionIcon from "./SidebarIcons/Promotion.svg";
