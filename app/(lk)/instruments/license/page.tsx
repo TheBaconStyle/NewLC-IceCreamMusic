@@ -1,4 +1,3 @@
-"use client";
 import LicenseeCard from "@/entities/LicenseeCard/LicenseeCard";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
 import VerificationForm from "@/widgets/VerificationForm/VerificationForm";
@@ -8,57 +7,71 @@ import DPA from "../../../../public/License/DPA.svg";
 import GDPR from "../../../../public/License/GDPR.svg";
 import PassportIcon from "../../../../public/License/Passport.svg";
 import style from "./page.module.css";
+import { db } from "@/db";
+import { getAuthSession } from "@/actions/auth";
 
-export default function VerificationPage() {
+export default async function VerificationPage() {
+  const session = await getAuthSession();
+
+  const user = await db.query.users.findFirst({
+    where: (us, { eq, and }) =>
+      and(eq(us.id, session.user!.id), eq(us.isVerifiedAuthor, true)),
+  });
+
   return (
     <PageTransitionProvider>
-      <LicenseeCard
-        view="big"
-        icon={
-          <PassportIcon
-            style={{ width: "30%", height: "112px" }}
-            className={classNames(style.big, style.iconL)}
+      {!user && (
+        <>
+          <LicenseeCard
+            view="big"
+            icon={
+              <PassportIcon
+                style={{ width: "30%", height: "112px" }}
+                className={classNames(style.big, style.iconL)}
+              />
+            }
+            title="Почему нам нужны паспортные данные?"
+            desc="Когда вы вместе с нами выпускаете свою музыку, мы должны быть уверены, что работаем с правильным человеком. Ваши паспортные данные - это своеобразный идентификатор, который помогает нам установить вашу личность и удостовериться, что вы действительно тот человек, кем себя представляете. Запрос паспортных данных - это стандартная практика в нашей отрасли, которая помогает предотвратить мошенничество и защитить наших пользователей, включая вас. Мы хотим убедиться, что музыка представляется законно и в соответствии с правилами."
           />
-        }
-        title="Почему нам нужны паспортные данные?"
-        desc="Когда вы вместе с нами выпускаете свою музыку, мы должны быть уверены, что работаем с правильным человеком. Ваши паспортные данные - это своеобразный идентификатор, который помогает нам установить вашу личность и удостовериться, что вы действительно тот человек, кем себя представляете. Запрос паспортных данных - это стандартная практика в нашей отрасли, которая помогает предотвратить мошенничество и защитить наших пользователей, включая вас. Мы хотим убедиться, что музыка представляется законно и в соответствии с правилами."
-      />
-      <div className={style.licensee}>
-        <LicenseeCard
-          view="small"
-          icon={
-            <BlockIcon
-              style={{ width: "10%", height: "35px" }}
-              className={classNames(style.small, style.iconL)}
+          <div className={style.licensee}>
+            <LicenseeCard
+              view="small"
+              icon={
+                <BlockIcon
+                  style={{ width: "10%", height: "35px" }}
+                  className={classNames(style.small, style.iconL)}
+                />
+              }
+              title="Защищено"
+              desc="Полученные данные надежно защищены и зашифрованы."
             />
-          }
-          title="Защищено"
-          desc="Полученные данные надежно защищены и зашифрованы."
-        />
-        <LicenseeCard
-          view="small"
-          icon={
-            <GDPR
-              style={{ width: "10%", height: "35px" }}
-              className={classNames(style.small, style.iconL)}
+            <LicenseeCard
+              view="small"
+              icon={
+                <GDPR
+                  style={{ width: "10%", height: "35px" }}
+                  className={classNames(style.small, style.iconL)}
+                />
+              }
+              title="GDPR Стандарт"
+              desc="Мы работаем в соответствии с Европейским стандартом о защите личных данных"
             />
-          }
-          title="GDPR Стандарт"
-          desc="Мы работаем в соответствии с Европейским стандартом о защите личных данных"
-        />
-        <LicenseeCard
-          view="small"
-          icon={
-            <DPA
-              style={{ width: "10%", height: "35px" }}
-              className={classNames(style.small, style.iconL)}
+            <LicenseeCard
+              view="small"
+              icon={
+                <DPA
+                  style={{ width: "10%", height: "35px" }}
+                  className={classNames(style.small, style.iconL)}
+                />
+              }
+              title="DPA Стандарт"
+              desc="Данные шифруются в соответствии со стандартом DPA"
             />
-          }
-          title="DPA Стандарт"
-          desc="Данные шифруются в соответствии со стандартом DPA"
-        />
-      </div>
-      <VerificationForm />
+          </div>
+          <VerificationForm />
+        </>
+      )}
+      {user && <div>Вы прошли верификацию!</div>}
     </PageTransitionProvider>
   );
 }
