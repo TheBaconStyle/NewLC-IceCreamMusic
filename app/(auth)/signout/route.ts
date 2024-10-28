@@ -1,17 +1,14 @@
 import { sessionCookieName } from "@/config/auth";
 import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { redirect } from "next/navigation";
+import { NextRequest } from "next/server";
 
-const handler = async (req: NextRequest) => {
+const handler = async (_: NextRequest) => {
   const cookiesStore = cookies();
 
   cookiesStore.delete(sessionCookieName);
 
-  const callbackUrl = req.nextUrl.clone();
-
-  callbackUrl.pathname = "/signin";
-
-  return NextResponse.redirect(callbackUrl);
+  redirect("/signin");
 };
 
 export { handler as GET, handler as POST };
