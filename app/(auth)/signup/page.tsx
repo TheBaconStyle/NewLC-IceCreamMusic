@@ -18,7 +18,11 @@ export default function Registraion() {
       </MyText>
       <RegistrationWidget />
       <MyText className={style.linkReg}>
-        Или <Link href={"/signin"}>войдите здесь</Link>, если у Вас есть аккаунт
+        Или
+        <Link className={style.link} href={"/signin"}>
+          войдите здесь
+        </Link>
+        , если у Вас есть аккаунт
       </MyText>
     </div>
   );

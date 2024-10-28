@@ -3,7 +3,7 @@
 import { getUserBalance } from "@/actions/users";
 import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
-import PlusIcon from "../../../public/InfoIcon/Plus.svg";
+import WalletIcon from "../../../public/InfoIcon/Wallet.svg";
 import YouKassaWallet from "../YouKassaWallet/YouKassaWallet";
 import style from "./Wallet.module.css";
 
@@ -37,7 +37,7 @@ export function Wallet({ balance }: TWallet) {
     <>
       <button className={style.header__button} onClick={handleShowWalletPopup}>
         <div className={style.header__wrapper__icon}>
-          <PlusIcon className={style.header__icon} />
+          <WalletIcon className={style.header__icon} />
         </div>
         {balance} ₽
       </button>

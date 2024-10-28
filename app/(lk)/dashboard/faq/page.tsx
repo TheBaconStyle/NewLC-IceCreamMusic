@@ -1,16 +1,15 @@
 import FAQItem from "@/entities/FAQItem/FAQItem";
+import { allFAQ } from "@/helpers/allFAQ";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
-import RelizeItem from "@/widgets/RelizeItem/RelizeItem";
 
 export default function FAQPage() {
   return (
     <PageTransitionProvider>
-      <FAQItem
-        question={"Cколько цветов"}
-        answer={
-          "Сложно дать точный ответ на вопрос о количестве видов цветов, так как это зависит от множества факторов, включая классификацию и определение. В мире насчитывается более 400 000 видов цветковых растений, которые относятся к различным семействам и родам. Каждый вид может иметь множество сортов и вариантов, что увеличивает общее число цветов."
-        }
-      />
+      <div className="col gap20">
+        {allFAQ.map((e) => (
+          <FAQItem key={e.question} question={e.question} answer={e.answer} />
+        ))}
+      </div>
     </PageTransitionProvider>
   );
 }

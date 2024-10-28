@@ -18,25 +18,27 @@ export default async function MainPage() {
 
   return (
     <PageTransitionProvider>
-      {releasesData.map((release) => {
-        return (
-          <RelizeItem
-            key={release.id}
-            srcPreview="/assets/avatar.jpg"
-            relizeName={release.title}
-            upc={release.upc}
-            labelName={release.labelName}
-            genre={release.genre}
-            artistsName={release.performer}
-            typeRelize={release.type}
-            status={release.status}
-            moderatorComment={release.rejectReason}
-            dateCreate={release.preorderDate}
-            dateRelize={release.releaseDate}
-            dateStart={release.startDate}
-          />
-        );
-      })}
+      <div className="col gap20">
+        {releasesData.map((release) => {
+          return (
+            <RelizeItem
+              key={release.id}
+              srcPreview="/assets/avatar.jpg"
+              relizeName={release.title}
+              upc={release.upc}
+              labelName={release.labelName}
+              genre={release.genre}
+              artistsName={release.performer}
+              typeRelize={release.type}
+              status={release.status}
+              moderatorComment={release.rejectReason}
+              dateCreate={release.preorderDate}
+              dateRelize={release.releaseDate}
+              dateStart={release.startDate}
+            />
+          );
+        })}
+      </div>
 
       {releasesData.length === 0 && (
         <div className="wrap">

@@ -19,3 +19,7 @@
 .linkReg {
   margin-top: 20px;
 }
+
+.link {
+  color: var(--white-color);
+}
