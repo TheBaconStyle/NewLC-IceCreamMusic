@@ -1,5 +1,6 @@
 "use server";
 
+import { sendResetPasswordEmail } from "@/actions/email";
 import {
   defaultAuthRedirect,
   sessionOptions,
@@ -15,10 +16,9 @@ import { authUserSchema } from "@/schema/user.schema";
 import { hashPassword } from "@/utils/hashPassword";
 import { compare } from "bcrypt-ts";
 import { eq } from "drizzle-orm";
-import { getIronSession, SessionOptions } from "iron-session";
+import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { sendResetPasswordEmail } from "../utils/email";
 
 export async function credentialsSignIn(credentials: TSignInClientSchema) {
   const validationResult = signInClientSchema

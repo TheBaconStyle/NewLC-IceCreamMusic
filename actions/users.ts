@@ -9,7 +9,7 @@ import { hashPassword } from "@/utils/hashPassword";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { getAuthSession } from "./auth";
-import { sendSignUpConfirmEmail } from "@/utils/email";
+import { sendSignUpConfirmEmail } from "@/actions/email";
 import { createSMTPClient } from "@/utils/createSMTPClient";
 
 export async function registerUser(userData: TSignUpClientSchema) {
