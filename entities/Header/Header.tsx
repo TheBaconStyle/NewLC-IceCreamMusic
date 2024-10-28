@@ -21,7 +21,7 @@ async function Header({ avatar, username, userid }: THeader) {
 
   const session = await getAuthSession();
 
-  if (!session.isLoggedIn) {
+  if (!session) {
     return <Error statusCode={401} />;
   }
 

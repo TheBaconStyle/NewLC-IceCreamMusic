@@ -20,7 +20,7 @@ export default async function PurchasePage({
 }) {
   const session = await getAuthSession();
 
-  if (!session.isLoggedIn) {
+  if (!session) {
     return <Error statusCode={404} />;
   }
 

@@ -21,7 +21,7 @@ export async function uploadRelease(
 ) {
   const session = await getAuthSession();
 
-  if (!session.isLoggedIn) {
+  if (!session) {
     return {
       success: false,
       message: "Unauthorized",

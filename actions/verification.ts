@@ -14,7 +14,7 @@ import { revalidateCurrentPath } from "./revalidate";
 export async function verifyData(data: TVerificationFormSchema) {
   const session = await getAuthSession();
 
-  if (!session.isLoggedIn) {
+  if (!session) {
     return {
       success: false,
       message: "Unauthorized",

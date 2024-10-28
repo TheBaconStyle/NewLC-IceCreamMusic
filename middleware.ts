@@ -1,13 +1,8 @@
-import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { getPathname } from "./actions/url";
-import {
-  defaultAuthRedirect,
-  routes,
-  sessionOptions,
-  TSessionData,
-} from "./config/auth";
+import { defaultAuthRedirect, routes, sessionCookieName } from "./config/auth";
+import { verifyJWT } from "./utils/token";
 
 export const middleware = async function (request: NextRequest) {
   const { nextUrl } = request;
@@ -17,12 +12,15 @@ export const middleware = async function (request: NextRequest) {
 
   const cookiesStore = cookies();
 
-  const session = await getIronSession<TSessionData>(
-    cookiesStore,
-    sessionOptions
-  );
+  let isAuthenticated = false;
 
-  const isAuthenticated = !!session.isLoggedIn;
+  const encryptedToken = cookiesStore.get(sessionCookieName) ?? null;
+
+  if (encryptedToken) {
+    const session = await verifyJWT(encryptedToken.value).catch(() => null);
+
+    isAuthenticated = !!session;
+  }
 
   const pathname = await getPathname();
 

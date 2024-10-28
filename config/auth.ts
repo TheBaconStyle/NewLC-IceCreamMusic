@@ -1,5 +1,6 @@
 import { TAuthUserSchema } from "@/schema/user.schema";
 import { SessionOptions } from "iron-session";
+import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 export const routeTypes = ["guest", "public"] as const;
 
@@ -12,23 +13,19 @@ export const routes: Record<RouteType, string[]> = {
 
 export const defaultAuthRedirect = "/dashboard";
 
-export type TSessionData =
-  | (Partial<TAuthUserSchema> & {
-      isLoggedIn: false;
-    })
-  | (TAuthUserSchema & { isLoggedIn: true });
+export type TSessionData = TAuthUserSchema;
 
-export const sessionOptions: SessionOptions = {
-  // You need to create a secret key at least 32 characters long.
-  password: process.env.AUTH_SECRET!,
-  cookieName: "icecream-auth",
-  cookieOptions: {
-    httpOnly: true,
-    // Secure only works in `https` environments. So if the environment is `https`, it'll return true.
-    secure: process.env.NODE_ENV === "production",
-  },
-  ttl: 60 * 60 * 24,
-};
+// export const sessionOptions: SessionOptions = {
+//   // You need to create a secret key at least 32 characters long.
+//   password: process.env.AUTH_SECRET!,
+//   cookieName: "icecream-auth",
+//   cookieOptions: {
+//     httpOnly: true,
+//     // Secure only works in `https` environments. So if the environment is `https`, it'll return true.
+//     secure: process.env.NODE_ENV === "production",
+//   },
+//   ttl: 60 * 60 * 24,
+// };
 
 // export type TSessionData = {
 //   user?: TAuthUserSchema;
@@ -36,17 +33,26 @@ export const sessionOptions: SessionOptions = {
 
 // export const defaultSessionData: TSessionData = {};
 
-// export const defaultSessionOptions: SessionOptions = {
-//   password: process.env.AUTH_SECRET!,
-//   cookieName: "icecream-auth",
-//   cookieOptions: {
-//     httpOnly: true,
-//     sameSite: "lax",
-//     secure: true,
-//     maxAge: 60 * 60 * 24 * 1000,
-//     domain: process.env.AUTH_DOMAIN,
-//   },
-// };
+// process.env.AUTH_SECRET!,
+
+export const sessionCookieName = "icecream-auth";
+
+export const sessionCookieOptions: Required<
+  Omit<
+    ResponseCookie,
+    "value" | "partitioned" | "priority" | "expires" | "name" | "maxAge"
+  >
+> = {
+  httpOnly: true,
+  sameSite: "lax",
+  secure: true,
+  domain: process.env.AUTH_DOMAIN!,
+  path: "/",
+};
+
+export type Required<T = {}> = {
+  [K in keyof T]-?: T[K];
+};
 
 // export function createSessionOptions(
 //   opts?: Partial<SessionOptions>

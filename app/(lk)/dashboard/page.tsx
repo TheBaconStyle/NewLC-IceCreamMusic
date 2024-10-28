@@ -8,7 +8,7 @@ import RelizeItem from "@/widgets/RelizeItem/RelizeItem";
 export default async function MainPage() {
   const session = await getAuthSession();
 
-  if (!session.isLoggedIn) {
+  if (!session) {
     return <Error statusCode={401} />;
   }
 

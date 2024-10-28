@@ -8,7 +8,7 @@ import { Error } from "@/entities/Error";
 export default async function CatalogPage() {
   const session = await getAuthSession();
 
-  if (!session.isLoggedIn) {
+  if (!session) {
     return <Error statusCode={401} />;
   }
 

@@ -11,6 +11,9 @@ import { redirect } from "next/navigation";
 import { getAuthSession } from "./auth";
 import { sendSignUpConfirmEmail } from "@/actions/email";
 import { createSMTPClient } from "@/utils/createSMTPClient";
+import { signJWT } from "@/utils/token";
+import { cookies } from "next/headers";
+import { sessionCookieName, sessionCookieOptions } from "@/config/auth";
 
 export async function registerUser(userData: TSignUpClientSchema) {
   const { email, name, password } = signUpSchema.parse(userData);
@@ -51,7 +54,7 @@ export async function registerUser(userData: TSignUpClientSchema) {
 export async function isAdminUser() {
   const session = await getAuthSession();
 
-  if (!session.isLoggedIn) {
+  if (!session) {
     return false;
   }
 
@@ -67,7 +70,7 @@ export async function isAdminUser() {
 export async function getUserSubscriptionLevel() {
   const session = await getAuthSession();
 
-  if (!session.isLoggedIn) {
+  if (!session) {
     return false;
   }
 
@@ -85,7 +88,7 @@ export async function getUserSubscriptionLevel() {
 export async function editProfile(profileData: FormData) {
   const session = await getAuthSession();
 
-  if (!session.isLoggedIn) {
+  if (!session) {
     return { success: false, message: "You need to log in first" };
   }
 
@@ -168,11 +171,18 @@ export async function editProfile(profileData: FormData) {
 
   const newUser = dbResult.at(0);
 
-  session.id = newUser!.id;
-  session.avatar = newUser!.avatar;
-  session.name = newUser!.name;
+  if (!newUser) {
+    return { success: false, message: "Something went wrong" };
+  }
 
-  session.save();
+  const newSessionToken = await signJWT(newUser, { exp: session.exp! });
+
+  const cookiesStore = cookies();
+
+  cookiesStore.set(sessionCookieName, newSessionToken, {
+    ...sessionCookieOptions,
+    expires: session.exp! * 1000,
+  });
 
   redirect("/profile");
 }
@@ -180,7 +190,7 @@ export async function editProfile(profileData: FormData) {
 export async function getUserBalance() {
   const session = await getAuthSession();
 
-  if (!session.isLoggedIn) {
+  if (!session) {
     return { success: false, message: "You need to log in first" };
   }
 

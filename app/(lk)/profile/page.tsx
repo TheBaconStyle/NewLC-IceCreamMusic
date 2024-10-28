@@ -12,7 +12,7 @@ import style from "./page.module.css";
 export default async function ProfilePage() {
   const session = await getAuthSession();
 
-  if (!session.isLoggedIn) {
+  if (!session) {
     return <Error statusCode={401} />;
   }
 

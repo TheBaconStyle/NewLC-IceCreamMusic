@@ -22,7 +22,7 @@ export default async function CabinetLayout({ children }: PropsWithChildren) {
 
   const session = await getAuthSession();
 
-  if (!session.isLoggedIn) {
+  if (!session) {
     return <Error statusCode={401} />;
   }
 

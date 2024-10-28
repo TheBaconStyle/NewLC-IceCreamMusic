@@ -37,7 +37,7 @@ export async function makePayment(
 ) {
   const session = await getAuthSession();
 
-  if (!session.isLoggedIn) {
+  if (!session) {
     return unauthorizedResult;
   }
 
@@ -150,7 +150,7 @@ export async function makePayment(
 export async function topUp(userId: string, amount: number) {
   const session = await getAuthSession();
 
-  if (!session.isLoggedIn) {
+  if (!session) {
     return { success: false, message: "You need to log in first." };
   }
 
@@ -174,7 +174,7 @@ export async function topUp(userId: string, amount: number) {
 export async function makePayout(payoutToken: string) {
   const session = await getAuthSession();
 
-  if (!session.isLoggedIn) {
+  if (!session) {
     return { success: false, message: "You need to log in first." };
   }
 
