@@ -1,6 +1,5 @@
 "use server";
 
-import { minioS3 } from "@/config/s3";
 import { db } from "@/db";
 import { release, track, users } from "@/db/schema";
 import {
@@ -10,11 +9,11 @@ import {
   TReleaseInsert,
   TTrackForm,
 } from "@/schema/release.schema";
-import { randomUUID } from "crypto";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { getAuthSession } from "./auth";
 import { revalidatePathAction } from "./revalidate";
+import { createS3Client } from "@/config/s3";
 
 export async function uploadRelease(
   releaseData: FormData,
@@ -128,6 +127,8 @@ export async function uploadRelease(
     startDate: new Date(newReleaseData.startDate),
     preorderDate: new Date(newReleaseData.preorderDate),
   };
+
+  const minioS3 = createS3Client();
 
   await db
     .transaction(async () => {

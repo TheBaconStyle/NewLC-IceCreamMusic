@@ -1,6 +1,6 @@
 "use server";
 
-import { minioS3 } from "@/config/s3";
+import { createS3Client } from "@/config/s3";
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { profileFormSchema, TProfileSchema } from "@/schema/profile.schema";
@@ -9,7 +9,7 @@ import { hashPassword } from "@/utils/hashPassword";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { getAuthSession } from "./auth";
-import { sendSignUpConfirmEmail } from "../utils/email";
+import { sendSignUpConfirmEmail } from "@/utils/email";
 import { createSMTPClient } from "@/utils/createSMTPClient";
 
 export async function registerUser(userData: TSignUpClientSchema) {
@@ -116,6 +116,8 @@ export async function editProfile(profileData: FormData) {
   }
 
   if (profileResult.data.avatar instanceof File) {
+    const minioS3 = createS3Client();
+
     const avatarFile = profileResult.data.avatar;
 
     const avatarBytes = await avatarFile.arrayBuffer();
