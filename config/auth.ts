@@ -21,12 +21,12 @@ export const defaultSessionData: TSessionData = {};
 export const defaultSessionOptions: SessionOptions = {
   password: process.env.AUTH_SECRET!,
   cookieName: "icecream-auth",
-  cookieOptions: {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: true,
-    domain: process.env.AUTH_DOMAIN,
-  },
+  // cookieOptions: {
+  //   httpOnly: true,
+  //   sameSite: "lax",
+  //   secure: true,
+  //   domain: process.env.AUTH_DOMAIN,
+  // },
   ttl: 60 * 60 * 24,
 };
 

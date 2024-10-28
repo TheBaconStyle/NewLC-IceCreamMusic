@@ -20,7 +20,6 @@ import { getIronSession, SessionOptions } from "iron-session";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { sendResetPasswordEmail } from "./email";
-import { getPathname } from "./url";
 
 export async function credentialsSignIn(credentials: TSignInClientSchema) {
   const validationResult = signInClientSchema.safeParse(credentials);
