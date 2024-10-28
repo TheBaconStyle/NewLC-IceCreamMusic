@@ -9,13 +9,18 @@ import PassportIcon from "../../../../public/License/Passport.svg";
 import style from "./page.module.css";
 import { db } from "@/db";
 import { getAuthSession } from "@/actions/auth";
+import { Error } from "@/entities/Error";
 
 export default async function VerificationPage() {
   const session = await getAuthSession();
 
+  if (!session.isLoggedIn) {
+    return <Error statusCode={401} />;
+  }
+
   const user = await db.query.users.findFirst({
     where: (us, { eq, and }) =>
-      and(eq(us.id, session.user!.id), eq(us.isVerifiedAuthor, true)),
+      and(eq(us.id, session.id), eq(us.isVerifiedAuthor, true)),
   });
 
   return (

@@ -12,28 +12,46 @@ export const routes: Record<RouteType, string[]> = {
 
 export const defaultAuthRedirect = "/dashboard";
 
-export type TSessionData = {
-  user?: TAuthUserSchema;
-};
+export type TSessionData =
+  | (Partial<TAuthUserSchema> & {
+      isLoggedIn: false;
+    })
+  | (TAuthUserSchema & { isLoggedIn: true });
 
-export const defaultSessionData: TSessionData = {};
-
-export const defaultSessionOptions: SessionOptions = {
+export const sessionOptions: SessionOptions = {
+  // You need to create a secret key at least 32 characters long.
   password: process.env.AUTH_SECRET!,
   cookieName: "icecream-auth",
   cookieOptions: {
     httpOnly: true,
-    sameSite: "lax",
-    secure: true,
-    maxAge: 60 * 60 * 24 * 1000,
-    domain: process.env.AUTH_DOMAIN,
+    // Secure only works in `https` environments. So if the environment is `https`, it'll return true.
+    secure: process.env.NODE_ENV === "production",
   },
+  ttl: 60 * 60 * 24,
 };
 
-export function createSessionOptions(
-  opts?: Partial<SessionOptions>
-): SessionOptions {
-  if (!opts) return defaultSessionOptions;
+// export type TSessionData = {
+//   user?: TAuthUserSchema;
+// };
 
-  return { ...defaultSessionOptions, ...opts };
-}
+// export const defaultSessionData: TSessionData = {};
+
+// export const defaultSessionOptions: SessionOptions = {
+//   password: process.env.AUTH_SECRET!,
+//   cookieName: "icecream-auth",
+//   cookieOptions: {
+//     httpOnly: true,
+//     sameSite: "lax",
+//     secure: true,
+//     maxAge: 60 * 60 * 24 * 1000,
+//     domain: process.env.AUTH_DOMAIN,
+//   },
+// };
+
+// export function createSessionOptions(
+//   opts?: Partial<SessionOptions>
+// ): SessionOptions {
+//   if (!opts) return defaultSessionOptions;
+
+//   return { ...defaultSessionOptions, ...opts };
+// }

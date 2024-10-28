@@ -22,7 +22,7 @@ export async function uploadRelease(
 ) {
   const session = await getAuthSession();
 
-  if (!session || !session.user) {
+  if (!session.isLoggedIn) {
     return {
       success: false,
       message: "Unauthorized",
@@ -30,7 +30,7 @@ export async function uploadRelease(
   }
 
   const user = await db.query.users.findFirst({
-    where: (user, { eq }) => eq(user.id, session.user!.id),
+    where: (user, { eq }) => eq(user.id, session.id),
     with: {
       verifications: true,
     },
@@ -67,30 +67,6 @@ export async function uploadRelease(
         "Некорректные данные релиза. Пожалуйста попробуйте заполнить форму ещё раз",
     };
   }
-
-  // const releaseObjectProto = await new Promise((res, rej) => {
-  //   try {
-  //     res({
-  //       ...Object.fromEntries(releaseData.entries()),
-  //       preview: releaseData.get("preview"),
-  //       area: JSON.parse(String(releaseData.get("area") ?? "")),
-  //       platforms: JSON.parse(String(releaseData.get("platforms") ?? "")),
-  //     });
-  //   } catch (e) {
-  //     rej(null);
-  //   }
-  // }).catch(() => {});
-
-  // const releaseResult = releaseFormSchema
-  //   .omit({ tracks: true })
-  //   .safeParse(releaseObjectProto);
-
-  // if (!releaseResult.success) {
-  //   return {
-  //     success: false,
-  //     message: "Release is not valid. Please resend form",
-  //   };
-  // }
 
   let tracksError = null;
 
@@ -136,44 +112,6 @@ export async function uploadRelease(
     };
   }
 
-  // const tracksObjectsData = await Promise.all(
-  //   tracksData.map(async (td) => {
-  //     const trackSync = td.get("text_sync");
-  //     const ringtone = td.get("ringtone");
-  //     const video = td.get("video");
-  //     const track = td.get("track");
-  //     const video_shot = td.get("video_shot");
-
-  //     return trackFormSchema.parse({
-  //       ...Object.fromEntries(td.entries()),
-  //       roles: JSON.parse(String(td.get("roles") ?? "")),
-  //       track: track,
-  //       text_sync: !!trackSync ? trackSync : undefined,
-  //       ringtone: !!ringtone ? ringtone : undefined,
-  //       video: !!video ? video : undefined,
-  //       focus: !!td.get("focus"),
-  //       explicit: !!td.get("explicit"),
-  //       cover: !!td.get("cover"),
-  //       remix: !!td.get("remix"),
-  //       live: Boolean(JSON.parse(String(td.get("live")))),
-  //       instrumental: !!td.get("instrumental"),
-  //       video_shot: !!video_shot ? video_shot : undefined,
-  //     });
-  //   })
-  // ).catch((e: ZodError<TReleaseForm>) => {
-  //   console.dir(e, { depth: Infinity });
-  //   return null;
-  // });
-
-  // if (!tracksObjectsData) {
-  //   return {
-  //     success: false,
-  //     message: "Tracks are not valid please resend form",
-  //   };
-  // }
-
-  // const releaseId = randomUUID();
-
   const releaseFile = newReleaseData.preview as File;
 
   const previewBytes = await releaseFile.arrayBuffer();
@@ -181,106 +119,6 @@ export async function uploadRelease(
   const previewType = releaseFile.type.split("/")[1];
 
   newReleaseData.preview = previewType;
-
-  // const tracksUploadInfo = tracksObjectData.map((t) => {
-  //   const trackId = randomUUID();
-  //   return { ...t, };
-  // });
-
-  // const tracksUploaded = await Promise.all(
-  // tracksUploadInfo.map(async (t) => {
-  // const trackFile = t.track as File;
-
-  // const trackBytes = await trackFile.arrayBuffer();
-
-  // const trackType = trackFile.type.split("/")[1];
-
-  // if (t.text_sync) {
-  //   const syncFile = t.text_sync as File;
-
-  //   const syncBytes = await syncFile.arrayBuffer();
-
-  //   const syncType = syncFile.type.split("/")[1];
-
-  //   const syncUploaded = await minioS3
-  //     .putObject("syncs", `${t.id}.${syncType}`, Buffer.from(syncBytes))
-  //     .then(() => true)
-  //     .catch(() => false);
-
-  //   if (syncUploaded) {
-  //     t.text_sync = syncType;
-  //   }
-  // }
-
-  // if (t.ringtone) {
-  //   const ringtoneFile = t.ringtone as File;
-
-  //   const ringtoneBytes = await ringtoneFile.arrayBuffer();
-
-  //   const ringtoneType = ringtoneFile.type.split("/")[1];
-
-  //   const ringtoneUploaded = await minioS3
-  //     .putObject(
-  //       "ringtones",
-  //       `${t.id}.${ringtoneType}`,
-  //       Buffer.from(ringtoneBytes)
-  //     )
-  //     .then(() => true)
-  //     .catch(() => false);
-
-  //   if (ringtoneUploaded) {
-  //     t.ringtone = ringtoneType;
-  //   }
-  // }
-
-  // if (t.video) {
-  //   const videoFile = t.video as File;
-
-  //   const videoBytes = await videoFile.arrayBuffer();
-
-  //   const videoType = videoFile.type.split("/")[1];
-
-  //   const videoUploaded = await minioS3
-  //     .putObject("videos", `${t.id}.${videoType}`, Buffer.from(videoBytes))
-  //     .then(() => true)
-  //     .catch(() => false);
-
-  //   if (videoUploaded) {
-  //     t.video = videoType;
-  //   }
-  // }
-
-  // if (t.video_shot) {
-  //   const videoFile = t.video_shot as File;
-
-  //   const videoShotBytes = await videoFile.arrayBuffer();
-
-  //   const videoShotType = videoFile.type.split("/")[1];
-
-  //   const videoShotUploaded = await minioS3
-  //     .putObject(
-  //       "videoshots",
-  //       `${t.id}.${videoShotType}`,
-  //       Buffer.from(videoShotBytes)
-  //     )
-  //     .then(() => true)
-  //     .catch(() => false);
-
-  //   if (videoShotUploaded) {
-  //     t.video_shot = videoShotType;
-  //   }
-  // }
-
-  // return { ...t };
-  // })
-  // ).catch(() => null);
-
-  // if (!tracksUploaded) {
-  //   return {
-  //     success: false,
-  //     message: "Tracks are not valid please resend form",
-  //   };
-  // }
 
   const newRelease: TReleaseInsert = {
     ...newReleaseData,
@@ -325,10 +163,6 @@ export async function uploadRelease(
 
       if (!previewUploaded) {
         throw new Error("Не удалось загрузить превью к релизу");
-        // return {
-        //   success: false,
-        //   message: "Preview is not valid please resend form",
-        // };
       }
 
       for (let td of tracksObjectData) {

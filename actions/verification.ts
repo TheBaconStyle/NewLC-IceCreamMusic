@@ -14,7 +14,7 @@ import { revalidateCurrentPath } from "./revalidate";
 export async function verifyData(data: TVerificationFormSchema) {
   const session = await getAuthSession();
 
-  if (!session.user) {
+  if (!session.isLoggedIn) {
     return {
       success: false,
       message: "Unauthorized",
@@ -22,7 +22,7 @@ export async function verifyData(data: TVerificationFormSchema) {
   }
 
   const user = await db.query.users.findFirst({
-    where: (us, { eq }) => eq(us.id, session.user!.id),
+    where: (us, { eq }) => eq(us.id, session.id),
     with: {
       verifications: {
         where: (ver, { eq }) => eq(ver.status, "approved"),
@@ -41,7 +41,7 @@ export async function verifyData(data: TVerificationFormSchema) {
       .insert(verification)
       .values({
         ...res.data,
-        userId: session.user.id,
+        userId: session.id,
       })
       .catch(() => false)
       .then(() => true);

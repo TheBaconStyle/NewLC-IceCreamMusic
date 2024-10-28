@@ -1,22 +1,16 @@
+import { isAdminUser } from "@/actions/users";
 import StatisticBlock from "@/entities/AdminEntities/StatisticBlock/StatisticBlock";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
-import style from "./page.module.css";
-import { getAuthSession } from "@/actions/auth";
-import { db } from "@/db";
 import { redirect } from "next/navigation";
+import style from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
 export default async function adminDashboardPage() {
-  const session = await getAuthSession();
+  const isAdmin = await isAdminUser();
 
-  const user = await db.query.users.findFirst({
-    where: (us, { eq, and }) =>
-      and(eq(us.id, session.user!.id), eq(us.isAdmin, true)),
-  });
-
-  if (!user) {
-    redirect("/dashboard");
+  if (!isAdmin) {
+    return redirect("/dashboard");
   }
 
   return (

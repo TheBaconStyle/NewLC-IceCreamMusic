@@ -1,9 +1,8 @@
 "use server";
 
 import {
-  createSessionOptions,
   defaultAuthRedirect,
-  defaultSessionOptions,
+  sessionOptions,
   TSessionData,
 } from "@/config/auth";
 import { db } from "@/db";
@@ -19,27 +18,18 @@ import { eq } from "drizzle-orm";
 import { getIronSession, SessionOptions } from "iron-session";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { sendResetPasswordEmail } from "./email";
+import { sendResetPasswordEmail } from "../utils/email";
 
 export async function credentialsSignIn(credentials: TSignInClientSchema) {
-  const validationResult = signInClientSchema.safeParse(credentials);
+  const validationResult = signInClientSchema
+    .parseAsync(credentials)
+    .catch(() => null);
 
-  if (!validationResult.success) {
+  if (!validationResult) {
     throw new Error("Неверные данные для входа");
   }
 
   const { email, password, rememberMe } = credentials;
-
-  const oneMonthSeconds = 30 * 24 * 60 * 60;
-
-  const sessionOptions = createSessionOptions({
-    cookieOptions: {
-      ...defaultSessionOptions.cookieOptions,
-      maxAge: !!rememberMe
-        ? oneMonthSeconds
-        : defaultSessionOptions.cookieOptions?.maxAge,
-    },
-  });
 
   const user = await db.query.users.findFirst({
     where: (user, { eq }) => eq(user.email, email),
@@ -57,9 +47,17 @@ export async function credentialsSignIn(credentials: TSignInClientSchema) {
 
   const session = await getAuthSession();
 
-  session.updateConfig(sessionOptions);
+  const preparedUserData = authUserSchema.parse(user);
 
-  session.user = authUserSchema.parse(user);
+  session.isLoggedIn = true;
+  session.name = preparedUserData.name;
+  session.avatar = preparedUserData.avatar;
+  session.id = preparedUserData.id;
+
+  if (rememberMe) {
+    const oneMonthSeconds = 30 * sessionOptions.ttl!;
+    session.updateConfig({ ...sessionOptions, ttl: oneMonthSeconds });
+  }
 
   await session.save();
 
@@ -74,13 +72,17 @@ export async function signOutAction() {
   redirect("/signin");
 }
 
-export async function getAuthSession(options?: SessionOptions) {
+export async function getAuthSession() {
   const cookiesStore = cookies();
 
   const session = await getIronSession<TSessionData>(
     cookiesStore,
-    options ?? defaultSessionOptions
+    sessionOptions
   );
+
+  if (!session.isLoggedIn) {
+    session.isLoggedIn = false;
+  }
 
   return session;
 }

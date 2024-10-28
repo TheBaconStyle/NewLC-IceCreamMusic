@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
-import {
-  defaultAuthRedirect,
-  defaultSessionOptions,
-  routes,
-  TSessionData,
-} from "./config/auth";
-import { getPathname } from "./actions/url";
 import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
+import { getPathname } from "./actions/url";
+import {
+  defaultAuthRedirect,
+  routes,
+  sessionOptions,
+  TSessionData,
+} from "./config/auth";
 
 export const middleware = async function (request: NextRequest) {
   const { nextUrl } = request;
@@ -19,10 +19,10 @@ export const middleware = async function (request: NextRequest) {
 
   const session = await getIronSession<TSessionData>(
     cookiesStore,
-    defaultSessionOptions
+    sessionOptions
   );
 
-  const isAuthenticated = !!session.user;
+  const isAuthenticated = !!session.isLoggedIn;
 
   const pathname = await getPathname();
 
@@ -35,6 +35,8 @@ export const middleware = async function (request: NextRequest) {
 
     defaultRedirectUrl.pathname = defaultAuthRedirect;
 
+    console.log("middleware redirect for guest route");
+
     return NextResponse.redirect(defaultRedirectUrl, {
       headers: request.headers,
     });
@@ -44,6 +46,11 @@ export const middleware = async function (request: NextRequest) {
     const signInUrl = nextUrl.clone();
 
     signInUrl.pathname = "/signin";
+
+    console.log(
+      `is authenticated ${isAuthenticated}`,
+      "middleware redirect for protected route"
+    );
 
     return NextResponse.redirect(signInUrl, { headers: request.headers });
   }

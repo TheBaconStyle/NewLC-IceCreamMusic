@@ -9,7 +9,7 @@ import { hashPassword } from "@/utils/hashPassword";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { getAuthSession } from "./auth";
-import { sendSignUpConfirmEmail } from "./email";
+import { sendSignUpConfirmEmail } from "../utils/email";
 import { createSMTPClient } from "@/utils/createSMTPClient";
 
 export async function registerUser(userData: TSignUpClientSchema) {
@@ -51,12 +51,12 @@ export async function registerUser(userData: TSignUpClientSchema) {
 export async function isAdminUser() {
   const session = await getAuthSession();
 
-  if (!session.user) {
+  if (!session.isLoggedIn) {
     return false;
   }
 
   const user = await db.query.users.findFirst({
-    where: eq(users.id, session.user.id),
+    where: eq(users.id, session.id),
   });
 
   if (!user) return false;
@@ -67,12 +67,12 @@ export async function isAdminUser() {
 export async function getUserSubscriptionLevel() {
   const session = await getAuthSession();
 
-  if (!session.user) {
+  if (!session.isLoggedIn) {
     return false;
   }
 
   const user = await db.query.users.findFirst({
-    where: eq(users.id, session.user.id),
+    where: eq(users.id, session.id),
   });
 
   if (!user) return false;
@@ -85,12 +85,12 @@ export async function getUserSubscriptionLevel() {
 export async function editProfile(profileData: FormData) {
   const session = await getAuthSession();
 
-  if (!session.user) {
+  if (!session.isLoggedIn) {
     return { success: false, message: "You need to log in first" };
   }
 
   const user = await db.query.users.findFirst({
-    where: eq(users.id, session.user.id),
+    where: eq(users.id, session.id),
   });
 
   if (!user) return { success: false, message: "You need to log in first" };
@@ -146,7 +146,7 @@ export async function editProfile(profileData: FormData) {
       : undefined,
   };
 
-  const newUser = await db
+  const dbResult = await db
     .update(users)
     .set(newProfile)
     .where(eq(users.id, user.id))
@@ -154,18 +154,21 @@ export async function editProfile(profileData: FormData) {
       id: users.id,
       avatar: users.avatar,
       name: users.name,
-      email: users.email,
     })
     .catch((e) => {
       console.error(e);
       return null;
     });
 
-  if (!!!newUser) {
+  if (!!!dbResult || dbResult.length === 0) {
     return { success: false, message: "Something went wrong" };
   }
 
-  session.user = newUser.at(0);
+  const newUser = dbResult.at(0);
+
+  session.id = newUser!.id;
+  session.avatar = newUser!.avatar;
+  session.name = newUser!.name;
 
   session.save();
 
@@ -175,12 +178,12 @@ export async function editProfile(profileData: FormData) {
 export async function getUserBalance() {
   const session = await getAuthSession();
 
-  if (!session.user) {
+  if (!session.isLoggedIn) {
     return { success: false, message: "You need to log in first" };
   }
 
   const user = await db.query.users.findFirst({
-    where: eq(users.id, session.user.id),
+    where: eq(users.id, session.id),
     columns: { balance: true },
   });
 

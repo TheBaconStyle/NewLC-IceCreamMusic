@@ -1,4 +1,3 @@
-// "use client";
 import { getAuthSession } from "@/actions/auth";
 import { db } from "@/db";
 import { Error } from "@/entities/Error";
@@ -19,11 +18,9 @@ export default async function PurchasePage({
 }: {
   params: { options: string[] };
 }) {
-  // const [selectCard, setSelectCard] = useState("");
-
   const session = await getAuthSession();
 
-  if (!session || !session.user || !session.user.id) {
+  if (!session.isLoggedIn) {
     return <Error statusCode={404} />;
   }
 
@@ -54,7 +51,7 @@ export default async function PurchasePage({
   if (type === "release") {
     const release = await db.query.release.findFirst({
       where: (rel, { eq, and }) =>
-        and(eq(rel.id, level_or_id), eq(rel.authorId, session.user!.id)),
+        and(eq(rel.id, level_or_id), eq(rel.authorId, session.id)),
       with: {
         author: true,
       },
@@ -95,26 +92,6 @@ export default async function PurchasePage({
           руб.
         </div>
       </div>
-
-      {/* <div className={style.CardList}>
-        {CardList.map((card) => (
-          <div
-            key={card.alt}
-            className={classNames(style.wrapCard, {
-              [style.selectCard]: card.alt === selectCard,
-            })}
-            onClick={() => setSelectCard(card.name)}
-          >
-            <Image
-              className={style.imageCard}
-              src={card.src}
-              alt={card.alt}
-              width={250}
-              height={80}
-            />
-          </div>
-        ))}
-      </div> */}
       <PurchaseConfirm levelOrId={level_or_id} type={type} />
     </div>
   );

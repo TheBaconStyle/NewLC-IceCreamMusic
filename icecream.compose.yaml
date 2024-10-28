@@ -39,6 +39,7 @@ services:
       YOOKASSA_SHOP_ID: ${YOOKASSA_SHOP_ID:?error}
       YOOKASSA_SECRET_KEY: ${YOOKASSA_SECRET_KEY:?error}
       NEXT_PUBLIC_DOMAIN: ${NEXT_PUBLIC_DOMAIN:?error}
+      NODE_ENV: ${NODE_ENV:?error}
     env_file:
       - .env
     restart: unless-stopped

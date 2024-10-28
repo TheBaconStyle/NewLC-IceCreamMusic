@@ -1,19 +1,19 @@
 import { getAuthSession } from "@/actions/auth";
 import { db } from "@/db";
+import { Error } from "@/entities/Error";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
 import MyText from "@/shared/MyText/MyText";
 import RelizeItem from "@/widgets/RelizeItem/RelizeItem";
-import { resolve } from "path";
 
 export default async function MainPage() {
   const session = await getAuthSession();
 
-  // if (!session || !session.user) {
-  //   return <Error statusCode={404} />;
-  // }
+  if (!session.isLoggedIn) {
+    return <Error statusCode={401} />;
+  }
 
   const releasesData = await db.query.release.findMany({
-    where: (release, { eq }) => eq(release.authorId, session.user!.id),
+    where: (release, { eq }) => eq(release.authorId, session.id),
   });
 
   return (

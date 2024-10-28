@@ -1,12 +1,17 @@
 import { getAuthSession } from "@/actions/auth";
 import { db } from "@/db";
 import { ProfileEdit } from "@/widgets/ProfileEdit/ProfileEdit";
+import { Error } from "@/entities/Error";
 
 export default async function EditProfilePage() {
   const session = await getAuthSession();
 
+  if (!session.isLoggedIn) {
+    return <Error statusCode={401} />;
+  }
+
   const userData = await db.query.users.findFirst({
-    where: (us, { eq }) => eq(us.id, session.user!.id),
+    where: (us, { eq }) => eq(us.id, session.id),
     columns: {
       birthDate: true,
       name: true,

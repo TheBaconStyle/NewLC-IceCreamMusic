@@ -1,4 +1,4 @@
-import { getAuthSession } from "@/actions/auth";
+import { isAdminUser } from "@/actions/users";
 import { db } from "@/db";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
 import Admin_Verification_Card from "@/widgets/Admin_Verification_Card/Admin_Verification_Card";
@@ -8,15 +8,10 @@ import { redirect } from "next/navigation";
 export const dynamic = "force-dynamic";
 
 export default async function AdminVerificationPage() {
-  const session = await getAuthSession();
+  const isAdmin = await isAdminUser();
 
-  const user = await db.query.users.findFirst({
-    where: (us, { eq, and }) =>
-      and(eq(us.id, session.user!.id), eq(us.isAdmin, true)),
-  });
-
-  if (!user) {
-    redirect("/dashboard");
+  if (!isAdmin) {
+    return redirect("/dashboard");
   }
 
   const data = await db.query.verification.findMany({
