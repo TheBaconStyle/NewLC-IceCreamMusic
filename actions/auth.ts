@@ -33,7 +33,12 @@ export async function credentialsSignIn(credentials: TSignInClientSchema) {
   const oneMonthSeconds = 30 * 24 * 60 * 60;
 
   const sessionOptions = createSessionOptions({
-    ttl: !!rememberMe ? oneMonthSeconds : defaultSessionOptions.ttl,
+    cookieOptions: {
+      ...defaultSessionOptions.cookieOptions,
+      maxAge: !!rememberMe
+        ? oneMonthSeconds
+        : defaultSessionOptions.cookieOptions?.maxAge,
+    },
   });
 
   const user = await db.query.users.findFirst({
