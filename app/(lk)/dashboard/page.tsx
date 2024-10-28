@@ -23,6 +23,7 @@ export default async function MainPage() {
           return (
             <RelizeItem
               key={release.id}
+              id={release.id}
               srcPreview="/assets/avatar.jpg"
               relizeName={release.title}
               upc={release.upc}
@@ -35,6 +36,7 @@ export default async function MainPage() {
               dateCreate={release.preorderDate}
               dateRelize={release.releaseDate}
               dateStart={release.startDate}
+              confirmed={release.confirmed}
             />
           );
         })}

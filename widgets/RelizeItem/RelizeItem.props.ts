@@ -3,6 +3,7 @@ import { DetailedHTMLProps, HTMLAttributes } from "react";
 export default interface IRelizeItem
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   srcPreview: string;
+  id: string;
   relizeName: string;
   artistsName: string | null;
   genre: string;
@@ -14,4 +15,5 @@ export default interface IRelizeItem
   status: string;
   dateStart: Date;
   moderatorComment: string | null;
+  confirmed: boolean;
 }

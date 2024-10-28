@@ -4,8 +4,10 @@ import Image from "next/image";
 import IRelizeItem from "./RelizeItem.props";
 import MyText from "@/shared/MyText/MyText";
 import dateFormatter from "@/utils/dateFormatter";
+import Link from "next/link";
 
 const RelizeItem = ({
+  id,
   srcPreview,
   artistsName,
   relizeName,
@@ -19,6 +21,7 @@ const RelizeItem = ({
   genre,
   status,
   moderatorComment,
+  confirmed,
   ...props
 }: IRelizeItem) => {
   return (
@@ -98,6 +101,14 @@ const RelizeItem = ({
           </div>
         )}
       </div>
+      {confirmed && (
+        <Link
+          className={classNames("linkButton", style.linkToPay)}
+          href={`${process.env.NEXT_PUBLIC_S3_URL}/purchase/release/${id}`}
+        >
+          Оплатить
+        </Link>
+      )}
     </div>
   );
 };
