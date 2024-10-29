@@ -1,8 +1,17 @@
+import { isAdminUser } from "@/actions/users";
 import StatisticBlock from "@/entities/AdminEntities/StatisticBlock/StatisticBlock";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
+import { redirect } from "next/navigation";
 import style from "./page.module.css";
-export default function adminDashboardPage() {
-  // const data = await db.select().from(users);
+
+export const dynamic = "force-dynamic";
+
+export default async function adminDashboardPage() {
+  const isAdmin = await isAdminUser();
+
+  if (!isAdmin) {
+    return redirect("/dashboard");
+  }
 
   return (
     <PageTransitionProvider>

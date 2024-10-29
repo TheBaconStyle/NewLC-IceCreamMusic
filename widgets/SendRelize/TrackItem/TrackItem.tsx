@@ -92,7 +92,7 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
           </div>
           <div className={style.row}>
             <MyInput
-              label={"Название трека"}
+              label={"Название трека * "}
               inpLk
               placeholder="Введите название трека"
               value={track.title}
@@ -214,7 +214,7 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
         </div>
         <div className={style.infoItem}>
           <div className={style.desc}>
-            <MyTitle Tag={"h3"}>Права</MyTitle>
+            <MyTitle Tag={"h3"}>Права *</MyTitle>
             <MyText className={style.subText}>
               Укажите долю, если авторов несколько, укажите сумму долей
             </MyText>
@@ -384,7 +384,7 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
               Укажите дополнительные виды использования для трека
             </MyText>
             <MyTitle className={style.mt10} Tag={"h4"}>
-              Язык трека
+              Язык трека *
             </MyTitle>
             <MyText className={classNames(style.subText, style.mb10)}>
               Укажите язык, на котором исполняется трек, если трек без вокальной
@@ -411,7 +411,7 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
                 }
                 setAddText(!addText);
               }}
-              name="addText"
+              name={`addText-${fileName}`}
             />
             {addText && (
               <>
@@ -438,7 +438,7 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
                 }
                 setAddTextSync(!addTextSync);
               }}
-              name="addTextSync"
+              name={`addTextSync-${fileName}`}
             />
             {addTextSync && (
               <>
@@ -481,7 +481,7 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
                 }
                 setAddVideo(!addVideo);
               }}
-              name="addVideo"
+              name={`addVideo-${fileName}`}
             />
             {addVideo && (
               <>
@@ -512,7 +512,7 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
                 }
                 setAddVideoShot(!addVideoShot);
               }}
-              name="addVideoShot"
+              name={`addVideoShot-${fileName}`}
             />
             {addVideoShot && (
               <>

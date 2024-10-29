@@ -1,7 +1,7 @@
 services:
   icecream_crud:
     container_name: icecream_cron
-    image: icecreammusic_cron:22-10-2024
+    image: icecreammusic_cron:27-10-2024-20-13
     environment:
       DB_USER: ${DB_USER:?error}
       DB_PASSWORD: ${DB_PASSWORD:?error}
@@ -17,10 +17,11 @@ services:
       - postgres
   icecream:
     container_name: icecream_app
-    image: icecreammusic:22-10-2024
+    image: icecreammusic:27-10-2024-20-13
     environment:
       AUTH_SECRET: ${AUTH_SECRET:?error}
       SALT_ROUNDS: ${SALT_ROUNDS:?error}
+      AUTH_DOMAIN: ${AUTH_DOMAIN:?error}
       DB_HOST: postgres
       DB_PORT: ${DB_PORT:?error}
       DB_USER: ${DB_USER:?error}
@@ -38,6 +39,7 @@ services:
       YOOKASSA_SHOP_ID: ${YOOKASSA_SHOP_ID:?error}
       YOOKASSA_SECRET_KEY: ${YOOKASSA_SECRET_KEY:?error}
       NEXT_PUBLIC_DOMAIN: ${NEXT_PUBLIC_DOMAIN:?error}
+      NODE_ENV: ${NODE_ENV:?error}
     env_file:
       - .env
     restart: unless-stopped
@@ -76,7 +78,7 @@ services:
     env_file:
       - .env
     volumes:
-      - icecream_postgres:/data/postgres
+      - icecream_postgres:${PGDATA:?error}
     networks:
       - icecream
     restart: unless-stopped

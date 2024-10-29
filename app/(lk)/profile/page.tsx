@@ -12,12 +12,12 @@ import style from "./page.module.css";
 export default async function ProfilePage() {
   const session = await getAuthSession();
 
-  if (!session || !session.user || !session.user.id) {
-    return <Error statusCode={404} />;
+  if (!session) {
+    return <Error statusCode={401} />;
   }
 
   const userData = await db.query.users.findFirst({
-    where: (us, { eq }) => eq(us.id, session.user!.id),
+    where: (us, { eq }) => eq(us.id, session.id),
     with: {
       releases: { limit: 3, orderBy: (rel, { desc }) => desc(rel.startDate) },
     },

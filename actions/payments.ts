@@ -37,7 +37,15 @@ export async function makePayment(
 ) {
   const session = await getAuthSession();
 
-  if (!session || !session.user) {
+  if (!session) {
+    return unauthorizedResult;
+  }
+
+  const user = await db.query.users.findFirst({
+    where: (user, { eq }) => eq(user.id, session.id),
+  });
+
+  if (!user) {
     return unauthorizedResult;
   }
 
@@ -54,14 +62,11 @@ export async function makePayment(
   let paymentDescription = "";
 
   if (forWhat.type === "release") {
-    const user = await db.query.users.findFirst({
-      where: (user, { eq }) => eq(user.id, session.user!.id!),
-      with: {
-        releases: { where: (rel, { eq }) => eq(rel.id, forWhat.releaseId) },
-      },
+    const release = await db.query.release.findFirst({
+      where: (rel, { eq }) => eq(rel.id, forWhat.releaseId),
     });
 
-    if (!user) {
+    if (!release) {
       return notYourRelease;
     }
 
@@ -119,7 +124,7 @@ export async function makePayment(
         items: receiptItems,
         tax_system_code: 1,
         customer: {
-          email: session.user.email,
+          email: user.email,
         },
       },
     })
@@ -135,7 +140,7 @@ export async function makePayment(
   const order = await db.insert(orders).values({
     id: payment.id,
     type: forWhat.type,
-    userId: session.user.id,
+    userId: session.id,
     metadata: orderMetadata,
   });
 
@@ -145,13 +150,13 @@ export async function makePayment(
 export async function topUp(userId: string, amount: number) {
   const session = await getAuthSession();
 
-  if (!session || !session.user || !session.user.id) {
+  if (!session) {
     return { success: false, message: "You need to log in first." };
   }
 
   const admin = await db.query.users.findFirst({
     where: (us, { and, eq }) =>
-      and(eq(us.id, session.user!.id), eq(us.isAdmin, true)),
+      and(eq(us.id, session.id), eq(us.isAdmin, true)),
   });
 
   if (!admin) {
@@ -169,12 +174,12 @@ export async function topUp(userId: string, amount: number) {
 export async function makePayout(payoutToken: string) {
   const session = await getAuthSession();
 
-  if (!session || !session.user || !session.user.id) {
+  if (!session) {
     return { success: false, message: "You need to log in first." };
   }
 
   const user = await db.query.users.findFirst({
-    where: (us, { eq }) => eq(us.id, session.user!.id),
+    where: (us, { eq }) => eq(us.id, session.id),
   });
 
   if (!user) {

@@ -1,6 +1,6 @@
 "use server";
 
-import { minioS3 } from "@/config/s3";
+import { createS3Client } from "@/config/s3";
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { profileFormSchema, TProfileSchema } from "@/schema/profile.schema";
@@ -9,8 +9,11 @@ import { hashPassword } from "@/utils/hashPassword";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { getAuthSession } from "./auth";
-import { sendSignUpConfirmEmail } from "./email";
+import { sendSignUpConfirmEmail } from "@/actions/email";
 import { createSMTPClient } from "@/utils/createSMTPClient";
+import { signJWT } from "@/utils/token";
+import { cookies } from "next/headers";
+import { sessionCookieName, sessionCookieOptions } from "@/config/auth";
 
 export async function registerUser(userData: TSignUpClientSchema) {
   const { email, name, password } = signUpSchema.parse(userData);
@@ -51,12 +54,12 @@ export async function registerUser(userData: TSignUpClientSchema) {
 export async function isAdminUser() {
   const session = await getAuthSession();
 
-  if (!session.user) {
+  if (!session) {
     return false;
   }
 
   const user = await db.query.users.findFirst({
-    where: eq(users.id, session.user.id),
+    where: eq(users.id, session.id),
   });
 
   if (!user) return false;
@@ -67,12 +70,12 @@ export async function isAdminUser() {
 export async function getUserSubscriptionLevel() {
   const session = await getAuthSession();
 
-  if (!session.user) {
+  if (!session) {
     return false;
   }
 
   const user = await db.query.users.findFirst({
-    where: eq(users.id, session.user.id),
+    where: eq(users.id, session.id),
   });
 
   if (!user) return false;
@@ -85,12 +88,12 @@ export async function getUserSubscriptionLevel() {
 export async function editProfile(profileData: FormData) {
   const session = await getAuthSession();
 
-  if (!session.user) {
+  if (!session) {
     return { success: false, message: "You need to log in first" };
   }
 
   const user = await db.query.users.findFirst({
-    where: eq(users.id, session.user.id),
+    where: eq(users.id, session.id),
   });
 
   if (!user) return { success: false, message: "You need to log in first" };
@@ -116,6 +119,8 @@ export async function editProfile(profileData: FormData) {
   }
 
   if (profileResult.data.avatar instanceof File) {
+    const minioS3 = createS3Client();
+
     const avatarFile = profileResult.data.avatar;
 
     const avatarBytes = await avatarFile.arrayBuffer();
@@ -146,7 +151,7 @@ export async function editProfile(profileData: FormData) {
       : undefined,
   };
 
-  const newUser = await db
+  const dbResult = await db
     .update(users)
     .set(newProfile)
     .where(eq(users.id, user.id))
@@ -154,20 +159,30 @@ export async function editProfile(profileData: FormData) {
       id: users.id,
       avatar: users.avatar,
       name: users.name,
-      email: users.email,
     })
     .catch((e) => {
       console.error(e);
       return null;
     });
 
-  if (!!!newUser) {
+  if (!!!dbResult || dbResult.length === 0) {
     return { success: false, message: "Something went wrong" };
   }
 
-  session.user = newUser.at(0);
+  const newUser = dbResult.at(0);
 
-  session.save();
+  if (!newUser) {
+    return { success: false, message: "Something went wrong" };
+  }
+
+  const newSessionToken = await signJWT(newUser, { exp: session.exp! });
+
+  const cookiesStore = cookies();
+
+  cookiesStore.set(sessionCookieName, newSessionToken, {
+    ...sessionCookieOptions,
+    expires: session.exp! * 1000,
+  });
 
   redirect("/profile");
 }
@@ -175,12 +190,12 @@ export async function editProfile(profileData: FormData) {
 export async function getUserBalance() {
   const session = await getAuthSession();
 
-  if (!session.user) {
+  if (!session) {
     return { success: false, message: "You need to log in first" };
   }
 
   const user = await db.query.users.findFirst({
-    where: eq(users.id, session.user.id),
+    where: eq(users.id, session.id),
     columns: { balance: true },
   });
 

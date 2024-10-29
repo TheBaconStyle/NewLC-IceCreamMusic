@@ -8,7 +8,6 @@ export const selectUserSchema = createSelectSchema(users);
 
 export const authUserSchema = selectUserSchema.pick({
   id: true,
-  email: true,
   avatar: true,
   name: true,
 });

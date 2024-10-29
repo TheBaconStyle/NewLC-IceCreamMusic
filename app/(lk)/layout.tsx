@@ -9,6 +9,7 @@ import classNames from "classnames";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { PropsWithChildren } from "react";
+import { Error } from "@/entities/Error";
 import style from "./layout.module.css";
 
 export const metadata: Metadata = {
@@ -21,6 +22,10 @@ export default async function CabinetLayout({ children }: PropsWithChildren) {
 
   const session = await getAuthSession();
 
+  if (!session) {
+    return <Error statusCode={401} />;
+  }
+
   return (
     <AppThemeProvider attribute="data-theme" defaultTheme={theme}>
       <SidebarContextProvider>
@@ -29,9 +34,9 @@ export default async function CabinetLayout({ children }: PropsWithChildren) {
             <Sidebar />
             <div className={style.col}>
               <Header
-                userid={session.user!.id}
-                username={session.user!.name}
-                avatar={session.user!.avatar}
+                userid={session!.id}
+                username={session!.name}
+                avatar={session!.avatar}
               />
               <div className={style.content}>
                 <BreadCrumbs home="Панель управления" />

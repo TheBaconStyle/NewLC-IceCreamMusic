@@ -7,6 +7,7 @@ import { Wallet } from "./Wallet/Wallet";
 import ThemeToggle from "@/widgets/ThemeToggle/ThemeToggle";
 import { cookies } from "next/headers";
 import { getAuthSession } from "@/actions/auth";
+import { Error } from "@/entities/Error";
 import { db } from "@/db";
 
 export type THeader = {
@@ -20,8 +21,12 @@ async function Header({ avatar, username, userid }: THeader) {
 
   const session = await getAuthSession();
 
+  if (!session) {
+    return <Error statusCode={401} />;
+  }
+
   const userBalance = await db.query.users.findFirst({
-    where: (us, { eq }) => eq(us.id, session!.user!.id),
+    where: (us, { eq }) => eq(us.id, session.id),
     columns: { balance: true },
   });
 
