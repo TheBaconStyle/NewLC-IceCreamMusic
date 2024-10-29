@@ -8,19 +8,21 @@ import classNames from "classnames";
 import { z } from "zod";
 import MyButton from "@/shared/MyButton/MyButton";
 import Link from "next/link";
+import { ConfirmButton } from "./ConfirmButton";
+import { RejectButton } from "./RejectButton";
 
 export default async function AdminReleaseDetailPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const data = await db.query.release.findFirst({
+  const releaseData = await db.query.release.findFirst({
     where: (rel, { eq }) => eq(rel.id, params.id),
     with: { tracks: true },
   });
 
   // платформы
-  let platforms = z.string().array().parse(data?.platforms);
+  let platforms = z.string().array().parse(releaseData?.platforms);
   if (platforms.includes("all")) {
     platforms = ["На всех площадках"];
   } else {
@@ -33,7 +35,7 @@ export default async function AdminReleaseDetailPage({
       negate: z.boolean(),
       data: z.string().array(),
     })
-    .parse(data?.area);
+    .parse(releaseData?.area);
   if (areas.negate) {
     areas.data = ["Во всех кроме: ", areas.data.join(", ")];
   }
@@ -46,30 +48,27 @@ export default async function AdminReleaseDetailPage({
 
   return (
     <div>
-      {data && (
+      {releaseData && (
         <div className={style.header}>
           <div className={classNames("wrap", style.fit)}>
             <Image
-              alt={data.title}
-              src={`${process.env.NEXT_PUBLIC_S3_URL}/previews/${data!.id}.${
-                data!.preview
-              }`}
+              alt={releaseData.title}
+              src={`${process.env.NEXT_PUBLIC_S3_URL}/previews/${
+                releaseData!.id
+              }.${releaseData!.preview}`}
               // alt={data!.title}
               className={style.image}
               width={250}
               height={250}
             />
+
+            <div>Оплачен: {releaseData.confirmed ? "Да" : "Нет"}</div>
+
+            <div>Текущий статус: {releaseData.status}</div>
+
             <div className="row mt20">
-              <MyButton
-                className={style.btn}
-                text={"Подтвердить"}
-                view={"secondary"}
-              />
-              <MyButton
-                className={classNames(style.btn, style.error)}
-                text={"Отказать"}
-                view={"secondary"}
-              />
+              <ConfirmButton />
+              <RejectButton />
             </div>
           </div>
 
@@ -80,21 +79,25 @@ export default async function AdminReleaseDetailPage({
               <div className="row gap50 mt10">
                 <div className="col">
                   <MyText className={style.title}>Название релиза</MyText>
-                  <MyText className={style.value}>{data!.title}</MyText>
+                  <MyText className={style.value}>{releaseData!.title}</MyText>
                 </div>
                 <div className="col">
                   <MyText className={style.title}>Подзаголовок релиза</MyText>
                   <MyText className={style.value}>
-                    {data.subtitle ? data.subtitle : "Информация отсутствует"}
+                    {releaseData.subtitle
+                      ? releaseData.subtitle
+                      : "Информация отсутствует"}
                   </MyText>
                 </div>
                 <div className="col">
                   <MyText className={style.title}>Язык метаданных</MyText>
-                  <MyText className={style.value}>{data.language}</MyText>
+                  <MyText className={style.value}>
+                    {releaseData.language}
+                  </MyText>
                 </div>
                 <div className="col">
                   <MyText className={style.title}>Тип релиза</MyText>
-                  <MyText className={style.value}>{data.type}</MyText>
+                  <MyText className={style.value}>{releaseData.type}</MyText>
                 </div>
               </div>
             </div>
@@ -104,17 +107,19 @@ export default async function AdminReleaseDetailPage({
               <div className="row gap50 mt10">
                 <div className="col">
                   <MyText className={style.title}>Исполнитель</MyText>
-                  <MyText className={style.value}>{data.performer}</MyText>
+                  <MyText className={style.value}>
+                    {releaseData.performer}
+                  </MyText>
                 </div>
                 <div className="col">
                   <MyText className={style.title}>Лица со статусом feat</MyText>
-                  <MyText className={style.value}>{data.feat}</MyText>
+                  <MyText className={style.value}>{releaseData.feat}</MyText>
                 </div>
                 <div className="col">
                   <MyText className={style.title}>
                     Лицаиц со статусом Remixer
                   </MyText>
-                  <MyText className={style.value}>{data.remixer}</MyText>
+                  <MyText className={style.value}>{releaseData.remixer}</MyText>
                 </div>
               </div>
             </div>
@@ -124,13 +129,13 @@ export default async function AdminReleaseDetailPage({
               <div className="row gap50 mt10">
                 <div className="col">
                   <MyText className={style.title}>Жанр</MyText>
-                  <MyText className={style.value}>{data.genre}</MyText>
+                  <MyText className={style.value}>{releaseData.genre}</MyText>
                 </div>
                 <div className="col">
                   <MyText className={style.title}>Идентификация UPC</MyText>
                   <MyText className={style.value}>
-                    {data.upc ? (
-                      data.upc
+                    {releaseData.upc ? (
+                      releaseData.upc
                     ) : (
                       <span className={style.warning}>Отсутствует UPC</span>
                     )}
@@ -138,7 +143,9 @@ export default async function AdminReleaseDetailPage({
                 </div>
                 <div className="col">
                   <MyText className={style.title}>Название лейбла</MyText>
-                  <MyText className={style.value}>{data.labelName}</MyText>
+                  <MyText className={style.value}>
+                    {releaseData.labelName}
+                  </MyText>
                 </div>
               </div>
             </div>
@@ -149,21 +156,21 @@ export default async function AdminReleaseDetailPage({
                 <div className="col">
                   <MyText className={style.title}>Дата релиза</MyText>
                   <MyText className={style.value}>
-                    {dateFormatter(data.releaseDate)}
+                    {dateFormatter(releaseData.releaseDate)}
                   </MyText>
                 </div>
 
                 <div className="col">
                   <MyText className={style.title}>Дата старта</MyText>
                   <MyText className={style.value}>
-                    {dateFormatter(data.startDate)}
+                    {dateFormatter(releaseData.startDate)}
                   </MyText>
                 </div>
 
                 <div className="col">
                   <MyText className={style.title}>Дата предзаказа</MyText>
                   <MyText className={style.value}>
-                    {dateFormatter(data.preorderDate)}
+                    {dateFormatter(releaseData.preorderDate)}
                   </MyText>
                 </div>
               </div>
@@ -198,8 +205,8 @@ export default async function AdminReleaseDetailPage({
                 Подробная информация по каждому треку
               </MyTitle>
               <div className="col gap20 mt20">
-                {data.tracks &&
-                  data.tracks.map((e) => {
+                {releaseData.tracks &&
+                  releaseData.tracks.map((e) => {
                     let roles = z
                       .object({
                         person: z.string(),
@@ -242,7 +249,7 @@ export default async function AdminReleaseDetailPage({
                           <div className="col mt10">
                             <MyText className={style.title}>Ссылка</MyText>
                             <Link
-                              href={`${process.env.NEXT_PUBLIC_S3_URL}/tracks/${data.id}.${e.track}`}
+                              href={`${process.env.NEXT_PUBLIC_S3_URL}/tracks/${releaseData.id}.${e.track}`}
                               download
                               className={style.link}
                             >
@@ -456,7 +463,7 @@ export default async function AdminReleaseDetailPage({
                               <MyText className={style.value}>
                                 {e.text_sync ? (
                                   <Link
-                                    href={`${process.env.NEXT_PUBLIC_S3_URL}/syncs/${data.id}.${e.text_sync}`}
+                                    href={`${process.env.NEXT_PUBLIC_S3_URL}/syncs/${releaseData.id}.${e.text_sync}`}
                                     download
                                     className={style.link}
                                   >
@@ -477,7 +484,7 @@ export default async function AdminReleaseDetailPage({
                               <MyText className={style.value}>
                                 {e.ringtone ? (
                                   <Link
-                                    href={`${process.env.NEXT_PUBLIC_S3_URL}/ringtones/${data.id}.${e.ringtone}`}
+                                    href={`${process.env.NEXT_PUBLIC_S3_URL}/ringtones/${releaseData.id}.${e.ringtone}`}
                                     download
                                     className={style.link}
                                   >
@@ -500,7 +507,7 @@ export default async function AdminReleaseDetailPage({
                               <MyText className={style.value}>
                                 {e.video ? (
                                   <Link
-                                    href={`${process.env.NEXT_PUBLIC_S3_URL}/videos/${data.id}.${e.video}`}
+                                    href={`${process.env.NEXT_PUBLIC_S3_URL}/videos/${releaseData.id}.${e.video}`}
                                     download
                                     className={style.link}
                                   >
@@ -521,7 +528,7 @@ export default async function AdminReleaseDetailPage({
                               <MyText className={style.value}>
                                 {e.video ? (
                                   <Link
-                                    href={`${process.env.NEXT_PUBLIC_S3_URL}/videoshots/${data.id}.${e.video_shot}`}
+                                    href={`${process.env.NEXT_PUBLIC_S3_URL}/videoshots/${releaseData.id}.${e.video_shot}`}
                                     download
                                     className={style.link}
                                   >

@@ -106,7 +106,11 @@ const SendRelease = () => {
                   })
                 );
             },
-            (e) => console.log(e)
+            () =>
+              enqueueSnackbar({
+                variant: "error",
+                message: "Проверьте ещё раз заполнение обязательных полей",
+              })
           )}
         >
           <div className={style.row}>

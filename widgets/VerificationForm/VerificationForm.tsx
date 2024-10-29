@@ -29,14 +29,21 @@ const VerificationForm = () => {
   return (
     <form
       className={style.formWrapper}
-      onSubmit={handleSubmit((data) =>
-        verifyData(data).then((res) => {
+      onSubmit={handleSubmit(
+        (data) =>
+          verifyData(data).then((res) => {
+            enqueueSnackbar({
+              variant: res.success ? "success" : "error",
+              message: res.message,
+            });
+            router.push("/dashboard");
+          }),
+        () => {
           enqueueSnackbar({
-            variant: res.success ? "success" : "error",
-            message: res.message,
+            variant: "error",
+            message: "Проверьте ещё раз заполнение полей",
           });
-          router.push("/dashboard");
-        })
+        }
       )}
     >
       <div className={style.section}>

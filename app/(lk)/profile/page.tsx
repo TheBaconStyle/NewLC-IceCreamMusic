@@ -8,6 +8,7 @@ import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
 import style from "./page.module.css";
+import dateFormatter from "@/utils/dateFormatter";
 
 export default async function ProfilePage() {
   const session = await getAuthSession();
@@ -23,6 +24,10 @@ export default async function ProfilePage() {
     },
   });
 
+  if (!userData) {
+    return <Error statusCode={404} />;
+  }
+
   return (
     <div className={style.profile}>
       <div className={classNames("row", "gap50")}>
@@ -33,7 +38,7 @@ export default async function ProfilePage() {
                 ? `${process.env.NEXT_PUBLIC_S3_URL!}/avatars/${userData!.id}.${
                     userData!.avatar
                   }`
-                : "/assets/avatar.jpg"
+                : "/assets/noAvatar.png"
             }
             alt={"Avatar"}
             width={250}
@@ -74,17 +79,23 @@ export default async function ProfilePage() {
               </li>
             </ul>
           </div> */}
-          {/* <div>
+          <div>
             <MyTitle Tag={"h3"} className="mt30">
               Дополнительная информация
             </MyTitle>
             <div className={classNames("col", "gap5", "mt10")}>
-              <MyText>Дата рождения: 05.04.2005</MyText>
-              <MyText>Страна: Россия</MyText>
-              <MyText>Лейбл: DeadDynasty</MyText>
-              <MyText>Личный сайт: https://yandex.ru/search/?</MyText>
+              {userData.birthDate && (
+                <MyText>
+                  Дата рождения: {dateFormatter(userData.birthDate)}
+                </MyText>
+              )}
+              {userData.country && <MyText>Страна: {userData.country}</MyText>}
+              {userData.label && <MyText>Лейбл: {userData.label}</MyText>}
+              {userData.personalSiteUrl && (
+                <MyText>Личный сайт: {userData.personalSiteUrl}</MyText>
+              )}
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
       <div className={classNames(style.myRelizes, "w100")}>

@@ -101,10 +101,10 @@ const RelizeItem = ({
           </div>
         )}
       </div>
-      {confirmed && (
+      {!confirmed && (
         <Link
           className={classNames("linkButton", style.linkToPay)}
-          href={`${process.env.NEXT_PUBLIC_S3_URL}/purchase/release/${id}`}
+          href={`/purchase/release/${id}`}
         >
           Оплатить
         </Link>
