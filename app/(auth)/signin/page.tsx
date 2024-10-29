@@ -17,12 +17,17 @@ export default function Auth() {
       </MyText>
       <Authorization />
       <MyText className={style.linkReg}>
-        Или <Link href="/signup">зарегистрируйте</Link> новый, если у Вас нет
-        аккаунта
+        Или{" "}
+        <Link className={style.link} href="/signup">
+          зарегистрируйте
+        </Link>{" "}
+        новый, если у Вас нет аккаунта
       </MyText>
 
       <MyText className={style.linkReg}>
-        <Link href="/recover">Не помню пароль</Link>
+        <Link className={style.link} href="/recover">
+          Не помню пароль
+        </Link>
       </MyText>
     </div>
   );

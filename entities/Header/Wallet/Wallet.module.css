@@ -3,8 +3,6 @@
   background-color: transparent;
 }
 .header__wrapper__icon {
-  background: var(--hover-color);
-  border-radius: 50%;
   width: 24px;
   height: 24px;
   display: flex;
@@ -14,8 +12,9 @@
 }
 .header__icon {
   transform: scale(1.3);
-
-  stroke: var(--medium-text-color);
+}
+.header__icon > path {
+  fill: var(--light-text-color);
 }
 .header__button {
   display: flex;

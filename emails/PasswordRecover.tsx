@@ -66,8 +66,8 @@ export default function PasswordRecovery({ link }: TPasswordRecovery) {
         </Text>
         <Button
           style={{
-            color: "#FFFFFF!",
-            textDecoration: "none",
+            color: "#FFFFFF",
+            fontFamily: "monospace",
             letterSpacing: "1px",
             padding: "5px 10px",
             borderRadius: "3px",

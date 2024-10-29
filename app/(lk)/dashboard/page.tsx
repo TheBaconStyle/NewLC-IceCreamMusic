@@ -18,47 +18,49 @@ export default async function MainPage() {
 
   return (
     <PageTransitionProvider>
-      {releasesData.map((release) => {
-        return (
-          <RelizeItem
-            key={release.id}
-            srcPreview="/assets/avatar.jpg"
-            relizeName={release.title}
-            upc={release.upc}
-            labelName={release.labelName}
-            genre={release.genre}
-            artistsName={release.performer}
-            typeRelize={release.type}
-            status={release.status}
-            moderatorComment={release.rejectReason}
-            dateCreate={release.preorderDate}
-            dateRelize={release.releaseDate}
-            dateStart={release.startDate}
-          />
-        );
-      })}
+      <div className="col gap20">
+        {releasesData.map((release) => {
+          return (
+            <RelizeItem
+              key={release.id}
+              id={release.id}
+              srcPreview="/assets/avatar.jpg"
+              relizeName={release.title}
+              upc={release.upc}
+              labelName={release.labelName}
+              genre={release.genre}
+              artistsName={release.performer}
+              typeRelize={release.type}
+              status={release.status}
+              moderatorComment={release.rejectReason}
+              dateCreate={release.preorderDate}
+              dateRelize={release.releaseDate}
+              dateStart={release.startDate}
+              confirmed={release.confirmed}
+            />
+          );
+        })}
+      </div>
 
       {releasesData.length === 0 && (
         <div className="wrap">
           <MyText>
             Приветсвуем вас на площадке ICECREAMMUSIC. <br />
             <br />
-            ICECREAMMUSIC – это российский музыкальный лейбл и дистрибьютор,
-            который активно работает на рынке страны. Лейбл был основан в 2017
+            ICECREAMMUSIC – это российский музыкальный сервис дистрибуции,
+            который активно работает на рынке страны. Мы были основаны в 2017
             году и быстро завоевал популярность благодаря сотрудничеству с
             известными российскими музыкантами и продюсерами.
             <br />
             <br />
             ICECREAMMUSIC занимается выпуском и продвижением музыки различных
             жанров, включая поп, хип-хоп, электронную музыку и другие
-            направления. Среди артистов лейбла можно найти таких исполнителей,
-            как Mayotak, Miyagi & Andy Panda, Loqiemean, Клава Кока и многие
-            другие.
+            направления.
             <br />
             <br />
-            Лейбл также активно развивает свою деятельность в цифровом
+            Мы также активно развиваем свою деятельность в цифровом
             пространстве, сотрудничая с музыкальными платформами и стриминговыми
-            сервисами для распространения своего контента.
+            сервисами для распространения вашего контента.
           </MyText>
         </div>
       )}

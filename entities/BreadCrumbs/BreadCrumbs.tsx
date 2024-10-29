@@ -22,6 +22,9 @@ const BreadCrumbRoutes = {
   faq: "Вопрос-ответ",
   premium: "Премиум",
   plans: "Тарифы",
+  admin: "Административная панель",
+  releases: "Релизы",
+  verifications: "Верификация",
 };
 
 export function BreadCrumbs({ separator = "/", home }: TBreadCrumbs) {

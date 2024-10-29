@@ -107,6 +107,8 @@ export default async function ProfilePage() {
               dateCreate={release.preorderDate}
               dateRelize={release.releaseDate}
               dateStart={release.startDate}
+              id={release.id}
+              confirmed={release.confirmed}
             />
           );
         })}
