@@ -16,6 +16,8 @@ import QueryIcon from "./SidebarIcons/Query.svg";
 import SuccessIcon from "./SidebarIcons/Success.svg";
 import ControlPanelIcon from "./SidebarIcons/TheControlPanel.svg";
 import UserIcon from "./SidebarIcons/User.svg";
+import { signOutAction } from "@/actions/auth";
+import { enqueueSnackbar } from "notistack";
 
 const Sidebar = () => {
   return (
@@ -117,10 +119,20 @@ const Sidebar = () => {
             <UserIcon className={style.user} />
             Профиль
           </Link>
-          <Link className={style.section__item} href={"/signout"}>
+          <button
+            className={style.section__item}
+            onClick={() =>
+              signOutAction().then(() =>
+                enqueueSnackbar({
+                  variant: "success",
+                  message: "Произведён выход из системы",
+                })
+              )
+            }
+          >
             <ExitIcon className={style.exit} />
             Выход
-          </Link>
+          </button>
         </div>
       </div>
     </aside>
