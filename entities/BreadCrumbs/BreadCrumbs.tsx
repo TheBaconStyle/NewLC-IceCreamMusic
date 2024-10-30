@@ -25,6 +25,7 @@ const BreadCrumbRoutes = {
   admin: "Административная панель",
   releases: "Релизы",
   verifications: "Верификация",
+  wallet: "Кошелек",
 };
 
 export function BreadCrumbs({ separator = "/", home }: TBreadCrumbs) {

@@ -92,6 +92,13 @@ const RelizeItem = ({
           <MyText className={style.title}>Жанр</MyText>
           <MyText className={style.value}>{genre}</MyText>
         </div>
+
+        {upc && (
+          <div>
+            <MyText className={style.title}>UPC</MyText>
+            <MyText className={style.value}>{upc}</MyText>
+          </div>
+        )}
       </div>
       <div className={style.bottom}>
         {moderatorComment && (

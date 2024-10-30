@@ -103,3 +103,14 @@
 .section__item:hover > .exit {
   transform: scale(1.35);
 }
+
+.section__item:last-child {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 10px 16px;
+}
+.section__item:last-child:hover {
+  background-color: var(--hover-color);
+  color: var(--light-text-color);
+}

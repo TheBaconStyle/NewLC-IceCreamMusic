@@ -26,9 +26,9 @@
 }
 .btn {
   width: 49%;
+  color: #fff;
 }
 
 .error {
   background-color: brown !important;
-  color: aqua;
 }
