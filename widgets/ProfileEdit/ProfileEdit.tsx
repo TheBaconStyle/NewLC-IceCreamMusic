@@ -72,7 +72,7 @@ export function ProfileEdit({
             type={"text"}
             label={"Имя"}
             inpLk
-            className="w100"
+            className={classNames(style.inp, "w100")}
             {...register("name")}
           />
           {/* <MyTextArea label={"Обо мне"} /> */}

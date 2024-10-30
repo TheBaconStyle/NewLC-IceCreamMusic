@@ -22,6 +22,7 @@ const RelizeItem = ({
   status,
   moderatorComment,
   confirmed,
+  showConfirmed,
   ...props
 }: IRelizeItem) => {
   return (
@@ -41,13 +42,6 @@ const RelizeItem = ({
           </div>
 
           <div className={style.top__info_down}>
-            {upc && (
-              <div>
-                <MyText className={style.title}>UPC</MyText>
-                <MyText className={style.value}>{upc}</MyText>
-              </div>
-            )}
-
             {labelName && (
               <div>
                 <MyText className={style.title}>Название лейбла</MyText>
@@ -59,12 +53,18 @@ const RelizeItem = ({
         <div className={style.status}>
           <div
             className={classNames(style.point, {
-              [style.red]: status === "Отказано в релизе",
-              [style.green]: status === "Отгружено",
-              [style.blue]: status === "В обработке",
+              [style.red]: status === "approved",
+              [style.green]: status === "rejected",
+              [style.blue]: status === "moderating",
             })}
           ></div>
-          <MyText className={style.statusTitle}>{status}</MyText>
+          <MyText className={style.statusTitle}>
+            {status === "moderating"
+              ? "На модерации"
+              : status === "approved"
+              ? "Одобрен"
+              : "Отказано"}
+          </MyText>
         </div>
       </div>
       <div className={style.body}>
@@ -108,7 +108,7 @@ const RelizeItem = ({
           </div>
         )}
       </div>
-      {!confirmed && (
+      {!confirmed && showConfirmed && (
         <Link
           className={classNames("linkButton", style.linkToPay)}
           href={`/purchase/release/${id}`}

@@ -9,7 +9,7 @@
   border-bottom: 3px solid #fff;
   outline: none;
   background: transparent;
-  color: #fff;
+  color: var(--light-text-color);
 }
 
 .label {

@@ -1,11 +1,10 @@
 import { isAdminUser } from "@/actions/users";
 import { db } from "@/db";
-import Image from "next/image";
 import style from "./page.module.css";
 import RelizeItem from "@/widgets/RelizeItem/RelizeItem";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-
+import ReleaseCategory from "./ReleaseCategory";
 
 export const dynamic = "force-dynamic";
 
@@ -22,6 +21,7 @@ export default async function AdminReleasesPage() {
 
   return (
     <div>
+      <ReleaseCategory />
       {data.map((e) => (
         <Link
           className={style.link}
@@ -43,6 +43,7 @@ export default async function AdminReleasesPage() {
             dateStart={e.startDate}
             id={e.id}
             confirmed={e.confirmed}
+            showConfirmed={false}
           />
         </Link>
       ))}

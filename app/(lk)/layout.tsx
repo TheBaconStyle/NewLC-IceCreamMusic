@@ -11,6 +11,7 @@ import { cookies } from "next/headers";
 import { PropsWithChildren } from "react";
 import { Error } from "@/entities/Error";
 import style from "./layout.module.css";
+import { isAdminUser } from "@/actions/users";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,12 +27,14 @@ export default async function CabinetLayout({ children }: PropsWithChildren) {
     return <Error statusCode={401} />;
   }
 
+  const isAdmin = await isAdminUser();
+
   return (
     <AppThemeProvider attribute="data-theme" defaultTheme={theme}>
       <SidebarContextProvider>
         <main className={classNames(style.main, open.className)}>
           <div className={style.row}>
-            <Sidebar />
+            <Sidebar isAdmin={isAdmin} />
             <div className={style.col}>
               <Header
                 userid={session!.id}
