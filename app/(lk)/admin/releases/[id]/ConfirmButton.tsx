@@ -6,12 +6,16 @@ import { approveRelease } from "@/actions/release";
 import { enqueueSnackbar } from "notistack";
 import ModalPopup from "@/widgets/ModalPopup/ModalPopup";
 import MyTextArea from "@/shared/MyTextArea/MyTextArea";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyInput from "@/shared/MyInput/MyInput";
 
 export function ConfirmButton() {
-  const params = useParams();
   const [show, setShow] = useState(false);
+  const [upc, setUpc] = useState("");
+  const params = useParams();
+  useEffect(() => {
+    if (!show) setUpc("");
+  }, [show, setShow]);
 
   return (
     <>
@@ -30,20 +34,33 @@ export function ConfirmButton() {
         width={0}
         height={300}
       >
-        <MyInput className="w100" type={"text"} label={"UPC"} inpLk />
-        <MyButton
-          className="mt30"
-          text={"Отправить"}
-          view={"secondary"}
-          onClick={() => {
-            approveRelease(params.id as string).then(() =>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            approveRelease(params.id as string, upc).then(() => {
               enqueueSnackbar({
                 variant: "success",
                 message: "Статус обновлён",
-              })
-            );
+              });
+              setShow(!show);
+            });
           }}
-        />
+        >
+          <MyInput
+            className="w100"
+            type={"text"}
+            label={"UPC"}
+            inpLk
+            value={upc}
+            onChange={(e) => setUpc(e.target.value)}
+          />
+          <MyButton
+            className="mt30"
+            text={"Отправить"}
+            view={"secondary"}
+            type="submit"
+          />
+        </form>
       </ModalPopup>
     </>
   );

@@ -8,7 +8,11 @@ import ReleaseCategory from "./ReleaseCategory";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminReleasesPage() {
+export default async function AdminReleasesPage({
+  searchParams,
+}: {
+  searchParams: { status: string };
+}) {
   const isAdmin = await isAdminUser();
 
   if (!isAdmin) {
@@ -16,7 +20,7 @@ export default async function AdminReleasesPage() {
   }
 
   const data = await db.query.release.findMany({
-    where: (rel, { eq }) => eq(rel.status, "moderating"),
+    where: (rel, { eq }) => eq(rel.status, searchParams.status as any),
   });
 
   return (

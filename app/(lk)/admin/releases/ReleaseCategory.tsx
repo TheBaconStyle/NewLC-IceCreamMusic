@@ -1,6 +1,12 @@
 "use client";
 import MySelect from "@/shared/MySelect/MySelect";
-import router, { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+
+const values = [
+  { value: "moderating", label: "В модерации" },
+  { value: "approved", label: "Одобрены " },
+  { value: "rejected", label: "Отклонены" },
+];
 
 export default function ReleaseCategory() {
   const router = useRouter();
@@ -18,11 +24,8 @@ export default function ReleaseCategory() {
     <MySelect
       label={"Фильтрация"}
       onValueChange={handleSearch}
-      options={[
-        { value: "moderating", label: "В модерации" },
-        { value: "aproved", label: "Одобрены " },
-        { value: "rejected", label: "Отклонены" },
-      ]}
+      value={values.find((v) => v.value === searchParams.get("status"))}
+      options={values}
     />
   );
 }

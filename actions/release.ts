@@ -315,7 +315,7 @@ export async function uploadRelease(
   redirect("/dashboard");
 }
 
-export async function approveRelease(releaseId: string) {
+export async function approveRelease(releaseId: string, upc: string) {
   const isAdmin = await isAdminUser();
 
   if (!isAdmin) {
@@ -324,13 +324,13 @@ export async function approveRelease(releaseId: string) {
 
   await db
     .update(release)
-    .set({ status: "approved" })
+    .set({ status: "approved", upc, rejectReason: null })
     .where(eq(release.id, releaseId));
 
   return revalidateCurrentPath();
 }
 
-export async function rejectRelease(releaseId: string) {
+export async function rejectRelease(releaseId: string, reason: string) {
   const isAdmin = await isAdminUser();
 
   if (!isAdmin) {
@@ -339,7 +339,7 @@ export async function rejectRelease(releaseId: string) {
 
   await db
     .update(release)
-    .set({ status: "rejected" })
+    .set({ status: "rejected", rejectReason: reason })
     .where(eq(release.id, releaseId));
 
   return revalidateCurrentPath();

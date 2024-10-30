@@ -53,8 +53,8 @@ const RelizeItem = ({
         <div className={style.status}>
           <div
             className={classNames(style.point, {
-              [style.red]: status === "approved",
-              [style.green]: status === "rejected",
+              [style.green]: status === "approved",
+              [style.red]: status === "rejected",
               [style.blue]: status === "moderating",
             })}
           ></div>

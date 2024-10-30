@@ -1,14 +1,13 @@
 import { db } from "@/db";
-import Image from "next/image";
-import style from "./page.module.css";
 import MyText from "@/shared/MyText/MyText";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import dateFormatter from "@/utils/dateFormatter";
 import classNames from "classnames";
-import { z } from "zod";
-import MyButton from "@/shared/MyButton/MyButton";
+import Image from "next/image";
 import Link from "next/link";
+import { z } from "zod";
 import { ConfirmButton } from "./ConfirmButton";
+import style from "./page.module.css";
 import { RejectButton } from "./RejectButton";
 
 export default async function AdminReleaseDetailPage({

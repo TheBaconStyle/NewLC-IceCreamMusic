@@ -7,7 +7,7 @@ export default interface IMyInputProps
   > {
   label: string;
   inpLk?: boolean;
-  type: "text" | "password" | "email" | "date";
+  type: "text" | "password" | "email" | "date" | "search";
   tooltip?: {
     id: string;
     text: string;
