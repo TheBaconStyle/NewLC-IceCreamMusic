@@ -134,20 +134,21 @@ const Sidebar = ({ isAdmin }: { isAdmin: boolean }) => {
             <UserIcon className={style.user} />
             Профиль
           </Link>
-          <button
+          <Link
             className={style.section__item}
-            onClick={() =>
-              signOutAction().then(() =>
-                enqueueSnackbar({
-                  variant: "success",
-                  message: "Произведён выход из системы",
-                })
-              )
-            }
+            href="/signout"
+            // onClick={() =>
+            //   signOutAction().then(() =>
+            //     enqueueSnackbar({
+            //       variant: "success",
+            //       message: "Произведён выход из системы",
+            //     })
+            //   )
+            // }
           >
             <ExitIcon className={style.exit} />
             Выход
-          </button>
+          </Link>
         </div>
       </div>
     </aside>

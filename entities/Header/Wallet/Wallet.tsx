@@ -23,10 +23,10 @@ export function Wallet({ balance }: TWallet) {
       });
       return;
     }
-    if (balanceRes.balance === 0) {
+    if (balanceRes.balance! < 2000) {
       enqueueSnackbar({
         variant: "error",
-        message: "Не возможно произвести выплату при нулевом балансе",
+        message: "Невозможно выполнить выплату при балансе менее 2000 руб.",
       });
       return;
     }
