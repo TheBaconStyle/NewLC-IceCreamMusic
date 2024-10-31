@@ -1,58 +1,62 @@
+"use client";
+import { useTheme } from "next-themes";
 import style from "./MusicServices.module.css";
 import Image from "next/image";
 const MusicServices = () => {
+  const { resolvedTheme } = useTheme();
+
   return (
     <div className={style.MusicServices}>
       <Image
-        src={"/MusicServicesIcons/dark/apple_music.svg"}
+        src={`/MusicServicesIcons/${resolvedTheme}/apple_music.svg`}
         alt="Apple Music"
         height={16}
         width={104}
       />
       <Image
-        src={"/MusicServicesIcons/dark/deezer.svg"}
+        src={`/MusicServicesIcons/${resolvedTheme}/deezer.svg`}
         alt="Deezer"
         height={16}
         width={104}
       />
       <Image
-        src={"/MusicServicesIcons/dark/spotify.svg"}
+        src={`/MusicServicesIcons/${resolvedTheme}/spotify.svg`}
         alt="Spotify"
         height={16}
         width={104}
       />
       <Image
-        src={"/MusicServicesIcons/dark/tidal.svg"}
+        src={`/MusicServicesIcons/${resolvedTheme}/tidal.svg`}
         alt="Tidal"
         height={16}
         width={104}
       />
       <Image
-        src={"/MusicServicesIcons/dark/tiktok.svg"}
+        src={`/MusicServicesIcons/${resolvedTheme}/tiktok.svg`}
         alt="TikTok"
         height={16}
         width={104}
       />
       <Image
-        src={"/MusicServicesIcons/dark/vk.svg"}
+        src={`/MusicServicesIcons/${resolvedTheme}/vk.svg`}
         alt="Vk"
         height={16}
         width={104}
       />
       <Image
-        src={"/MusicServicesIcons/dark/yandex.svg"}
+        src={`/MusicServicesIcons/${resolvedTheme}/yandex.svg`}
         alt="Yandex"
         height={16}
         width={104}
       />
       <Image
-        src={"/MusicServicesIcons/dark/youtube_music.svg"}
+        src={`/MusicServicesIcons/${resolvedTheme}/youtube_music.svg`}
         alt="Youtube Music"
         height={16}
         width={104}
       />
       <Image
-        src={"/MusicServicesIcons/dark/zvuk.svg"}
+        src={`/MusicServicesIcons/${resolvedTheme}/zvuk.svg`}
         alt="Zvuk"
         height={16}
         width={104}

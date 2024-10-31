@@ -8,6 +8,7 @@ import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
 import style from "./page.module.css";
+import dateFormatter from "@/utils/dateFormatter";
 
 export default async function ProfilePage() {
   const session = await getAuthSession();
@@ -23,6 +24,10 @@ export default async function ProfilePage() {
     },
   });
 
+  if (!userData) {
+    return <Error statusCode={404} />;
+  }
+
   return (
     <div className={style.profile}>
       <div className={classNames("row", "gap50")}>
@@ -33,7 +38,7 @@ export default async function ProfilePage() {
                 ? `${process.env.NEXT_PUBLIC_S3_URL!}/avatars/${userData!.id}.${
                     userData!.avatar
                   }`
-                : "/assets/avatar.jpg"
+                : "/assets/noAvatar.png"
             }
             alt={"Avatar"}
             width={250}
@@ -50,68 +55,67 @@ export default async function ProfilePage() {
             {userData?.name}
           </MyTitle>
           <MyText className="fs20">
-            {userData?.isAdmin ? "Admin" : "User"}
+            {userData?.isAdmin ? "Администратор" : "Пользователь"}
           </MyText>
-          {/* <MyText className={style.description}>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Omnis id
-            dignissimos, illo voluptatibus quis in fugit sint, iusto dicta
-            quisquam, consectetur excepturi facilis veritatis voluptatum
-            consequuntur odit debitis ullam nesciunt.
-          </MyText> */}
-          {/* <div>
+
+          <div>
             <MyTitle Tag={"h3"} className="mt30">
               Мои соцсети
             </MyTitle>
             <ul className={classNames("mt10", "ml20", "col", "gap5")}>
-              <li>
-                https://yandex.ru/search/?text=photoshop+%D0%BE%D0%BDA%D1%82%D0%BE%D1%80&lr=22&clid=2411725&src=suggest_B
-              </li>
-              <li>
-                https://yandex.ru/search/?text=photoshop%D0%B4%D0%B0%D0%BA%D1%82%D0%BE%D1%80&lr=22&clid=2411725&src=suggest_B
-              </li>
-              <li>
-                https://yandex.ru/search/?text=0%BA%D1%82%D0%BE%D1%80&lr=22&clid=2411725&src=suggest_B
-              </li>
+              {userData.telegram && <li>{userData.telegram}</li>}
+              {userData.vk && <li>{userData.vk}</li>}
+              {userData.whatsapp && <li>{userData.whatsapp}</li>}
+              {userData.viber && <li>{userData.viber}</li>}
             </ul>
-          </div> */}
-          {/* <div>
+          </div>
+          <div>
             <MyTitle Tag={"h3"} className="mt30">
               Дополнительная информация
             </MyTitle>
             <div className={classNames("col", "gap5", "mt10")}>
-              <MyText>Дата рождения: 05.04.2005</MyText>
-              <MyText>Страна: Россия</MyText>
-              <MyText>Лейбл: DeadDynasty</MyText>
-              <MyText>Личный сайт: https://yandex.ru/search/?</MyText>
+              {userData.birthDate && (
+                <MyText>
+                  Дата рождения: {dateFormatter(userData.birthDate)}
+                </MyText>
+              )}
+              {userData.country && <MyText>Страна: {userData.country}</MyText>}
+              {userData.label && <MyText>Лейбл: {userData.label}</MyText>}
+              {userData.personalSiteUrl && (
+                <MyText>Личный сайт: {userData.personalSiteUrl}</MyText>
+              )}
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
       <div className={classNames(style.myRelizes, "w100")}>
         <MyTitle Tag={"h3"} className="mb20">
           Мои релизы
         </MyTitle>
-        {userData?.releases.map((release) => {
-          return (
-            <RelizeItem
-              key={release.id}
-              srcPreview="/assets/avatar.jpg"
-              relizeName={release.title}
-              upc={release.upc}
-              labelName={release.labelName}
-              genre={release.genre}
-              artistsName={release.performer}
-              typeRelize={release.type}
-              status={release.status}
-              moderatorComment={release.rejectReason}
-              dateCreate={release.preorderDate}
-              dateRelize={release.releaseDate}
-              dateStart={release.startDate}
-              id={release.id}
-              confirmed={release.confirmed}
-            />
-          );
-        })}
+        <div className="col gap20">
+          {userData?.releases.map((release) => {
+            return (
+              <RelizeItem
+                key={release.id}
+                srcPreview="/assets/avatar.jpg"
+                relizeName={release.title}
+                upc={release.upc}
+                labelName={release.labelName}
+                genre={release.genre}
+                artistsName={release.performer}
+                typeRelize={release.type}
+                status={release.status}
+                moderatorComment={release.rejectReason}
+                dateCreate={release.preorderDate}
+                dateRelize={release.releaseDate}
+                dateStart={release.startDate}
+                id={release.id}
+                confirmed={release.confirmed}
+                showConfirmed={true}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

@@ -1,14 +1,13 @@
+import { getAuthSession } from "@/actions/auth";
+import { db } from "@/db";
+import { Error } from "@/entities/Error";
 import MyText from "@/shared/MyText/MyText";
-import Image from "next/image";
-import NotificationIcon from "../../public/InfoIcon/Notification.svg";
-import style from "./Header.module.css";
-import Link from "next/link";
-import { Wallet } from "./Wallet/Wallet";
 import ThemeToggle from "@/widgets/ThemeToggle/ThemeToggle";
 import { cookies } from "next/headers";
-import { getAuthSession } from "@/actions/auth";
-import { Error } from "@/entities/Error";
-import { db } from "@/db";
+import Image from "next/image";
+import Link from "next/link";
+import style from "./Header.module.css";
+import { Wallet } from "./Wallet/Wallet";
 
 export type THeader = {
   userid: string;
@@ -33,15 +32,15 @@ async function Header({ avatar, username, userid }: THeader) {
   return (
     <header className={style.header}>
       <div className={style.headerWrapper}>
-        <div className={style.version}>BETA v1.1.2</div>
+        <div className={style.version}>BETA v0.5.2</div>
         <div className={style.header__info}>
           <ThemeToggle currentTheme={theme ?? "light"} />
           <Wallet balance={userBalance?.balance} />
-          <button className={style.header__button}>
+          {/* <button className={style.header__button}>
             <div className={style.header__wrapper_w_h}>
               <NotificationIcon className={style.header__icon} />
             </div>
-          </button>
+          </button> */}
 
           <Link className={style.noStyle} href="/profile">
             <div className={style.header__wrapper_avatar}>
@@ -51,7 +50,7 @@ async function Header({ avatar, username, userid }: THeader) {
                 src={
                   !!avatar
                     ? `${process.env.NEXT_PUBLIC_S3_URL}/avatars/${userid}.${avatar}`
-                    : "/assets/avatar.jpg"
+                    : "/assets/noAvatar.png"
                 }
                 height={40}
                 width={40}

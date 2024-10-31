@@ -109,18 +109,6 @@ export const ArrayTarifTable: ITarifTable[] = [
     pro: false,
   },
   {
-    aspect: "Подтверждение страницы Spotify (синяя галочка)",
-    standart: false,
-    enterprize: true,
-    pro: false,
-  },
-  {
-    aspect: "Подтверждение страницы Apple Music",
-    standart: false,
-    enterprize: true,
-    pro: false,
-  },
-  {
     aspect: "Уникальные смарт-ссылки",
     standart: false,
     enterprize: true,

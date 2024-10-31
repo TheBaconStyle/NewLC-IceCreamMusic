@@ -16,4 +16,5 @@ export default interface IRelizeItem
   dateStart: Date;
   moderatorComment: string | null;
   confirmed: boolean;
+  showConfirmed: boolean;
 }

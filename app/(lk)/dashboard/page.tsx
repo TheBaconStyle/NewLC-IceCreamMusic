@@ -37,6 +37,7 @@ export default async function MainPage() {
               dateRelize={release.releaseDate}
               dateStart={release.startDate}
               confirmed={release.confirmed}
+              showConfirmed={true}
             />
           );
         })}

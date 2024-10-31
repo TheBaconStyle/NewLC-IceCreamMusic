@@ -1,15 +1,15 @@
 "use client";
 
-import MyText from "@/shared/MyText/MyText";
-import style from "./Admin_Verification_Card.module.css";
-import MyTitle from "@/shared/MyTitle/MyTitle";
-import dateFormatter from "@/utils/dateFormatter";
-import IAdmin_Verification_Card from "./Admin_Verification_Card.props";
-import MyButton from "@/shared/MyButton/MyButton";
 import {
   approveVerification,
   rejectVerification,
 } from "@/actions/verification";
+import MyText from "@/shared/MyText/MyText";
+import MyTitle from "@/shared/MyTitle/MyTitle";
+import dateFormatter from "@/utils/dateFormatter";
+import { enqueueSnackbar } from "notistack";
+import style from "./Admin_Verification_Card.module.css";
+import IAdmin_Verification_Card from "./Admin_Verification_Card.props";
 
 const Admin_Verification_Card = ({ data }: IAdmin_Verification_Card) => {
   const {
@@ -122,13 +122,27 @@ const Admin_Verification_Card = ({ data }: IAdmin_Verification_Card) => {
       <div className={style.row}>
         <button
           className={style.success}
-          onClick={() => approveVerification(id)}
+          onClick={() =>
+            approveVerification(id).then(() =>
+              enqueueSnackbar({
+                variant: "success",
+                message: "Статус обновлён",
+              })
+            )
+          }
         >
           Подтвердить
         </button>
         <button
           className={style.badSuccess}
-          onClick={() => rejectVerification(id)}
+          onClick={() =>
+            rejectVerification(id).then(() =>
+              enqueueSnackbar({
+                variant: "success",
+                message: "Статус обновлён",
+              })
+            )
+          }
         >
           Отказать
         </button>

@@ -10,6 +10,7 @@ import MyButton from "@/shared/MyButton/MyButton";
 import { useForm } from "react-hook-form";
 import { objectToFormData } from "@/utils/formDataTobject";
 import { editProfile } from "@/actions/users";
+import { enqueueSnackbar } from "notistack";
 
 export type TProfileEdit = Omit<TProfileFormSchema, "birthDate"> & {
   birthDate?: Date | null;
@@ -50,9 +51,18 @@ export function ProfileEdit({
               data.birthDate?.length !== 0 ? data.birthDate : undefined,
           });
 
-          editProfile(profileData).catch(console.error);
+          editProfile(profileData).then((data) =>
+            enqueueSnackbar({
+              variant: data.success ? "success" : "error",
+              message: data.message,
+            })
+          );
         },
-        (err) => console.error(err)
+        () =>
+          enqueueSnackbar({
+            variant: "error",
+            message: "Проверьте ещё раз обязательные к заполнению поля",
+          })
       )}
       className={style.myProfile}
     >
@@ -72,7 +82,7 @@ export function ProfileEdit({
             type={"text"}
             label={"Имя"}
             inpLk
-            className="w100"
+            className={classNames(style.inp, "w100")}
             {...register("name")}
           />
           {/* <MyTextArea label={"Обо мне"} /> */}

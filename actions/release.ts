@@ -12,8 +12,9 @@ import {
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { getAuthSession } from "./auth";
-import { revalidatePathAction } from "./revalidate";
+import { revalidateCurrentPath, revalidatePathAction } from "./revalidate";
 import { createS3Client } from "@/config/s3";
+import { isAdminUser } from "./users";
 
 export async function uploadRelease(
   releaseData: FormData,
@@ -312,4 +313,34 @@ export async function uploadRelease(
   revalidatePathAction("/dashboard");
 
   redirect("/dashboard");
+}
+
+export async function approveRelease(releaseId: string, upc: string) {
+  const isAdmin = await isAdminUser();
+
+  if (!isAdmin) {
+    throw new Error("Недостаточно прав для выполнения действия");
+  }
+
+  await db
+    .update(release)
+    .set({ status: "approved", upc, rejectReason: null })
+    .where(eq(release.id, releaseId));
+
+  return revalidateCurrentPath();
+}
+
+export async function rejectRelease(releaseId: string, reason: string) {
+  const isAdmin = await isAdminUser();
+
+  if (!isAdmin) {
+    throw new Error("Недостаточно прав для выполнения действия");
+  }
+
+  await db
+    .update(release)
+    .set({ status: "rejected", rejectReason: reason })
+    .where(eq(release.id, releaseId));
+
+  return revalidateCurrentPath();
 }

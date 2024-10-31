@@ -14,9 +14,7 @@ export default async function AdminVerificationPage() {
     return redirect("/dashboard");
   }
 
-  const data = await db.query.verification.findMany({
-    where: (ver, { eq }) => eq(ver.status, "moderating"),
-  });
+  const data = await db.query.verification.findMany();
 
   return (
     <PageTransitionProvider>

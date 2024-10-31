@@ -2,6 +2,7 @@
   background-color: var(--wrapper-color);
   padding: 20px;
   border-radius: 10px;
+  position: relative;
 }
 .preview {
   object-fit: cover;
@@ -18,10 +19,11 @@
 }
 .top__info_down {
   display: flex;
+  margin-top: 20px;
   gap: 20px;
 }
 .title {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--light-text-color);
 }
@@ -29,12 +31,12 @@
 .value {
   font-weight: 400;
   color: var(--medium-text-color);
-  font-size: 12px;
+  font-size: 14px;
 }
 .body {
   margin-top: 20px;
   display: flex;
-  gap: 20px;
+  gap: 50px;
 }
 .point {
   width: 10px;
