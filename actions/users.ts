@@ -159,6 +159,7 @@ export async function editProfile(profileData: FormData) {
       id: users.id,
       avatar: users.avatar,
       name: users.name,
+      isAdmin: users.isAdmin,
     })
     .catch((e) => {
       console.error(e);
