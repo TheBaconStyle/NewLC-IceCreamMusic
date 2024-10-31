@@ -1,7 +1,12 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { getPathname } from "./actions/url";
-import { defaultAuthRedirect, routes, sessionCookieName } from "./config/auth";
+import {
+  defaultAdminRedirect,
+  defaultAuthRedirect,
+  routes,
+  sessionCookieName,
+} from "./config/auth";
 import { verifyJWT } from "./utils/token";
 
 export const middleware = async function (request: NextRequest) {
@@ -14,12 +19,16 @@ export const middleware = async function (request: NextRequest) {
 
   let isAuthenticated = false;
 
+  let isAdmin = false;
+
   const encryptedToken = cookiesStore.get(sessionCookieName) ?? null;
 
   if (encryptedToken) {
     const session = await verifyJWT(encryptedToken.value).catch(() => null);
 
     isAuthenticated = !!session;
+
+    isAdmin = !!session?.isAdmin;
   }
 
   const pathname = await getPathname();
@@ -33,7 +42,9 @@ export const middleware = async function (request: NextRequest) {
 
     defaultRedirectUrl.pathname = defaultAuthRedirect;
 
-    console.log("middleware redirect for guest route");
+    if (isAdmin) {
+      defaultRedirectUrl.pathname = defaultAdminRedirect;
+    }
 
     return NextResponse.redirect(defaultRedirectUrl, {
       headers: request.headers,
@@ -44,11 +55,6 @@ export const middleware = async function (request: NextRequest) {
     const signInUrl = nextUrl.clone();
 
     signInUrl.pathname = "/signin";
-
-    console.log(
-      `is authenticated ${isAuthenticated}`,
-      "middleware redirect for protected route"
-    );
 
     return NextResponse.redirect(signInUrl, { headers: request.headers });
   }
