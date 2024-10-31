@@ -10,6 +10,7 @@ export const authUserSchema = selectUserSchema.pick({
   id: true,
   avatar: true,
   name: true,
+  isAdmin: true,
 });
 
 export type TInsertUserSchema = z.infer<typeof insertUserSchema>;

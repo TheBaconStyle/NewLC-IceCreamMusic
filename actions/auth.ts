@@ -3,6 +3,7 @@
 import { sendResetPasswordEmail } from "@/actions/email";
 import {
   defaultAuthRedirect,
+  defaultAdminRedirect,
   sessionCookieName,
   sessionCookieOptions,
 } from "@/config/auth";
@@ -65,6 +66,10 @@ export async function credentialsSignIn(credentials: TSignInClientSchema) {
     ...sessionCookieOptions,
     maxAge: expNumber,
   });
+
+  if (user.isAdmin) {
+    redirect(defaultAdminRedirect);
+  }
 
   redirect(defaultAuthRedirect);
 }
