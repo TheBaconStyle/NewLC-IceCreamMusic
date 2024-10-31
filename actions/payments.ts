@@ -2,19 +2,18 @@
 
 import { checkout } from "@/config/aquiring";
 import { db } from "@/db";
-import { Payment } from "@a2seven/yoo-checkout";
-import { redirect } from "next/navigation";
-import { getAuthSession } from "./auth";
-import { getFullUrl } from "./url";
 import { orders, payouts, users } from "@/db/schema";
 import { premiumPlans } from "@/helpers/premiumPlans";
 import {
-  currency,
-  calculateSubscriptionEstimate,
   calculateReleaseEstimate,
+  calculateSubscriptionEstimate,
+  currency,
 } from "@/utils/calculateServices";
-import { eq } from "drizzle-orm";
 import dateFormatter from "@/utils/dateFormatter";
+import { Payment } from "@a2seven/yoo-checkout";
+import { eq } from "drizzle-orm";
+import { redirect } from "next/navigation";
+import { getAuthSession } from "./auth";
 
 const unauthorizedResult = {
   success: false,
@@ -49,11 +48,7 @@ export async function makePayment(
     return unauthorizedResult;
   }
 
-  const fullUrl = await getFullUrl();
-
-  const urlOrigin = new URL(fullUrl).origin;
-
-  let returnPath: string = "";
+  let returnPath: string = "/dashboard";
 
   let orderMetadata: Omit<typeof forWhat, "type"> = {};
 
@@ -117,7 +112,7 @@ export async function makePayment(
       },
       confirmation: {
         type: "redirect",
-        return_url: `${urlOrigin}${returnPath}`,
+        return_url: `${process.env.NEXT_PUBLIC_DOMAIN}${returnPath}`,
       },
       description: paymentDescription,
       receipt: {
@@ -186,10 +181,10 @@ export async function makePayout(payoutToken: string) {
     return { success: false, message: "You need to log in first." };
   }
 
-  if (user.balance === 0) {
+  if (user.balance === 2000) {
     return {
       success: false,
-      message: "Невозможно выполнить выплату при нулевом балансе",
+      message: "Невозможно выполнить выплату при балансе менее 2000 руб.",
     };
   }
 
