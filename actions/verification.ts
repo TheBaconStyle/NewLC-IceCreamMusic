@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/db";
-import { verification } from "@/db/schema";
+import { users, verification } from "@/db/schema";
 import {
   TVerificationFormSchema,
   serverVerificationSchema,
@@ -63,9 +63,25 @@ export async function approveVerification(id: string) {
   }
 
   const isSuccess = await db
-    .update(verification)
-    .set({ status: "approved" })
-    .where(eq(verification.id, id))
+    .transaction(async () => {
+      const verificationData = await db.query.verification.findFirst({
+        where: (ver, { eq }) => eq(ver.id, id),
+      });
+
+      if (!verificationData) {
+        throw new Error("there is not enough verifications");
+      }
+
+      await db
+        .update(verification)
+        .set({ status: "approved" })
+        .where(eq(verification.id, id));
+
+      await db
+        .update(users)
+        .set({ isVerifiedAuthor: true })
+        .where(eq(users.id, verificationData.userId));
+    })
     .then(() => true)
     .catch(() => false);
 
