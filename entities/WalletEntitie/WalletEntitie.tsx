@@ -48,18 +48,18 @@ export default function WalletEntitie({
           </div>
           <div className="row gap50">
             <div className="col">
-              <MyText className="styleTitle">Telegramm</MyText>
+              <MyText className="styleTitle">Telegram</MyText>
               {telegram ? (
                 telegram.includes("@") ? (
                   <Link
                     className="styleValue"
                     href={`https://t.me/${telegram.slice(1)}`}
                   >
-                    Telegramm
+                    Telegram
                   </Link>
                 ) : (
                   <Link className="styleValue" href={telegram}>
-                    Telegramm
+                    Telegram
                   </Link>
                 )
               ) : (

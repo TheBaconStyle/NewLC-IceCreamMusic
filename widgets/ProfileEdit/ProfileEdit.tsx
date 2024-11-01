@@ -96,7 +96,7 @@ export function ProfileEdit({
             </MyTitle>
             <MyInput
               type={"text"}
-              label={"Telegramm"}
+              label={"Telegram"}
               inpLk
               className="w100"
               {...register("telegram")}

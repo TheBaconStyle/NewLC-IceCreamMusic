@@ -7,7 +7,7 @@ const handler = async (req: NextRequest) => {
     { headers: req.headers }
   );
 
-  res.cookies.delete(sessionCookieName);
+  res.cookies.set(sessionCookieName, "");
 
   return res;
 };

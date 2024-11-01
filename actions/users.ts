@@ -23,9 +23,10 @@ export async function registerUser(userData: TSignUpClientSchema) {
   });
 
   if (matchedUser) {
-    throw new Error(
-      "Учетная запись с данным адресом эл. почты уже существует."
-    );
+    return {
+      success: false,
+      message: "Учетная запись с данным адресом эл. почты уже существует.",
+    };
   }
 
   const smtpTransport = await createSMTPClient().catch((e) => {
@@ -33,7 +34,12 @@ export async function registerUser(userData: TSignUpClientSchema) {
     return null;
   });
 
-  if (!smtpTransport) throw new Error("Что-то пошло не так");
+  if (!smtpTransport) {
+    return {
+      success: false,
+      message: "Что-то пошло не так",
+    };
+  }
 
   const hashedPassword = await hashPassword(password);
 
@@ -44,7 +50,11 @@ export async function registerUser(userData: TSignUpClientSchema) {
       .returning({ id: users.id })
   ).pop();
 
-  if (!newUser) throw new Error("Что-то пошло не так");
+  if (!newUser)
+    return {
+      success: false,
+      message: "Что-то пошло не так",
+    };
 
   await sendSignUpConfirmEmail(email, newUser.id, smtpTransport);
 

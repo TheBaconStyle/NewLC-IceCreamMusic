@@ -131,7 +131,7 @@ export async function uploadRelease(
 
   const minioS3 = createS3Client();
 
-  await db
+  const result = await db
     .transaction(async () => {
       let confirmed = false;
       if (
@@ -307,8 +307,18 @@ export async function uploadRelease(
     })
     .catch((e) => {
       console.dir(e, { depth: Infinity });
-      throw new Error(e.message);
+      return {
+        success: false,
+        message: e.message,
+      };
     });
+
+  if (typeof result !== "undefined") {
+    return {
+      success: false,
+      message: result.message,
+    };
+  }
 
   revalidatePathAction("/dashboard");
 
@@ -319,7 +329,10 @@ export async function approveRelease(releaseId: string, upc: string) {
   const isAdmin = await isAdminUser();
 
   if (!isAdmin) {
-    throw new Error("Недостаточно прав для выполнения действия");
+    return {
+      success: false,
+      message: "Недостаточно прав для выполнения действия",
+    };
   }
 
   await db
@@ -334,7 +347,10 @@ export async function rejectRelease(releaseId: string, reason: string) {
   const isAdmin = await isAdminUser();
 
   if (!isAdmin) {
-    throw new Error("Недостаточно прав для выполнения действия");
+    return {
+      success: false,
+      message: "Недостаточно прав для выполнения действия",
+    };
   }
 
   await db
