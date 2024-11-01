@@ -87,7 +87,7 @@ export async function credentialsSignIn(credentials: TSignInClientSchema) {
 export async function signOutAction() {
   const cookiesStore = cookies();
 
-  cookiesStore.set(sessionCookieName, "");
+  cookiesStore.delete(sessionCookieName);
 
   redirect("/signin");
 }
