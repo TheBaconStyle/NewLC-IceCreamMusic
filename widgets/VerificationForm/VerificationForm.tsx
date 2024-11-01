@@ -36,7 +36,9 @@ const VerificationForm = () => {
               variant: res.success ? "success" : "error",
               message: res.message,
             });
-            router.push("/dashboard");
+            if (res.success) {
+              router.push("/dashboard");
+            }
           }),
         () => {
           enqueueSnackbar({

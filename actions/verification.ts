@@ -21,26 +21,21 @@ export async function verifyData(data: TVerificationFormSchema) {
     };
   }
 
-  const user = await db.query.users.findFirst({
-    where: (us, { eq }) => eq(us.id, session.id),
-    with: {
-      verifications: {
-        where: (ver, { eq }) => eq(ver.status, "approved"),
-      },
-    },
+  const verificationData = await db.query.verification.findFirst({
+    where: (ver, { eq }) => eq(ver.userId, session.id),
   });
 
-  if (user) {
-    return { success: false, message: "Пользователь верифицирован" };
+  if (verificationData) {
+    return { success: false, message: "Пользователь уже был верифицирован" };
   }
 
-  const res = serverVerificationSchema.safeParse(data);
+  const res = await serverVerificationSchema.parseAsync(data).catch(() => null);
 
-  if (res.success) {
+  if (res) {
     const isSuccess = await db
       .insert(verification)
       .values({
-        ...res.data,
+        ...res,
         userId: session.id,
       })
       .catch(() => false)
@@ -56,7 +51,7 @@ export async function verifyData(data: TVerificationFormSchema) {
 
   return {
     success: false,
-    message: "Что-то пошло не так",
+    message: "Проверьте заполнение полей",
   };
 }
 

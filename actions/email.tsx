@@ -3,7 +3,6 @@
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import PasswordRecovery from "@/emails/PasswordRecover";
-import { createSMTPClient } from "@/utils/createSMTPClient";
 import { render } from "@react-email/render";
 import { randomBytes } from "crypto";
 import { eq } from "drizzle-orm";
@@ -39,7 +38,10 @@ export async function sendSignUpConfirmEmail(
   });
 }
 
-export async function sendResetPasswordEmail(email: string) {
+export async function sendResetPasswordEmail(
+  email: string,
+  transport: Transporter
+) {
   const resetPasswordToken = randomBytes(16).toString("hex");
 
   const user = (
@@ -63,9 +65,7 @@ export async function sendResetPasswordEmail(email: string) {
 
   const htmlEmail = await render(<PasswordRecovery link={magicLink} />);
 
-  const smtpTransport = await createSMTPClient();
-
-  await smtpTransport.sendMail({
+  await transport.sendMail({
     from: "info@icecreammusic.net",
     to: email,
     subject: "Восстановление пароля к аккаунту",

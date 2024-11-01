@@ -14,6 +14,7 @@ import {
   TSignInClientSchema,
 } from "@/schema/signin.schema";
 import { authUserSchema } from "@/schema/user.schema";
+import { createSMTPClient } from "@/utils/createSMTPClient";
 import { hashPassword } from "@/utils/hashPassword";
 import { signJWT, verifyJWT } from "@/utils/token";
 import { compare } from "bcrypt-ts";
@@ -27,7 +28,10 @@ export async function credentialsSignIn(credentials: TSignInClientSchema) {
     .catch(() => null);
 
   if (!validationResult) {
-    throw new Error("Неверные данные для входа");
+    return {
+      success: false,
+      message: "Неверные данные для входа",
+    };
   }
 
   const { email, password, rememberMe } = credentials;
@@ -37,13 +41,19 @@ export async function credentialsSignIn(credentials: TSignInClientSchema) {
   });
 
   if (!user || !!!user.emailVerified) {
-    throw new Error("Неверные данные для входа");
+    return {
+      success: false,
+      message: "Неверные данные для входа",
+    };
   }
 
   const passwordVerified = await compare(password, user.password);
 
   if (!passwordVerified) {
-    throw new Error("Неверные данные для входа");
+    return {
+      success: false,
+      message: "Неверные данные для входа",
+    };
   }
 
   const cookiesStore = cookies();
@@ -77,7 +87,7 @@ export async function credentialsSignIn(credentials: TSignInClientSchema) {
 export async function signOutAction() {
   const cookiesStore = cookies();
 
-  cookiesStore.delete(sessionCookieName);
+  cookiesStore.set(sessionCookieName, "");
 
   redirect("/signin");
 }
@@ -106,10 +116,19 @@ export async function recoverPassword(email: string) {
   });
 
   if (!matchedUser) {
-    return { success: false, message: "No user with this email" };
+    return {
+      success: false,
+      message: "Нет пользователя с таким адресом эл. почты",
+    };
   }
 
-  sendResetPasswordEmail(matchedUser.email);
+  const smtpTransport = await createSMTPClient().catch(() => null);
+
+  if (!smtpTransport) {
+    return { success: false, message: "Что-то пошло не так" };
+  }
+
+  sendResetPasswordEmail(matchedUser.email, smtpTransport);
 
   return redirect("/recover/complete");
 }

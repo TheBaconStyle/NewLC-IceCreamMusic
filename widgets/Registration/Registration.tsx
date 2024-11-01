@@ -32,7 +32,7 @@ const RegistrationWidget = () => {
     <form
       className={style.form}
       onSubmit={handleSubmit((data) => {
-        registerUser(data).catch((e) => {
+        registerUser(data).then((e) => {
           enqueueSnackbar({ message: e.message, variant: "error" });
         });
       })}
