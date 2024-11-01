@@ -1,6 +1,4 @@
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { getPathname } from "./actions/url";
 import {
   defaultAdminRedirect,
   defaultAuthRedirect,
@@ -13,15 +11,12 @@ export const middleware = async function (request: NextRequest) {
   const { nextUrl } = request;
 
   request.headers.set("x-url", nextUrl.href);
-  request.headers.set("x-ip", request.ip!);
-
-  const cookiesStore = cookies();
 
   let isAuthenticated = false;
 
   let isAdmin = false;
 
-  const encryptedToken = cookiesStore.get(sessionCookieName) ?? null;
+  const encryptedToken = request.cookies.get(sessionCookieName) ?? null;
 
   if (encryptedToken) {
     const session = await verifyJWT(encryptedToken.value).catch(() => null);
@@ -31,7 +26,7 @@ export const middleware = async function (request: NextRequest) {
     isAdmin = !!session?.isAdmin;
   }
 
-  const pathname = await getPathname();
+  const pathname = nextUrl.pathname;
 
   const isGuestRoute = routes.guest.some((r) => pathname.includes(r));
 

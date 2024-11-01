@@ -21,13 +21,18 @@ export const sessionCookieName = "icecream-auth";
 export const sessionCookieOptions: Required<
   Omit<
     ResponseCookie,
-    "value" | "partitioned" | "priority" | "expires" | "name" | "maxAge"
+    | "value"
+    | "partitioned"
+    | "priority"
+    | "expires"
+    | "name"
+    | "maxAge"
+    | "domain"
   >
 > = {
   httpOnly: true,
   sameSite: "lax",
   secure: true,
-  domain: process.env.AUTH_DOMAIN!,
   path: "/",
 };
 

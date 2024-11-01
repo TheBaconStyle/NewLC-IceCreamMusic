@@ -23,10 +23,10 @@ const Authorization = () => {
       className={style.form}
       onSubmit={handleSubmit((data) => {
         credentialsSignIn(data)
-          .then(() => {
+          .then((res) => {
             enqueueSnackbar({
-              message: "Авторизация выполнена успешно",
-              variant: "success",
+              message: res?.message ?? "Авторизация выполнена успешно",
+              variant: res?.success !== false ? "success" : "error",
             });
           })
           .catch((e) => {

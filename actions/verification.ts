@@ -9,7 +9,6 @@ import {
 import { getAuthSession } from "./auth";
 import { isAdminUser } from "./users";
 import { eq } from "drizzle-orm";
-import { revalidateCurrentPath } from "./revalidate";
 
 export async function verifyData(data: TVerificationFormSchema) {
   const session = await getAuthSession();
@@ -22,10 +21,11 @@ export async function verifyData(data: TVerificationFormSchema) {
   }
 
   const verificationData = await db.query.verification.findFirst({
-    where: (ver, { eq }) => eq(ver.userId, session.id),
+    where: (ver, { eq, and }) =>
+      and(eq(ver.userId, session.id), eq(ver.status, "approved")),
   });
 
-  if (verificationData) {
+  if (!!verificationData) {
     return { success: false, message: "Пользователь уже был верифицирован" };
   }
 
@@ -73,8 +73,6 @@ export async function approveVerification(id: string) {
     return { success: false, message: "Что-то пошло не так" };
   }
 
-  await revalidateCurrentPath();
-
   return { success: true };
 }
 
@@ -95,8 +93,6 @@ export async function rejectVerification(id: string) {
   if (!isSuccess) {
     return { success: false, message: "Что-то пошло не так" };
   }
-
-  await revalidateCurrentPath();
 
   return { success: true };
 }
