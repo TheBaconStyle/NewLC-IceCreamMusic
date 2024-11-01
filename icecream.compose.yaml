@@ -1,7 +1,7 @@
 services:
   icecream_crud:
     container_name: icecream_cron
-    image: icecreammusic_cron:27-10-2024-20-13
+    image: icecreammusic_cron:31-10-2024-22-09
     environment:
       DB_USER: ${DB_USER:?error}
       DB_PASSWORD: ${DB_PASSWORD:?error}
@@ -17,7 +17,7 @@ services:
       - postgres
   icecream:
     container_name: icecream_app
-    image: icecreammusic:27-10-2024-20-13
+    image: icecreammusic:31-10-2024-22-09
     environment:
       AUTH_SECRET: ${AUTH_SECRET:?error}
       SALT_ROUNDS: ${SALT_ROUNDS:?error}
