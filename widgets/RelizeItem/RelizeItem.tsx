@@ -34,6 +34,7 @@ const RelizeItem = ({
           src={srcPreview}
           height={90}
           width={90}
+          unoptimized
         />
         <div className={style.top__info}>
           <div>

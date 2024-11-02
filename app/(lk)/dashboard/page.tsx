@@ -24,7 +24,7 @@ export default async function MainPage() {
             <RelizeItem
               key={release.id}
               id={release.id}
-              srcPreview="/assets/avatar.jpg"
+              srcPreview={`${process.env.NEXT_PUBLIC_S3_URL}/previews/${release.id}.${release.preview}`}
               relizeName={release.title}
               upc={release.upc}
               labelName={release.labelName}

@@ -59,6 +59,7 @@ export default async function AdminReleaseDetailPage({
               className={style.image}
               width={250}
               height={250}
+              unoptimized
             />
 
             <div>Оплачен: {releaseData.confirmed ? "Да" : "Нет"}</div>
@@ -248,9 +249,10 @@ export default async function AdminReleaseDetailPage({
                           <div className="col mt10">
                             <MyText className={style.title}>Ссылка</MyText>
                             <Link
-                              href={`${process.env.NEXT_PUBLIC_S3_URL}/tracks/${releaseData.id}.${e.track}`}
+                              href={`${process.env.NEXT_PUBLIC_S3_URL}/tracks/${e.id}.${e.track}`}
                               download
                               className={style.link}
+                              prefetch={false}
                             >
                               Файл
                             </Link>
@@ -465,6 +467,7 @@ export default async function AdminReleaseDetailPage({
                                     href={`${process.env.NEXT_PUBLIC_S3_URL}/syncs/${releaseData.id}.${e.text_sync}`}
                                     download
                                     className={style.link}
+                                    prefetch={false}
                                   >
                                     Файл
                                   </Link>
@@ -486,6 +489,7 @@ export default async function AdminReleaseDetailPage({
                                     href={`${process.env.NEXT_PUBLIC_S3_URL}/ringtones/${releaseData.id}.${e.ringtone}`}
                                     download
                                     className={style.link}
+                                    prefetch={false}
                                   >
                                     Файл
                                   </Link>
@@ -509,6 +513,7 @@ export default async function AdminReleaseDetailPage({
                                     href={`${process.env.NEXT_PUBLIC_S3_URL}/videos/${releaseData.id}.${e.video}`}
                                     download
                                     className={style.link}
+                                    prefetch={false}
                                   >
                                     Файл
                                   </Link>
@@ -530,6 +535,7 @@ export default async function AdminReleaseDetailPage({
                                     href={`${process.env.NEXT_PUBLIC_S3_URL}/videoshots/${releaseData.id}.${e.video_shot}`}
                                     download
                                     className={style.link}
+                                    prefetch={false}
                                   >
                                     Файл
                                   </Link>
