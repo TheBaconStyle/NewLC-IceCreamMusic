@@ -18,6 +18,11 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  &:hover {
+    background-color: var(--hover-color);
+  }
 }
 .title {
   font-size: 12px;

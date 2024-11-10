@@ -10,6 +10,7 @@ import dateFormatter from "@/utils/dateFormatter";
 import { enqueueSnackbar } from "notistack";
 import style from "./Admin_Verification_Card.module.css";
 import IAdmin_Verification_Card from "./Admin_Verification_Card.props";
+import { useState } from "react";
 
 const Admin_Verification_Card = ({ data }: IAdmin_Verification_Card) => {
   const {
@@ -31,8 +32,13 @@ const Admin_Verification_Card = ({ data }: IAdmin_Verification_Card) => {
     status,
   } = data;
 
+  const [detail, showDetail] = useState(false);
+  const handleShowDetail = () => {
+    showDetail(!detail);
+  };
+
   return (
-    <div className={style.wrap} key={id}>
+    <div className={style.wrap} key={id} onClick={handleShowDetail}>
       <MyTitle Tag={"h4"} className={style.top}>
         Основная информация <span className={style.status}>{status}</span>
       </MyTitle>
@@ -69,80 +75,86 @@ const Admin_Verification_Card = ({ data }: IAdmin_Verification_Card) => {
         </div>
       </div>
 
-      <div className={style.separator}></div>
+      {detail && (
+        <>
+          <div className={style.separator}></div>
 
-      <MyTitle Tag={"h4"}>Идентификационные данные</MyTitle>
-      <div className={style.row}>
-        <div className={style.col}>
-          <MyText className={style.title}>Серия паспорта</MyText>
-          <MyText className={style.value}>{passSeries}</MyText>
-        </div>
-        <div className={style.col}>
-          <MyText className={style.title}>Номер паспорта</MyText>
-          <MyText className={style.value}>{passNumber}</MyText>
-        </div>
-        <div className={style.col}>
-          <MyText className={style.title}>Дата получения</MyText>
-          <MyText className={style.value}>{dateFormatter(getDate)}</MyText>
-        </div>
-      </div>
-      <div className={style.row}>
-        <div className={style.col}>
-          <MyText className={style.title}>Кем выдан</MyText>
-          <MyText className={style.value}>{givenBy}</MyText>
-        </div>
+          <MyTitle Tag={"h4"}>Идентификационные данные</MyTitle>
+          <div className={style.row}>
+            <div className={style.col}>
+              <MyText className={style.title}>Серия паспорта</MyText>
+              <MyText className={style.value}>{passSeries}</MyText>
+            </div>
+            <div className={style.col}>
+              <MyText className={style.title}>Номер паспорта</MyText>
+              <MyText className={style.value}>{passNumber}</MyText>
+            </div>
+            <div className={style.col}>
+              <MyText className={style.title}>Дата получения</MyText>
+              <MyText className={style.value}>{dateFormatter(getDate)}</MyText>
+            </div>
+          </div>
+          <div className={style.row}>
+            <div className={style.col}>
+              <MyText className={style.title}>Кем выдан</MyText>
+              <MyText className={style.value}>{givenBy}</MyText>
+            </div>
 
-        <div className={style.col}>
-          <MyText className={style.title}>Код подразделения</MyText>
-          <MyText className={style.value}>{subunitCode}</MyText>
-        </div>
+            <div className={style.col}>
+              <MyText className={style.title}>Код подразделения</MyText>
+              <MyText className={style.value}>{subunitCode}</MyText>
+            </div>
 
-        <div className={style.col}>
-          <MyText className={style.title}>Адрес регистрации</MyText>
-          <MyText className={style.value}>{registrationAddress}</MyText>
-        </div>
-      </div>
+            <div className={style.col}>
+              <MyText className={style.title}>Адрес регистрации</MyText>
+              <MyText className={style.value}>{registrationAddress}</MyText>
+            </div>
+          </div>
 
-      <div className={style.separator}></div>
+          <div className={style.separator}></div>
 
-      <MyTitle Tag={"h4"}>Банковские реквизиты</MyTitle>
-      <div className={style.row}>
-        <div className={style.col}>
-          <MyText className={style.title}>Наименование банка</MyText>
-          <MyText className={style.value}>{bankName}</MyText>
-        </div>
-        <div className={style.col}>
-          <MyText className={style.title}>Номер счета</MyText>
-          <MyText className={style.value}>{accountNumber}</MyText>
-        </div>
-      </div>
+          <MyTitle Tag={"h4"}>Банковские реквизиты</MyTitle>
+          <div className={style.row}>
+            <div className={style.col}>
+              <MyText className={style.title}>Наименование банка</MyText>
+              <MyText className={style.value}>{bankName}</MyText>
+            </div>
+            <div className={style.col}>
+              <MyText className={style.title}>Номер счета</MyText>
+              <MyText className={style.value}>{accountNumber}</MyText>
+            </div>
+          </div>
 
-      <div className={style.separator}></div>
+          <div className={style.separator}></div>
+        </>
+      )}
 
       <div className={style.row}>
         <button
           className={style.success}
-          onClick={() =>
+          onClick={(e) => {
+            e.stopPropagation();
             approveVerification(id).then(() =>
               enqueueSnackbar({
                 variant: "success",
                 message: "Статус обновлён",
               })
-            )
-          }
+            );
+          }}
         >
           Подтвердить
         </button>
         <button
           className={style.badSuccess}
-          onClick={() =>
+          onClick={(e) => {
+            e.stopPropagation();
             rejectVerification(id).then(() =>
               enqueueSnackbar({
                 variant: "success",
                 message: "Статус обновлён",
               })
-            )
-          }
+            );
+          }}
         >
           Отказать
         </button>

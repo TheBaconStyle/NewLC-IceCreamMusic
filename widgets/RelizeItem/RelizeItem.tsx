@@ -73,33 +73,35 @@ const RelizeItem = ({
           <MyText className={style.title}>Дата создания</MyText>
           <MyText className={style.value}>{dateFormatter(dateCreate)}</MyText>
         </div>
-
         <div>
           <MyText className={style.title}>Дата релиза</MyText>
           <MyText className={style.value}>{dateFormatter(dateRelize)}</MyText>
         </div>
-
         <div>
           <MyText className={style.title}>Дата старта</MyText>
           <MyText className={style.value}>{dateFormatter(dateStart)}</MyText>
         </div>
-
         <div>
           <MyText className={style.title}>Тип релиза</MyText>
           <MyText className={style.value}>{typeRelize}</MyText>
         </div>
-
         <div>
           <MyText className={style.title}>Жанр</MyText>
           <MyText className={style.value}>{genre}</MyText>
         </div>
-
         {upc && (
           <div>
             <MyText className={style.title}>UPC</MyText>
             <MyText className={style.value}>{upc}</MyText>
           </div>
         )}
+
+        <div>
+          <MyText className={style.title}>Статус оплаты</MyText>
+          <MyText className={style.value}>
+            {confirmed ? "Оплачено" : "Не оплачено"}
+          </MyText>
+        </div>
       </div>
       <div className={style.bottom}>
         {moderatorComment && (
