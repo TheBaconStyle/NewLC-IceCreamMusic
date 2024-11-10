@@ -4,7 +4,7 @@ import style from "./page.module.css";
 import RelizeItem from "@/widgets/RelizeItem/RelizeItem";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import ReleaseCategory from "./ReleaseCategory";
+import ModerationFilter from "../ModerationFilter";
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +25,7 @@ export default async function AdminReleasesPage({
 
   return (
     <div>
-      <ReleaseCategory />
+      <ModerationFilter />
       {data.map((e) => (
         <Link
           className={style.link}

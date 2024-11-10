@@ -9,6 +9,10 @@ import { eq } from "drizzle-orm";
 import { sealData } from "iron-session";
 import { Transporter } from "nodemailer";
 import SignUpConfirm from "../emails/SignUpConfirm";
+import VerificationSuccess from "@/emails/VerificationMessages/VerificationSuccess";
+import VerificationReject from "@/emails/VerificationMessages/VerificationReject";
+import ReleaseSuccess from "@/emails/RelizesMessages/ReleaseSuccess";
+import ReleaseReject from "@/emails/RelizesMessages/ReleaseReject";
 
 export async function sendSignUpConfirmEmail(
   email: string,
@@ -69,6 +73,60 @@ export async function sendResetPasswordEmail(
     from: "info@icecreammusic.net",
     to: email,
     subject: "Восстановление пароля к аккаунту",
+    html: htmlEmail,
+  });
+}
+
+export async function sendVerificationNotification(
+  email: string,
+  transport: Transporter,
+  status: "approved" | "rejected"
+) {
+  const emailSubject: string = "Уведомление о статусе верификации";
+
+  let htmlEmail = "";
+
+  if (status === "approved") {
+    htmlEmail = await render(<VerificationSuccess />);
+  }
+
+  if (status === "rejected") {
+    htmlEmail = await render(<VerificationReject />);
+  }
+
+  await transport.sendMail({
+    from: "info@icecreammusic.net",
+    to: email,
+    subject: emailSubject,
+    html: htmlEmail,
+  });
+}
+
+export async function sendModerationNotification(
+  email: string,
+  transport: Transporter,
+  releaseStatus: "approved" | "rejected",
+  releaseTitle: string,
+  rejectReason?: string
+) {
+  let htmlEmail = "";
+
+  const emailSubject = `Уведомление о статусе модерации релиза ${releaseTitle}`;
+
+  if (releaseStatus === "approved") {
+    htmlEmail = render(<ReleaseSuccess title={releaseTitle} />);
+  }
+
+  if (releaseStatus === "rejected") {
+    htmlEmail = render(
+      <ReleaseReject title={releaseTitle} rejectReason={rejectReason!} />
+    );
+  }
+
+  await transport.sendMail({
+    from: "info@icecreammusic.net",
+    to: email,
+    subject: emailSubject,
     html: htmlEmail,
   });
 }

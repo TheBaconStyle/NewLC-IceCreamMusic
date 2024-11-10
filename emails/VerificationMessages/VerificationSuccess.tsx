@@ -1,6 +1,6 @@
 import { Head, Html, Img, Section, Text } from "@react-email/components";
 
-export default function VerificationMail() {
+export default function VerificationSuccess() {
   return (
     <Html>
       <Head>

@@ -8,7 +8,7 @@ const values = [
   { value: "rejected", label: "Отклонены" },
 ];
 
-export default function ReleaseCategory() {
+export default function ModerationFilter() {
   const router = useRouter();
   const searchParams = useSearchParams();
 

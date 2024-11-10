@@ -15,6 +15,9 @@ import { getAuthSession } from "./auth";
 import { revalidateCurrentPath, revalidatePathAction } from "./revalidate";
 import { createS3Client } from "@/config/s3";
 import { isAdminUser } from "./users";
+import CanvasThree from "../entities/CanvasThree/CanvasThree";
+import { createSMTPClient } from "@/utils/createSMTPClient";
+import { sendModerationNotification } from "./email";
 
 export async function uploadRelease(
   releaseData: FormData,
@@ -335,10 +338,47 @@ export async function approveRelease(releaseId: string, upc: string) {
     };
   }
 
-  await db
-    .update(release)
-    .set({ status: "approved", upc, rejectReason: null })
-    .where(eq(release.id, releaseId));
+  const isSuccess = await db
+    .transaction(async () => {
+      const releaseData = await db.query.release.findFirst({
+        where: (rel, { eq }) => eq(rel.id, releaseId),
+        with: {
+          author: {
+            columns: {
+              email: true,
+            },
+          },
+        },
+      });
+
+      if (!releaseData) {
+        throw new Error("Нет релиза с такими данными");
+      }
+
+      await db
+        .update(release)
+        .set({ status: "approved", upc, rejectReason: null })
+        .where(eq(release.id, releaseData.id));
+
+      const transport = await createSMTPClient().catch(() => null);
+
+      if (!transport) {
+        throw new Error("Что-то пошло не так");
+      }
+
+      sendModerationNotification(
+        releaseData.author.email,
+        transport,
+        "approved",
+        releaseData.title
+      );
+    })
+    .then(() => true)
+    .catch(() => false);
+
+  if (!isSuccess) {
+    return { success: false, message: "Что-то пошло не так" };
+  }
 
   return revalidateCurrentPath();
 }
@@ -353,10 +393,48 @@ export async function rejectRelease(releaseId: string, reason: string) {
     };
   }
 
-  await db
-    .update(release)
-    .set({ status: "rejected", rejectReason: reason })
-    .where(eq(release.id, releaseId));
+  const isSuccess = await db
+    .transaction(async () => {
+      const releaseData = await db.query.release.findFirst({
+        where: (rel, { eq }) => eq(rel.id, releaseId),
+        with: {
+          author: {
+            columns: {
+              email: true,
+            },
+          },
+        },
+      });
+
+      if (!releaseData) {
+        throw new Error("Нет релиза с такими данными");
+      }
+
+      await db
+        .update(release)
+        .set({ status: "rejected", rejectReason: reason })
+        .where(eq(release.id, releaseData.id));
+
+      const transport = await createSMTPClient().catch(() => null);
+
+      if (!transport) {
+        throw new Error("Что-то пошло не так");
+      }
+
+      await sendModerationNotification(
+        releaseData.author.email,
+        transport,
+        "rejected",
+        releaseData.title,
+        reason
+      );
+    })
+    .then(() => true)
+    .catch(() => false);
+
+  if (!isSuccess) {
+    return { success: false, message: "Что-то пошло не так" };
+  }
 
   return revalidateCurrentPath();
 }

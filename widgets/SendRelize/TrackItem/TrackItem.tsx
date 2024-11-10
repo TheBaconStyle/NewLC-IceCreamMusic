@@ -163,7 +163,7 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
               необходимо указать псевдоним артиста, группы или проекта.
             </MyText>
             <MyText className={style.subText}>
-              ДДля Авторов музыки и Авторов слов необходимо указать фактические
+              Для Авторов музыки и Авторов слов необходимо указать фактические
               имена и фамилии, не указывайте псевдонимы артистов, групп или
               проектов.
             </MyText>
@@ -231,7 +231,9 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
                 id: `avtorPrava-${fileName}`,
                 text: "Укажите долю. Если авторов несколько укажите сумму долей",
               }}
-              type={"text"}
+              type="number"
+              min={1}
+              max={100}
               value={track.author_rights}
               onChange={(e) =>
                 handleTrackChange({ author_rights: e.target.value })

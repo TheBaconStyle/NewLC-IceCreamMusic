@@ -38,7 +38,14 @@ export function RejectButton() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            rejectRelease(params.id as string, reason).then(() => {
+            rejectRelease(params.id as string, reason).then((data) => {
+              if (data && !data.success) {
+                enqueueSnackbar({
+                  variant: "error",
+                  message: data.message,
+                });
+              }
+
               enqueueSnackbar({
                 variant: "success",
                 message: "Статус обновлён",

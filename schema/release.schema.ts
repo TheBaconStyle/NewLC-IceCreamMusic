@@ -1,5 +1,5 @@
 import { release, track } from "@/db/schema";
-import { z } from "zod";
+import { number, z } from "zod";
 import { createInsertSchema } from "drizzle-zod";
 import { fileSchema, stringAsDateSchema } from "./shared.schema";
 
@@ -24,6 +24,10 @@ export const trackFormSchema = trackInsertSchema.extend({
       role: z.string(),
     })
     .array(),
+  author_rights: z.string().refine((value) => {
+    const valNum = Number(value);
+    return !isNaN(valNum) && valNum >= 1 && valNum <= 100;
+  }, "Значение должно быть числом больше или равно 1 и меньше либо равно 100"),
 });
 
 export type TTrackForm = z.infer<typeof trackFormSchema>;

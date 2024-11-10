@@ -9,6 +9,8 @@ import {
 import { getAuthSession } from "./auth";
 import { isAdminUser } from "./users";
 import { eq } from "drizzle-orm";
+import { sendVerificationNotification } from "./email";
+import { createSMTPClient } from "@/utils/createSMTPClient";
 
 export async function verifyData(data: TVerificationFormSchema) {
   const session = await getAuthSession();
@@ -66,6 +68,11 @@ export async function approveVerification(id: string) {
     .transaction(async () => {
       const verificationData = await db.query.verification.findFirst({
         where: (ver, { eq }) => eq(ver.id, id),
+        with: {
+          user: {
+            columns: { email: true },
+          },
+        },
       });
 
       if (!verificationData) {
@@ -81,6 +88,18 @@ export async function approveVerification(id: string) {
         .update(users)
         .set({ isVerifiedAuthor: true })
         .where(eq(users.id, verificationData.userId));
+
+      const transport = await createSMTPClient().catch(() => null);
+
+      if (!transport) {
+        throw new Error("Что-то пошло не так");
+      }
+
+      await sendVerificationNotification(
+        verificationData.user.email,
+        transport,
+        "approved"
+      );
     })
     .then(() => true)
     .catch(() => false);
@@ -100,9 +119,37 @@ export async function rejectVerification(id: string) {
   }
 
   const isSuccess = await db
-    .update(verification)
-    .set({ status: "rejected" })
-    .where(eq(verification.id, id))
+    .transaction(async () => {
+      const verificationData = await db.query.verification.findFirst({
+        where: (ver, { eq }) => eq(ver.id, id),
+        with: {
+          user: {
+            columns: { email: true },
+          },
+        },
+      });
+
+      if (!verificationData) {
+        throw new Error("there is not enough verifications");
+      }
+
+      await db
+        .update(verification)
+        .set({ status: "rejected" })
+        .where(eq(verification.id, id));
+
+      const transport = await createSMTPClient().catch(() => null);
+
+      if (!transport) {
+        throw new Error("Что-то пошло не так");
+      }
+
+      await sendVerificationNotification(
+        verificationData.user.email,
+        transport,
+        "rejected"
+      );
+    })
     .then(() => true)
     .catch(() => false);
 
