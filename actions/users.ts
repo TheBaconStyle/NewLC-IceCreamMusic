@@ -6,7 +6,7 @@ import { users } from "@/db/schema";
 import { profileFormSchema, TProfileSchema } from "@/schema/profile.schema";
 import { signUpSchema, TSignUpClientSchema } from "@/schema/signup.schema";
 import { hashPassword } from "@/utils/hashPassword";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { getAuthSession } from "./auth";
 import { sendSignUpConfirmEmail } from "@/actions/email";
@@ -14,6 +14,7 @@ import { createSMTPClient } from "@/utils/createSMTPClient";
 import { signJWT } from "@/utils/token";
 import { cookies } from "next/headers";
 import { sessionCookieName, sessionCookieOptions } from "@/config/auth";
+import { revalidateCurrentPath } from "./revalidate";
 
 export async function registerUser(userData: TSignUpClientSchema) {
   const { email, name, password } = signUpSchema.parse(userData);
@@ -215,5 +216,38 @@ export async function getUserBalance() {
   return {
     success: true,
     balance: user.balance,
+  };
+}
+
+export async function replenishBalance(userId: string, balance: number) {
+  const isAdmin = isAdminUser();
+
+  if (!isAdmin) {
+    return {
+      success: false,
+      message: "Недостаточно прав для совершения действия",
+    };
+  }
+
+  const isSuccess = await db
+    .update(users)
+    .set({
+      balance: sql`${users.balance} + ${balance.toFixed(2)}`,
+    })
+    .where(eq(users.id, userId))
+    .then(() => true)
+    .catch(() => false);
+
+  if (!isSuccess)
+    return {
+      success: false,
+      message: "Что-то пошло не так",
+    };
+
+  await revalidateCurrentPath();
+
+  return {
+    success: true,
+    message: "Балунс пользователя пополнен на указанную сумму",
   };
 }

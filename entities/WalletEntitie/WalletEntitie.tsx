@@ -1,13 +1,15 @@
 "use client";
+import { replenishBalance } from "@/actions/users";
+import MyButton from "@/shared/MyButton/MyButton";
+import MyInput from "@/shared/MyInput/MyInput";
+import MyText from "@/shared/MyText/MyText";
+import ModalPopup from "@/widgets/ModalPopup/ModalPopup";
+import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
-import MyButton from "@/shared/MyButton/MyButton";
-import style from "./WalletEntitie.module.css";
-import classNames from "classnames";
-import MyText from "@/shared/MyText/MyText";
+import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
-import ModalPopup from "@/widgets/ModalPopup/ModalPopup";
-import MyInput from "@/shared/MyInput/MyInput";
+import style from "./WalletEntitie.module.css";
 
 export default function WalletEntitie({
   id,
@@ -27,6 +29,8 @@ export default function WalletEntitie({
   vk: string | null;
 }) {
   const [showToPay, setShowToPay] = useState(false);
+
+  const [balance, setBalance] = useState(0);
 
   return (
     <div className={classNames("wrap gap30", style.rel)}>
@@ -127,12 +131,38 @@ export default function WalletEntitie({
           <MyText className="styleValue">Пользователь: {name}</MyText>
           <MyInput
             className="w100 mt40"
-            label={"Сумма начиления"}
-            type={"text"}
+            label="Сумма начиления"
+            type="number"
             inpLk
+            onChange={(e) => setBalance(Number(e.target.value))}
+            value={balance}
           />
           <div className="center">
-            <MyButton text={"Начислить"} view={"secondary"} />
+            <MyButton
+              text={"Начислить"}
+              view={"secondary"}
+              onClick={() => {
+                if (balance <= 0) {
+                  enqueueSnackbar({
+                    variant: "error",
+                    message:
+                      "Можно начислить выплату только на положительную сумму",
+                  });
+                  return;
+                }
+                replenishBalance(id, balance).then((data) => {
+                  enqueueSnackbar({
+                    variant: data.success ? "success" : "error",
+                    message: data.message,
+                  });
+
+                  if (data.success) {
+                    setBalance(0);
+                    setShowToPay(false);
+                  }
+                });
+              }}
+            />
           </div>
         </ModalPopup>
       </div>
