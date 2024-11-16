@@ -39,7 +39,7 @@ export function Wallet({ balance }: TWallet) {
         <div className={style.header__wrapper__icon}>
           <WalletIcon className={style.header__icon} />
         </div>
-        {balance} ₽
+        {balance?.toFixed(2)} ₽
       </button>
 
       {showYouKassa && (
