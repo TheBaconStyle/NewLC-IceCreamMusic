@@ -16,6 +16,7 @@ import {
 import { verifyData } from "@/actions/verification";
 import { enqueueSnackbar } from "notistack";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const VerificationForm = () => {
   const { handleSubmit, register } = useForm<TVerificationFormSchema>({
@@ -24,22 +25,26 @@ const VerificationForm = () => {
     progressive: true,
   });
 
+  const [isBlocked, setIsBlocked] = useState(false);
+
   const router = useRouter();
 
   return (
     <form
       className={style.formWrapper}
       onSubmit={handleSubmit(
-        (data) =>
-          verifyData(data).then((res) => {
-            enqueueSnackbar({
-              variant: res.success ? "success" : "error",
-              message: res.message,
-            });
-            if (res.success) {
-              router.push("/dashboard");
-            }
-          }),
+        async (data) => {
+          setIsBlocked(true);
+          const res = await verifyData(data);
+          enqueueSnackbar({
+            variant: res.success ? "success" : "error",
+            message: res.message,
+          });
+          setIsBlocked(false);
+          if (res.success) {
+            router.push("/dashboard");
+          }
+        },
         () => {
           enqueueSnackbar({
             variant: "error",
@@ -201,7 +206,12 @@ const VerificationForm = () => {
           />
         </div>
       </div>
-      <MyButton text={"Подписать договор"} view={"secondary"} type="submit" />
+      <MyButton
+        text={"Подписать договор"}
+        view={"secondary"}
+        type="submit"
+        disabled={isBlocked}
+      />
     </form>
   );
 };

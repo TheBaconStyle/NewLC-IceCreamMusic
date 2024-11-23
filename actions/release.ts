@@ -1,5 +1,6 @@
 "use server";
 
+import { createS3Client } from "@/config/s3";
 import { db } from "@/db";
 import { release, track, users } from "@/db/schema";
 import {
@@ -9,15 +10,13 @@ import {
   TReleaseInsert,
   TTrackForm,
 } from "@/schema/release.schema";
+import { createSMTPClient } from "@/utils/createSMTPClient";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { getAuthSession } from "./auth";
-import { revalidateCurrentPath, revalidatePathAction } from "./revalidate";
-import { createS3Client } from "@/config/s3";
-import { isAdminUser } from "./users";
-import CanvasThree from "../entities/CanvasThree/CanvasThree";
-import { createSMTPClient } from "@/utils/createSMTPClient";
 import { sendModerationNotification } from "./email";
+import { revalidateCurrentPath, revalidatePathAction } from "./revalidate";
+import { isAdminUser } from "./users";
 
 export async function uploadRelease(
   releaseData: FormData,

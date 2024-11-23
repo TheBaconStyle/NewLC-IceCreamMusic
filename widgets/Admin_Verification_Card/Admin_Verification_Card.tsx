@@ -36,6 +36,7 @@ const Admin_Verification_Card = ({ data }: IAdmin_Verification_Card) => {
   const handleShowDetail = () => {
     showDetail(!detail);
   };
+  const [isBlocked, setIsBlocked] = useState(false);
 
   return (
     <div className={style.wrap} key={id} onClick={handleShowDetail}>
@@ -132,28 +133,46 @@ const Admin_Verification_Card = ({ data }: IAdmin_Verification_Card) => {
       <div className={style.row}>
         <button
           className={style.success}
-          onClick={(e) => {
+          disabled={isBlocked}
+          onClick={async (e) => {
             e.stopPropagation();
-            approveVerification(id).then(() =>
+            setIsBlocked(true);
+            const res = await approveVerification(id);
+            if (!res.success) {
               enqueueSnackbar({
-                variant: "success",
-                message: "Статус обновлён",
-              })
-            );
+                variant: "error",
+                message: res.message,
+              });
+              return;
+            }
+            enqueueSnackbar({
+              variant: "success",
+              message: "Статус обновлён",
+            });
+            setIsBlocked(false);
           }}
         >
           Подтвердить
         </button>
         <button
           className={style.badSuccess}
-          onClick={(e) => {
+          disabled={isBlocked}
+          onClick={async (e) => {
             e.stopPropagation();
-            rejectVerification(id).then(() =>
+            setIsBlocked(true);
+            const res = await rejectVerification(id);
+            if (!res.success) {
               enqueueSnackbar({
-                variant: "success",
-                message: "Статус обновлён",
-              })
-            );
+                variant: "error",
+                message: res.message,
+              });
+              return;
+            }
+            enqueueSnackbar({
+              variant: "success",
+              message: "Статус обновлён",
+            });
+            setIsBlocked(false);
           }}
         >
           Отказать

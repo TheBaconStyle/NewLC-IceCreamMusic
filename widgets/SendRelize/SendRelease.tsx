@@ -66,13 +66,16 @@ const SendRelease = () => {
     setValue("tracks", newTracks);
   };
 
+  const [isBlocked, setIsBlocked] = useState(false);
+
   return (
     <div className={style["container"]}>
       <FormProvider {...formMethods}>
         <form
           className={style.form}
           onSubmit={handleSubmit(
-            (data) => {
+            async (data) => {
+              setIsBlocked(true);
               const { tracks, ...release } = data;
 
               const releaseData = {
@@ -92,19 +95,15 @@ const SendRelease = () => {
                 return objectToFormData(trackData);
               });
 
-              uploadRelease(releaseFormData, ...tracksFormData)
-                .catch((res) => {
-                  enqueueSnackbar({
-                    variant: "error",
-                    message: res.message,
-                  });
-                })
-                .then(() =>
-                  enqueueSnackbar({
-                    variant: "success",
-                    message: "Релиз успешно загружен",
-                  })
-                );
+              const res = await uploadRelease(
+                releaseFormData,
+                ...tracksFormData
+              );
+              enqueueSnackbar({
+                variant: res.success ? "success" : "error",
+                message: res.success ? "Релиз успешно загружен" : res.message,
+              });
+              setIsBlocked(false);
             },
             () =>
               enqueueSnackbar({
