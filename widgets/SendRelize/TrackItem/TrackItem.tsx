@@ -220,7 +220,12 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
             </MyText>
             <MyText className={style.subText}>
               Авторское вознаграждение выплачивается в соответствии с указанной
-              долей и условиям договора
+              долей и условиям договора. 
+            </MyText>
+            <MyText className={style.subText}>
+              <span style={{ color: "#fb4444" }}>
+                В скобках ОБЯЗАТЕЛЬНО укажите ФИО.
+              </span>
             </MyText>
           </div>
           <div className={style.row}>
@@ -404,9 +409,11 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
                 ...allLanguages,
               ]}
             />
+
             <MyCheckbox
               label="Добавить текст трека"
               checked={addText}
+              className="w100"
               onChange={() => {
                 if (addText) {
                   handleTrackChange({ text: null });
@@ -415,6 +422,7 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
               }}
               name={`addText-${fileName}`}
             />
+
             {addText && (
               <>
                 <MyTitle className={style.mt10} Tag={"h4"}>
@@ -433,6 +441,7 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
             )}
             <MyCheckbox
               label="Добавить синхронизацию теста"
+              className="w100"
               checked={addTextSync}
               onChange={() => {
                 if (addTextSync) {
@@ -476,6 +485,7 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
             />
             <MyCheckbox
               label="Добавить видео к треку"
+              className="w100"
               checked={addVideo}
               onChange={() => {
                 if (addVideo) {
@@ -507,6 +517,7 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
             <MyCheckbox
               label="Добавить видео-шот"
               checked={addVideoShot}
+              className="w100"
               onChange={() => {
                 console.log("qweqweqwe");
                 if (addVideoShot) {

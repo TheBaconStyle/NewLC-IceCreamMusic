@@ -213,7 +213,10 @@ const SendRelease = () => {
               <MyTitle Tag={"h2"}>Персоны и роли</MyTitle>
               <MyText className={style.desc}>
                 Для Исполнителей, Соисполнителей (feat.), Remixer необходимо
-                указать псевдоним артиста, группы или проекта.
+                указать псевдоним артиста, группы или проекта.{" "}
+                <span style={{ color: "#fb4444" }}>
+                  В скобках ОБЯЗАТЕЛЬНО укажите ФИО.
+                </span>
               </MyText>
             </div>
             <div className={style.row}>

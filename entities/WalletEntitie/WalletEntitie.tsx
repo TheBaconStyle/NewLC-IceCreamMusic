@@ -19,6 +19,7 @@ export default function WalletEntitie({
   whatsapp,
   viber,
   vk,
+  email,
 }: {
   id: string;
   avatar: string | null;
@@ -27,6 +28,7 @@ export default function WalletEntitie({
   whatsapp: string | null;
   viber: string | null;
   vk: string | null;
+  email: string;
 }) {
   const [showToPay, setShowToPay] = useState(false);
 
@@ -104,6 +106,19 @@ export default function WalletEntitie({
                 <Link className="styleValue" href={viber}>
                   Viber
                 </Link>
+              ) : (
+                <MyText className="styleValue">
+                  <span className="warning">Не указано</span>
+                </MyText>
+              )}
+            </div>
+
+            <div className="col">
+              <MyText className="styleTitle">Почта</MyText>
+              {viber ? (
+                <a className="styleValue" href={`mailto:${email}`}>
+                  {email}
+                </a>
               ) : (
                 <MyText className="styleValue">
                   <span className="warning">Не указано</span>

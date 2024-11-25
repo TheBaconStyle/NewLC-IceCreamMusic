@@ -25,6 +25,7 @@ export default async function AdminWalletPage({
       telegram: users.telegram,
       whatsapp: users.whatsapp,
       viber: users.viber,
+      email: users.email,
     })
     .from(users)
     .innerJoin(release, eq(users.id, release.authorId))
@@ -44,6 +45,7 @@ export default async function AdminWalletPage({
             whatsapp={ud.whatsapp}
             viber={ud.viber}
             vk={ud.viber}
+            email={ud.email}
           />
         ))}
       </div>

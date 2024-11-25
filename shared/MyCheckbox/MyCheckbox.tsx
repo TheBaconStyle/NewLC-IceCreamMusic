@@ -10,7 +10,7 @@ import IIcon from "../../public/InfoIcon/i.svg";
 const MyCheckbox = forwardRef<HTMLInputElement, IMyCheckboxProps>(
   function MyCheckbox({ label, className, tooltip, name, ...props }, ref) {
     return (
-      <div className={style.row}>
+      <div className={classNames(className, style.row)}>
         <input
           id={name}
           name={name}

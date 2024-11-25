@@ -1,4 +1,6 @@
 export const allLanguages = [
+  { value: "rus", label: "Russian " },
+  { value: "eng", label: "English " },
   { value: "aar", label: "Afar " },
   { value: "abk", label: "Abkhazian " },
   { value: "ace", label: "Achinese " },
@@ -128,7 +130,6 @@ export const allLanguages = [
   { value: "egy", label: "Egyptian (Ancient) " },
   { value: "eka", label: "Ekajuk " },
   { value: "elx", label: "Elamite " },
-  { value: "eng", label: "English " },
   { value: "enm", label: "English " },
   { value: "epo", label: "Esperanto " },
   { value: "est", label: "Estonian " },
@@ -371,7 +372,6 @@ export const allLanguages = [
   { value: "rum", label: "Romanian Moldavian Moldovan " },
   { value: "run", label: "Rundi " },
   { value: "rup", label: "Aromanian Arumanian Macedo-Romanian " },
-  { value: "rus", label: "Russian " },
   { value: "sad", label: "Sandawe " },
   { value: "sag", label: "Sango " },
   { value: "sah", label: "Yakut " },

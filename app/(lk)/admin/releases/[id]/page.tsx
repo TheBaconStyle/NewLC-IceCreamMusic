@@ -250,7 +250,7 @@ export default async function AdminReleaseDetailPage({
                             <MyText className={style.title}>Ссылка</MyText>
                             <Link
                               href={`${process.env.NEXT_PUBLIC_S3_URL}/tracks/${e.id}.${e.track}`}
-                              download
+                              download={`${e.title}.${e.track}`}
                               className={style.link}
                               prefetch={false}
                             >
