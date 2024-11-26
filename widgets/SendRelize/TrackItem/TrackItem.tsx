@@ -167,6 +167,11 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
               имена и фамилии, не указывайте псевдонимы артистов, групп или
               проектов.
             </MyText>
+            <MyText className={style.subText}>
+              <span style={{ color: "#fb4444" }}>
+                В скобках ОБЯЗАТЕЛЬНО укажите ФИО.
+              </span>
+            </MyText>
           </div>
           {persons &&
             persons.map((p, i) => (
@@ -221,11 +226,6 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
             <MyText className={style.subText}>
               Авторское вознаграждение выплачивается в соответствии с указанной
               долей и условиям договора. 
-            </MyText>
-            <MyText className={style.subText}>
-              <span style={{ color: "#fb4444" }}>
-                В скобках ОБЯЗАТЕЛЬНО укажите ФИО.
-              </span>
             </MyText>
           </div>
           <div className={style.row}>

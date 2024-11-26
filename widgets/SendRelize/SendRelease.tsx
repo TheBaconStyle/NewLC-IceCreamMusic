@@ -32,6 +32,7 @@ import IMySelectProps from "../../shared/MySelect/MySelect.props";
 import style from "./SendRelease.module.css";
 import { TrackItem } from "./TrackItem/TrackItem";
 import { enqueueSnackbar } from "notistack";
+import { labelCost } from "@/helpers/priceList";
 
 const SendRelease = () => {
   const [showPlatforms, setShowPlatforms] = useState<boolean>(false);
@@ -307,7 +308,14 @@ const SendRelease = () => {
               <MyTitle Tag={"h2"}>Название лейбла</MyTitle>
               <MyText className={classNames(style.desc, style.mb20)}>
                 Укажите наименование лейбла, данная информация будет отображена
-                на площадках
+                на площадках.
+              </MyText>
+              <MyText className={classNames(style.desc, style.mb20)}>
+                Стоимость изменения лейбла: без подписки: {labelCost.none}р, с
+                подпиской уровня &quot;Стандарт&quot;: {labelCost.standard}р, с
+                подпиской уровня &quot;Профессионал&quot;:{" "}
+                {labelCost.professional}р, с подпиской уровня
+                &quot;Энтерпрайз&quot;: {labelCost.enterprise}р
               </MyText>
               <MyCheckbox
                 label={"Изменить лейбл"}

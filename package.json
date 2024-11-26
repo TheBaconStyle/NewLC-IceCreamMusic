@@ -29,6 +29,7 @@
     "drizzle-orm": "^0.32.0",
     "drizzle-zod": "^0.5.1",
     "framer-motion": "^11.3.8",
+    "ipull": "^3.9.2",
     "iron-session": "^8.0.2",
     "jose": "^5.9.6",
     "leva": "^0.9.35",

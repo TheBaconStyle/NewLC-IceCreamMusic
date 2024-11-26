@@ -51,12 +51,18 @@ export function ProfileEdit({
               data.birthDate?.length !== 0 ? data.birthDate : undefined,
           });
 
-          editProfile(profileData).then((data) =>
-            enqueueSnackbar({
-              variant: data.success ? "success" : "error",
-              message: data.message,
-            })
-          );
+          editProfile(profileData).then((data) => {
+            if (data) {
+              return enqueueSnackbar({
+                variant: data.success ? "success" : "error",
+                message: data.message,
+              });
+            }
+            return enqueueSnackbar({
+              variant: "success",
+              message: "Профиль обновлён",
+            });
+          });
         },
         () =>
           enqueueSnackbar({

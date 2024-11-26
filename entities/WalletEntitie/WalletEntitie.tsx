@@ -44,6 +44,7 @@ export default function WalletEntitie({
               : "/assets/noAvatar.png"
           }
           alt={name}
+          unoptimized
           width={100}
           height={100}
         />

@@ -9,6 +9,7 @@ import { z } from "zod";
 import { ConfirmButton } from "./ConfirmButton";
 import style from "./page.module.css";
 import { RejectButton } from "./RejectButton";
+import { DownloadButton } from "./DownloadButton";
 
 export default async function AdminReleaseDetailPage({
   params,
@@ -248,14 +249,20 @@ export default async function AdminReleaseDetailPage({
                           </MyTitle>
                           <div className="col mt10">
                             <MyText className={style.title}>Ссылка</MyText>
-                            <Link
+                            {/* <Link
                               href={`${process.env.NEXT_PUBLIC_S3_URL}/tracks/${e.id}.${e.track}`}
                               download={`${e.title}.${e.track}`}
                               className={style.link}
                               prefetch={false}
                             >
                               Файл
-                            </Link>
+                            </Link> */}
+                            <DownloadButton
+                              type="button"
+                              src={`${process.env.NEXT_PUBLIC_S3_URL}/tracks/${e.id}.${e.track}`}
+                              fileName={`${e.title}.${e.track}`}
+                              className={style.link}
+                            />
                           </div>
                         </div>
 
