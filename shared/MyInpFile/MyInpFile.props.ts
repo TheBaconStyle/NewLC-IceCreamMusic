@@ -6,4 +6,5 @@ export default interface IMyInpFile
     HTMLInputElement
   > {
   onFileChange?: (files: FileList | null) => void;
+  srcPrev?: string;
 }

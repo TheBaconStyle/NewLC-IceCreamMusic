@@ -33,6 +33,7 @@ import style from "./SendRelease.module.css";
 import { TrackItem } from "./TrackItem/TrackItem";
 import { enqueueSnackbar } from "notistack";
 import { labelCost } from "@/helpers/priceList";
+import russificator from "./russificator";
 
 const SendRelease = () => {
   const [showPlatforms, setShowPlatforms] = useState<boolean>(false);
@@ -110,17 +111,16 @@ const SendRelease = () => {
             },
             (e) => {
               const generalErrors = Object.keys(e)
-                .filter((i) => i !== "tracks")
-                .join(", ");
+                .filter((i) => i !== "tracks");
 
               const tracksErrors = Array.isArray(e.tracks)
                 ? e.tracks
                     ?.map(
                       (t, i) =>
                         t &&
-                        `Трек ${
+                        `Трек №${
                           i + 1
-                        } по счету из формы не заполнено: ${Object.keys(t).join(
+                        } из формы не заполнено: ${Object.keys(t).join(
                           ", "
                         )}`
                     )
@@ -130,7 +130,7 @@ const SendRelease = () => {
 
               enqueueSnackbar({
                 variant: "error",
-                message: [generalErrors, tracksErrors].join("\n"),
+                message: <div>{russificator(generalErrors)}<br/>{tracksErrors}</div>
               });
             }
           )}

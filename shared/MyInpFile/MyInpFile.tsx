@@ -10,10 +10,10 @@ import style from "./MyInpFile.module.css";
 import IMyInpFile from "./MyInpFile.props";
 
 const MyInpFile = forwardRef<HTMLInputElement, IMyInpFile>(function Input(
-  { className, onFileChange, ...props },
+  { className, onFileChange, srcPrev, ...props },
   ref
 ) {
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(srcPrev ?? null);
   const [showClose, setShowClose] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
