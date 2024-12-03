@@ -100,17 +100,39 @@ const SendRelease = () => {
                 releaseFormData,
                 ...tracksFormData
               );
+
               enqueueSnackbar({
                 variant: res.success ? "success" : "error",
                 message: res.success ? "Релиз успешно загружен" : res.message,
               });
+
               setIsBlocked(false);
             },
-            () =>
+            (e) => {
+              const generalErrors = Object.keys(e)
+                .filter((i) => i !== "tracks")
+                .join(", ");
+
+              const tracksErrors = Array.isArray(e.tracks)
+                ? e.tracks
+                    ?.map(
+                      (t, i) =>
+                        t &&
+                        `Трек ${
+                          i + 1
+                        } по счету из формы не заполнено: ${Object.keys(t).join(
+                          ", "
+                        )}`
+                    )
+                    .filter(Boolean)
+                    .join(";")
+                : "";
+
               enqueueSnackbar({
                 variant: "error",
-                message: "Проверьте ещё раз заполнение обязательных полей",
-              })
+                message: [generalErrors, tracksErrors].join("\n"),
+              });
+            }
           )}
         >
           <div className={style.row}>
