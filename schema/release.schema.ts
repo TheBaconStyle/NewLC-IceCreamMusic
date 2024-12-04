@@ -23,7 +23,15 @@ export const trackFormSchema = trackInsertSchema.extend({
       person: z.string(),
       role: z.string(),
     })
-    .array(),
+    .array()
+    .refine((value) => {
+      const roles = value.map((v) => v.role);
+      const hasPerformer = roles.includes("Исполнитель");
+      const hasTextAuthor = roles.includes("Автор слов");
+      const hasMelodyAuthor = roles.includes("Автор музыки");
+      return hasMelodyAuthor && hasTextAuthor && hasPerformer;
+    }),
+  language: z.string().min(1),
   author_rights: z.string().refine((value) => {
     const valNum = Number(value);
     return !isNaN(valNum) && valNum >= 1 && valNum <= 100;

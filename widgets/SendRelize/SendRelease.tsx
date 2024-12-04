@@ -33,7 +33,11 @@ import style from "./SendRelease.module.css";
 import { TrackItem } from "./TrackItem/TrackItem";
 import { enqueueSnackbar } from "notistack";
 import { labelCost } from "@/helpers/priceList";
-import russificator, { TReleaseFormTrimmed } from "./russificator";
+import trackRusificator, {
+  type TReleaseFormTrimmed,
+  TTrackFormTrimmed,
+  releaseRussificator,
+} from "./russificator";
 
 const SendRelease = () => {
   const [showPlatforms, setShowPlatforms] = useState<boolean>(false);
@@ -77,7 +81,13 @@ const SendRelease = () => {
           className={style.form}
           onSubmit={handleSubmit(
             async (data) => {
+              enqueueSnackbar({
+                variant: "info",
+                message: "Загружаем релиз. Подождите.",
+              });
+
               setIsBlocked(true);
+
               const { tracks, ...release } = data;
 
               const releaseData = {
@@ -97,17 +107,21 @@ const SendRelease = () => {
                 return objectToFormData(trackData);
               });
 
-              const res = await uploadRelease(
-                releaseFormData,
-                ...tracksFormData
+              await uploadRelease(releaseFormData, ...tracksFormData).then(
+                (res) => {
+                  setIsBlocked(false);
+                  if (res) {
+                    return enqueueSnackbar({
+                      variant: "error",
+                      message: res.message,
+                    });
+                  }
+                  return enqueueSnackbar({
+                    variant: "success",
+                    message: "Релиз успешно загружен",
+                  });
+                }
               );
-
-              enqueueSnackbar({
-                variant: res.success ? "success" : "error",
-                message: res.success ? "Релиз успешно загружен" : res.message,
-              });
-
-              setIsBlocked(false);
             },
             (e) => {
               const generalErrors = Object.keys(e).filter(
@@ -121,8 +135,8 @@ const SendRelease = () => {
                         t &&
                         `Трек №${
                           i + 1
-                        } из формы неверно заполнено: ${Object.keys(t).join(
-                          ", "
+                        } из формы неверно заполнено: ${trackRusificator(
+                          Object.keys(t) as (keyof TTrackFormTrimmed)[]
                         )}`
                     )
                     .filter(Boolean)
@@ -133,7 +147,7 @@ const SendRelease = () => {
                 variant: "error",
                 message: (
                   <div>
-                    {russificator(generalErrors)}
+                    {releaseRussificator(generalErrors)}
                     <br />
                     {tracksErrors}
                   </div>

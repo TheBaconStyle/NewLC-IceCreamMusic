@@ -21,7 +21,6 @@ import ITrackItem from "./TrackItem.props";
 
 export function TrackItem({ fileName, trackIndex }: ITrackItem) {
   const [detail, setDetail] = useState(false);
-  const [persons, setPersons] = useState([{ id: 1, person: "", role: "" }]);
   const [language, setLanguage] = useState<IMySelectProps["value"]>();
   const [addVideo, setAddVideo] = useState(false);
   const [addVideoShot, setAddVideoShot] = useState(false);
@@ -34,7 +33,7 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
   const { getValues, setValue, watch } = useFormContext<TReleaseForm>();
 
   const handleDeleteRole = (idx: number) => {
-    setPersons([...persons.slice(0, idx), ...persons.slice(idx + 1)]);
+    handleTrackChange({ roles: track.roles.filter((_, i) => i !== idx) });
   };
 
   const track = watch("tracks")[trackIndex];
@@ -159,59 +158,51 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
           <div className={style.desc}>
             <MyTitle Tag={"h3"}>Персоны и роли</MyTitle>
             <MyText className={style.subText}>
-              Для Исполнителей, Соисполнителей (feat.), Producer и Remixer
-              необходимо указать псевдоним артиста, группы или проекта.
-            </MyText>
-            <MyText className={style.subText}>
-              Для Авторов музыки и Авторов слов необходимо указать фактические
-              имена и фамилии, не указывайте псевдонимы артистов, групп или
-              проектов.
+              Для Авторов музыки и Авторов слов и Исполнителей необходимо
+              указать фактические имена и фамилии, не указывайте псевдонимы
+              артистов, групп или проектов.
             </MyText>
             <MyText className={style.subText}>
               <span style={{ color: "#fb4444" }}>
-                В скобках ОБЯЗАТЕЛЬНО укажите ФИО.
+                Обязательно указать исполнителя, автора музыки и автора текста
               </span>
             </MyText>
           </div>
-          {persons &&
-            persons.map((p, i) => (
-              <div key={p.id} className={style.row}>
-                <MyInput
-                  label={"Имя персоны"}
-                  placeholder="Введите имя персоны"
-                  inpLk
-                  type={"text"}
-                  value={Array.from(track.roles).at(i)?.person}
-                  onChange={(e) =>
-                    handleChangeRole(i, { person: e.target.value })
-                  }
+          {track.roles.map((p, i) => (
+            <div key={i} className={style.row}>
+              <MyInput
+                label={`Имя персоны`}
+                placeholder="Введите имя персоны"
+                inpLk
+                type={"text"}
+                value={Array.from(track.roles).at(i)?.person}
+                onChange={(e) =>
+                  handleChangeRole(i, { person: e.target.value })
+                }
+              />
+              <div className={style.w30}>
+                <MySelect
+                  className={style.select}
+                  label={"Выберите роль"}
+                  options={allRoles}
+                  value={allRoles.find((r) => r.value === p.role)}
+                  onValueChange={({ value }) => {
+                    handleChangeRole(i, { role: value });
+                  }}
                 />
-                <div className={style.w30}>
-                  <MySelect
-                    className={style.select}
-                    label={"Выберите роль"}
-                    options={allRoles}
-                    onValueChange={({ value }) => {
-                      handleChangeRole(i, { role: value });
-                    }}
-                  />
-                </div>
-                <div
-                  className={style.delete}
-                  onClick={() => handleDeleteRole(p.id)}
-                >
-                  <div className={style.line1}></div>
-                  <div className={style.line2}></div>
-                </div>
               </div>
-            ))}
+              <div className={style.delete} onClick={() => handleDeleteRole(i)}>
+                <div className={style.line1}></div>
+                <div className={style.line2}></div>
+              </div>
+            </div>
+          ))}
           <div
             className={style.btn}
             onClick={() => {
-              setPersons([
-                ...persons,
-                { person: "", role: "", id: persons.length + 1 },
-              ]);
+              handleTrackChange({
+                roles: [...track.roles, { person: "", role: "" }],
+              });
             }}
           >
             Добавить персону

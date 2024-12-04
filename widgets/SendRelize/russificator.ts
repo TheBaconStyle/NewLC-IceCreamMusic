@@ -1,11 +1,11 @@
-import { TReleaseForm } from "@/schema/release.schema";
+import { TReleaseForm, TTrackForm } from "@/schema/release.schema";
 
 export type TReleaseFormTrimmed = Omit<
   TReleaseForm,
   "tracks" | "labelName" | "upc"
 >;
 
-const rusText: Record<keyof TReleaseFormTrimmed, string> = {
+const releaseRusText: Record<keyof TReleaseFormTrimmed, string> = {
   language: "Язык",
   title: "Название релиза",
   type: "Тип релиза",
@@ -22,13 +22,36 @@ const rusText: Record<keyof TReleaseFormTrimmed, string> = {
   remixer: "Персоны и роли",
 };
 
-export default function russificator(
+export function releaseRussificator(
   engArray: (keyof TReleaseFormTrimmed)[]
 ): string {
-  const rusArray: string[] = [];
-  engArray.forEach((e) => {
-    e in rusText ? rusArray.push(rusText[e]) : rusArray.push(e);
-  });
-  rusArray.join(",  ");
-  return `Некорректный ввод данных в полях: ${rusArray}`;
+  const fieldsString = engArray
+    .map((e) => {
+      return e in releaseRusText ? releaseRusText[e] : e;
+    })
+    .join(",  ");
+
+  return `Некорректный ввод данных в полях: ${fieldsString}`;
+}
+
+export type TTrackFormTrimmed = Pick<
+  TTrackForm,
+  "author_rights" | "language" | "title" | "roles"
+>;
+
+export const trackRusText: Record<keyof TTrackFormTrimmed, string> = {
+  author_rights: "Авторские права",
+  language: "Язык",
+  title: "Название трека",
+  roles: "Персоны и роли",
+};
+
+export default function trackRusificator(
+  engArray: (keyof TTrackFormTrimmed)[]
+) {
+  return engArray
+    .map((e) => {
+      return e in trackRusText ? trackRusText[e] : e;
+    })
+    .join(", ");
 }
