@@ -1,7 +1,7 @@
 services:
   icecream_crud:
     container_name: icecream_cron
-    image: icecreammusic_cron:31-10-2024-22-09
+    image: icecreammusic_cron:latest
     environment:
       DB_USER: ${DB_USER:?error}
       DB_PASSWORD: ${DB_PASSWORD:?error}
@@ -17,7 +17,7 @@ services:
       - postgres
   icecream:
     container_name: icecream_app
-    image: icecreammusic:31-10-2024-22-09
+    image: icecreammusic:latest
     environment:
       AUTH_SECRET: ${AUTH_SECRET:?error}
       SALT_ROUNDS: ${SALT_ROUNDS:?error}
@@ -30,6 +30,7 @@ services:
       SMTP_HOST: ${SMTP_HOST:?error}
       SMTP_PORT: ${SMTP_PORT:?error}
       SMTP_USER: ${SMTP_USER:?error}
+      SMTP_SECURE: ${SMTP_SECURE:?error}
       SMTP_PASSWORD: ${SMTP_PASSWORD:?error}
       MAGIC_LINK_SECRET: ${MAGIC_LINK_SECRET:?error}
       S3_HOST: minio
