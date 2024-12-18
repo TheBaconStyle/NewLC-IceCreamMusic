@@ -39,7 +39,11 @@ import trackRusificator, {
   releaseRussificator,
 } from "./russificator";
 
-const SendRelease = () => {
+export type TSendRelease = {
+  release?: TReleaseForm;
+};
+
+const SendRelease = ({ release = {} as any }: TSendRelease) => {
   const [showPlatforms, setShowPlatforms] = useState<boolean>(false);
   const [showAreasLands, setShowAreasLands] = useState<boolean>(false);
   const [languageValue, setLanguageValue] = useState<IMySelectProps["value"]>();
@@ -49,7 +53,7 @@ const SendRelease = () => {
 
   const formMethods = useForm<TReleaseForm>({
     resolver: zodResolver(releaseFormSchema),
-    defaultValues: { labelName: standardLabelName },
+    defaultValues: { ...release, labelName: standardLabelName },
     progressive: true,
   });
 
@@ -609,7 +613,12 @@ const SendRelease = () => {
             ))}
 
           <div className={style.wrap}>
-            <MyButton text="Отправить релиз" view="secondary" type="submit" />
+            <MyButton
+              text="Отправить релиз"
+              view="secondary"
+              type="submit"
+              disabled={isBlocked}
+            />
           </div>
         </form>
       </FormProvider>
