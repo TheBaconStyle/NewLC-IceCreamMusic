@@ -1,9 +1,10 @@
 "use client";
 import style from "./CardStore.module.css";
-import IStore from "../../../data/site/Stores/Stores.interface";
+
 import { motion } from "framer-motion";
 import { useContext } from "react";
 import { ThemeContextSite } from "../../../context/ThemeContextSite";
+import IStore from "@/helpers/site/Stores/Stores.interface";
 export const CardStore = ({ image, alt, alternativeImage }: IStore) => {
   const { theme } = useContext(ThemeContextSite);
 

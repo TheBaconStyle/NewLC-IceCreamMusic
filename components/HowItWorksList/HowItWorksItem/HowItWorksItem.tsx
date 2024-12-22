@@ -1,5 +1,5 @@
+import IHowItWorks from "@/helpers/site/HowItWorks/HowItWorks.interface";
 import style from "./HowItWorksItem.module.css";
-import IHowItWorks from "../../../data/site/HowItWorks/HowItWorks.interface";
 
 export const HowItWorksItem = ({
   altIcon,

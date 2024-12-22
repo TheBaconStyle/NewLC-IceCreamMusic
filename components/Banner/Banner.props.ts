@@ -1,5 +1,5 @@
+import IBannerIntresting from "@/helpers/site/BannerIntresting/BannerIntresting.interface";
 import { DetailedHTMLProps, HTMLAttributes } from "react";
-import IBannerIntresting from "../../data/site/BannerIntresting/BannerIntresting.interface";
 
 export default interface IBannerProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

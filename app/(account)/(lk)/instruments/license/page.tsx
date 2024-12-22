@@ -7,7 +7,7 @@ import MyText from "@/shared/MyText/MyText";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import VerificationForm from "@/widgets/VerificationForm/VerificationForm";
 import classNames from "classnames";
-import PassportIcon from "../../../../public/License/Passport.svg";
+import PassportIcon from "../../../../../public/License/Passport.svg";
 import style from "./page.module.css";
 
 export default async function VerificationPage() {
