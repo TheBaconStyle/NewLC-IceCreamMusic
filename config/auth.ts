@@ -7,7 +7,14 @@ export type RouteType = (typeof routeTypes)[number];
 
 export const routes: Record<RouteType, string[]> = {
   guest: ["/signin", "/signup", "/confirm", "/recover", "/reset"],
-  public: ["/signout"],
+  public: [
+    "/signout",
+    "/questions",
+    "/terms",
+    "/distributions",
+    "/platforms",
+    "/",
+  ],
 };
 
 export const defaultAuthRedirect = "/dashboard";

@@ -41,15 +41,15 @@ const nextConfig = {
 
     return config;
   },
-  redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/dashboard",
-        permanent: false,
-      },
-    ];
-  },
+  // redirects() {
+  //   return [
+  //     {
+  //       source: "/",
+  //       destination: "/dashboard",
+  //       permanent: false,
+  //     },
+  //   ];
+  // },
   images: {
     remotePatterns: [
       {
