@@ -1,13 +1,12 @@
 "use client";
+import { approveRelease } from "@/actions/release/moderate";
 import MyButton from "@/shared/MyButton/MyButton";
-import { useParams } from "next/navigation";
-import style from "./page.module.css";
-import { approveRelease } from "@/actions/release";
-import { enqueueSnackbar } from "notistack";
-import ModalPopup from "@/widgets/ModalPopup/ModalPopup";
-import MyTextArea from "@/shared/MyTextArea/MyTextArea";
-import { useEffect, useState } from "react";
 import MyInput from "@/shared/MyInput/MyInput";
+import ModalPopup from "@/widgets/ModalPopup/ModalPopup";
+import { useParams } from "next/navigation";
+import { enqueueSnackbar } from "notistack";
+import { useEffect, useState } from "react";
+import style from "./page.module.css";
 
 export function ConfirmButton() {
   const [show, setShow] = useState(false);

@@ -3,7 +3,7 @@ import { useParams } from "next/navigation";
 import style from "./page.module.css";
 import classNames from "classnames";
 import MyButton from "@/shared/MyButton/MyButton";
-import { rejectRelease } from "@/actions/release";
+import { rejectRelease } from "@/actions/release/moderate";
 import { enqueueSnackbar } from "notistack";
 import ModalPopup from "@/widgets/ModalPopup/ModalPopup";
 import { useEffect, useState } from "react";

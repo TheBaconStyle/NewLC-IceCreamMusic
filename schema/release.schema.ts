@@ -1,7 +1,9 @@
 import { release, track } from "@/db/schema";
-import { number, z } from "zod";
 import { createInsertSchema } from "drizzle-zod";
+import { z } from "zod";
 import { fileSchema, stringAsDateSchema } from "./shared.schema";
+
+export const optionalFileSchema = fileSchema.optional();
 
 export const trackInsertSchema = createInsertSchema(track).omit({
   id: true,
@@ -13,10 +15,10 @@ export type TTrackInsert = z.infer<typeof trackInsertSchema>;
 export const trackFormSchema = trackInsertSchema.extend({
   title: z.string().min(1),
   track: fileSchema,
-  text_sync: fileSchema.optional(),
-  ringtone: fileSchema.optional(),
-  video: fileSchema.optional(),
-  video_shot: fileSchema.optional(),
+  text_sync: optionalFileSchema,
+  ringtone: optionalFileSchema,
+  video: optionalFileSchema,
+  video_shot: optionalFileSchema,
   instant_gratification: stringAsDateSchema.optional(),
   roles: z
     .object({
@@ -40,30 +42,51 @@ export const trackFormSchema = trackInsertSchema.extend({
 
 export type TTrackForm = z.infer<typeof trackFormSchema>;
 
-export const releaseInsertSchema = createInsertSchema(release);
+export const releaseInsertSchema = createInsertSchema(release).omit({
+  id: true,
+  authorId: true,
+});
+
+export const releasePreviewSchema = fileSchema.refine((file) => {
+  return file.size < 30000000;
+});
+
+export const areaSchema = z.object({
+  negate: z.boolean(),
+  data: z.string().array(),
+});
+
+export const platformSchema = z.string().array();
+
+export type TValidatedTrackFiles = Record<
+  keyof Pick<TTrackInsert, "track">,
+  z.infer<typeof fileSchema>
+> &
+  Partial<
+    Record<
+      keyof Pick<
+        TTrackInsert,
+        "ringtone" | "text_sync" | "video" | "video_shot"
+      >,
+      z.infer<typeof optionalFileSchema>
+    >
+  >;
 
 export type TReleaseInsert = z.infer<typeof releaseInsertSchema>;
 
 export const releaseFormSchema = releaseInsertSchema
   .omit({
-    id: true,
-    authorId: true,
     status: true,
     rejectReason: true,
     confirmed: true,
   })
   .extend({
     title: z.string().min(1),
-    preview: z.any().refine((file: File) => {
-      return file instanceof File && file.size < 30000000;
-    }),
+    preview: releasePreviewSchema,
 
-    area: z.object({
-      negate: z.boolean(),
-      data: z.string().array(),
-    }),
+    area: areaSchema,
 
-    platforms: z.string().array(),
+    platforms: platformSchema,
 
     tracks: trackFormSchema.array().min(1),
 
@@ -75,31 +98,3 @@ export const releaseFormSchema = releaseInsertSchema
   });
 
 export type TReleaseForm = z.infer<typeof releaseFormSchema>;
-
-// export const releaseClientSchema = releaseFormSchema.transform(
-//   ({ startDate, releaseDate, preorderDate, ...data }) => ({
-//     startDate: startDate.toISOString(),
-//     releaseDate: releaseDate.toISOString(),
-//     preorderDate: preorderDate.toISOString(),
-//     ...data,
-//   })
-// );
-
-// export const releaseServerSchema = releaseFormSchema
-//   .extend({
-//     startDate: z.string(),
-//     releaseDate: z.string(),
-//     preorderDate: z.string(),
-//   })
-//   .transform(({ startDate, releaseDate, preorderDate, ...data }) => ({
-//     startDate: new Date(startDate),
-//     releaseDate: new Date(releaseDate),
-//     preorderDate: new Date(preorderDate),
-//     ...data,
-//   }));
-
-// export type TReleaseServerSchema = z.infer<typeof releaseServerSchema>;
-
-// export const selectReleaseSchema = createSelectSchema(release);
-
-// export type TReleaseSelect = z.infer<typeof selectReleaseSchema>;

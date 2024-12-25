@@ -1,8 +1,6 @@
 import { z } from "zod";
 
-export const fileSchema = z.any().refine((file: File) => {
-  return file instanceof File;
-});
+export const fileSchema = z.instanceof(File);
 
 export const stringAsDateSchema = z.string().refine((value) => {
   try {

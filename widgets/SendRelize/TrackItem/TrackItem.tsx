@@ -436,7 +436,7 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
               checked={addTextSync}
               onChange={() => {
                 if (addTextSync) {
-                  handleTrackChange({ text_sync: null });
+                  handleTrackChange({ text_sync: undefined });
                 }
                 setAddTextSync(!addTextSync);
               }}
@@ -480,7 +480,7 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
               checked={addVideo}
               onChange={() => {
                 if (addVideo) {
-                  handleTrackChange({ video: null });
+                  handleTrackChange({ video: undefined });
                 }
                 setAddVideo(!addVideo);
               }}
@@ -512,7 +512,7 @@ export function TrackItem({ fileName, trackIndex }: ITrackItem) {
               onChange={() => {
                 console.log("qweqweqwe");
                 if (addVideoShot) {
-                  handleTrackChange({ video_shot: null });
+                  handleTrackChange({ video_shot: undefined });
                 }
                 setAddVideoShot(!addVideoShot);
               }}
