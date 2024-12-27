@@ -9,7 +9,7 @@ import MyText from "../../../shared/MyText/MyText";
 import { useFormContext } from "react-hook-form";
 import { TReleaseForm, TTrackForm } from "@/schema/release.schema";
 
-const DragAndDropFile = ({ setTracks, tracks }) => {
+const DragAndDropFile = ({ appendTrack }) => {
   const [drag, setDrag] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
@@ -25,36 +25,41 @@ const DragAndDropFile = ({ setTracks, tracks }) => {
     setDrag(false);
   };
 
+  const handleAppendFiles = (newFiles: File[]) => {
+    const withoutErrors = newFiles.every((track) => {
+      const typeTrack = track.type.split("/")[1];
+      return typeTrack == "wav" || typeTrack == "flac";
+    });
+
+    if (withoutErrors) {
+      newFiles.forEach((track) => {
+        appendTrack({
+          language: "",
+          partner_code: "",
+          preview_start: "",
+          roles: [],
+          subtitle: "",
+          title: "",
+          track: track,
+        });
+      });
+    } else {
+      setError(true);
+    }
+  };
+
   const handleLoadFile = (e: ChangeEvent<HTMLInputElement>) => {
+    setError(false);
+
     setDrag(false);
 
     let newFiles = Array.from(e.target.files ?? []);
 
-    const tracks = getValues("tracks");
-
-    let newTracks = [
-      ...Array.from(tracks ?? []),
-      ...newFiles.map(
-        (f) =>
-          ({
-            language: "",
-            partner_code: "",
-            preview_start: "",
-            roles: [],
-            sibtitle: "",
-            title: "",
-            track: f,
-          } as TTrackForm)
-      ),
-    ];
-
-    setValue("tracks", newTracks);
+    handleAppendFiles(newFiles);
   };
 
   const onDropHandler = (e: DragEvent) => {
     e.preventDefault();
-
-    let withoutErrors = false;
 
     setError(false);
 
@@ -62,34 +67,7 @@ const DragAndDropFile = ({ setTracks, tracks }) => {
 
     const newFiles = Array.from(e.dataTransfer?.files ?? []);
 
-    withoutErrors = newFiles.every((track) => {
-      const typeTrack = track.type.split("/")[1];
-      return typeTrack == "wav" || typeTrack == "flac";
-    });
-
-    if (withoutErrors) {
-      const tracks = getValues("tracks");
-
-      const newTracks = [
-        ...Array.from(tracks ?? []),
-        ...newFiles.map(
-          (f) =>
-            ({
-              language: "",
-              partner_code: "",
-              preview_start: new Date().toISOString(),
-              roles: [],
-              sibtitle: "",
-              title: "",
-              track: f,
-            } as TTrackForm)
-        ),
-      ];
-
-      setValue("tracks", newTracks);
-    } else {
-      setError(true);
-    }
+    handleAppendFiles(newFiles);
   };
 
   return (

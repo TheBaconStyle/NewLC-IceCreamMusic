@@ -28,7 +28,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import classNames from "classnames";
 import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import IMySelectProps from "../../shared/MySelect/MySelect.props";
 import trackRusificator, {
   releaseRussificator,
@@ -47,13 +47,22 @@ const SendRelease = () => {
   const [showAreasLands, setShowAreasLands] = useState<boolean>(false);
   const [languageValue, setLanguageValue] = useState<IMySelectProps["value"]>();
   const [genreValue, setGenreValue] = useState<IMySelectProps["value"]>();
-  const [tracks, setTracks] = useState<FileList | null>(null);
   const [changeLabel, setChangeLabel] = useState(false);
 
   const formMethods = useForm<TReleaseForm>({
     resolver: zodResolver(releaseFormSchema),
-    defaultValues: { labelName: standardLabelName },
+    defaultValues: { labelName: standardLabelName, tracks: [] },
     progressive: true,
+    mode: "all",
+  });
+
+  const {
+    append: appendTrack,
+    remove: removeTrack,
+    fields: tracks,
+  } = useFieldArray({
+    control: formMethods.control,
+    name: "tracks",
   });
 
   const { handleSubmit, setValue, register, watch } = formMethods;
@@ -64,8 +73,10 @@ const SendRelease = () => {
 
   const tracksData = watch("tracks");
 
+  const releaseData = watch();
+
   const handleDeleteTrack = (index: number) => {
-    const oldTracks = Array.from(tracksData ?? []);
+    const oldTracks = [...tracksData];
 
     const newTracks = [
       ...oldTracks.slice(0, index),
@@ -650,22 +661,20 @@ const SendRelease = () => {
               </div>
             )}
           </>
-          <div className={style.wrap}>
-            <DragAndDropFile setTracks={setTracks} tracks={tracks} />
-          </div>
+          <>
+            <div className={style.wrap}>
+              <DragAndDropFile appendTrack={appendTrack} />
+            </div>
 
-          {Array.isArray(tracksData) &&
-            tracksData.map((trackData, index) => (
-              <div className={style.wrap_track} key={trackData.track.name}>
+            {tracks.map((trackData, index) => (
+              <div className={style.wrap_track} key={trackData.id}>
                 <TrackItem fileName={trackData.track.name} trackIndex={index} />
-                <div
-                  className={style.close}
-                  onClick={() => handleDeleteTrack(index)}
-                >
+                <div className={style.close} onClick={() => removeTrack(index)}>
                   <CloseIcon className={style.deleteTrack} />
                 </div>
               </div>
             ))}
+          </>
 
           <div className={style.wrap}>
             <MyButton
@@ -678,6 +687,7 @@ const SendRelease = () => {
         </form>
       </FormProvider>
       {/* end */}
+      <pre>{JSON.stringify(releaseData, null, 4)}</pre>
     </div>
   );
 };
