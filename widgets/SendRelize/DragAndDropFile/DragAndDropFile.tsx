@@ -1,15 +1,17 @@
-// @ts-nocheck
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 "use client";
 
-import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
-import style from "./DragAndDropFile.module.css";
+import { TReleaseForm } from "@/schema/release.schema";
 import classNames from "classnames";
-import MyText from "../../../shared/MyText/MyText";
-import { useFormContext } from "react-hook-form";
-import { TReleaseForm, TTrackForm } from "@/schema/release.schema";
+import { ChangeEvent, DragEvent, useState } from "react";
+import { UseFieldArrayAppend, useFormContext } from "react-hook-form";
+import MyText from "@/shared/MyText/MyText";
+import style from "./DragAndDropFile.module.css";
 
-const DragAndDropFile = ({ appendTrack }) => {
+export type TDragAndDropFile = {
+  appendTrack: UseFieldArrayAppend<TReleaseForm, "tracks">;
+};
+
+const DragAndDropFile = ({ appendTrack }: TDragAndDropFile) => {
   const [drag, setDrag] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
@@ -34,13 +36,14 @@ const DragAndDropFile = ({ appendTrack }) => {
     if (withoutErrors) {
       newFiles.forEach((track) => {
         appendTrack({
-          language: "",
+          language: "без слов",
           partner_code: "",
           preview_start: "",
           roles: [],
           subtitle: "",
           title: "",
           track: track,
+          author_rights: "",
         });
       });
     } else {
@@ -58,7 +61,7 @@ const DragAndDropFile = ({ appendTrack }) => {
     handleAppendFiles(newFiles);
   };
 
-  const onDropHandler = (e: DragEvent) => {
+  const onDropHandler = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
 
     setError(false);
