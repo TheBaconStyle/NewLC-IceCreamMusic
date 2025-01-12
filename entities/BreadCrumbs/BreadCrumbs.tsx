@@ -3,7 +3,6 @@
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import { usePathname } from "next/navigation";
 import React from "react";
-import style from "./BreadCrumbs.module.css";
 
 export type TBreadCrumbs = {
   separator?: string;
@@ -38,22 +37,22 @@ export function BreadCrumbs({ separator = "/", home }: TBreadCrumbs) {
   if (roots.length === 1) return null;
 
   return (
-    <div className={style.wrapper}>
-      <div className={style.breadCrumbs}>
+    <div className={"mb30"}>
+      <div className={"row gap10"}>
         {roots.map((root, index) => (
           <React.Fragment key={root}>
-            <span className={style.breadCrumb}>
+            <span className={"styleTitle"}>
               {Object.keys(BreadCrumbRoutes).includes(root)
                 ? BreadCrumbRoutes[root as keyof typeof BreadCrumbRoutes]
                 : root}
             </span>
             {index !== roots.length - 1 && (
-              <span className={style.breadCrumb}>{separator}</span>
+              <span className={"styleTitle"}>{separator}</span>
             )}
           </React.Fragment>
         ))}
       </div>
-      <MyTitle Tag={"h1"} className={style.title}>
+      <MyTitle Tag={"h1"}>
         {BreadCrumbRoutes[roots.at(-1) as keyof typeof BreadCrumbRoutes] ??
           roots.at(-1)}
       </MyTitle>

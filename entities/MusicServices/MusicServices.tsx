@@ -1,12 +1,11 @@
 "use client";
 import { useTheme } from "next-themes";
-import style from "./MusicServices.module.css";
 import Image from "next/image";
 const MusicServices = () => {
   const { resolvedTheme } = useTheme();
 
   return (
-    <div className={style.MusicServices}>
+    <div className={"center mt50 gap40"}>
       <Image
         src={`/MusicServicesIcons/${resolvedTheme}/apple_music.svg`}
         alt="Apple Music"

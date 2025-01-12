@@ -27,7 +27,6 @@ const PromotionCard = ({
         className={style.top}
         style={{
           backgroundImage: `url(/PromotionPhotos/${bgImage})`,
-          boxShadow: `1px 14px 0px red;`,
         }}
       >
         <MyTitle Tag={"h2"} className={style.name}>

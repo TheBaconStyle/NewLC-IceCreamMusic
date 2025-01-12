@@ -1,12 +1,11 @@
 import classNames from "classnames";
 import NewsCard from "./NewsCard/NewsCard";
-import style from "./NewsList.module.css";
 import INewsList from "./NewsList.props";
 
 const NewsList = ({ className, ...props }: INewsList) => {
   //   Тут получил данные, и дальше обернуть в деталку
   return (
-    <div className={classNames(style.news, className)} {...props}>
+    <div className={classNames("col gap20", className)} {...props}>
       <NewsCard
         dateCreate={
           new Date(

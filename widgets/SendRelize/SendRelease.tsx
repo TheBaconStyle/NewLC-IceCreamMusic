@@ -28,6 +28,9 @@ import { ReleaseDates } from "../ReleaseDraft/ReleaseDates";
 import { ReleaseArea } from "../ReleaseDraft/ReleaseArea";
 import { ReleasePlatforms } from "../ReleaseDraft/ReleasePlatform";
 import { ReleaseTracks } from "../ReleaseDraft/ReleaseTracks";
+import classNames from "classnames";
+import Image from "next/image";
+import FinalCheck from "./FinalCheck/FinalCheck";
 
 export type TSendRelease = {
   release?: TReleaseForm;
@@ -43,12 +46,36 @@ const SendRelease = () => {
 
   const { handleSubmit, watch } = formMethods;
 
+  // const releasePreview = watch("preview");
+
   const releaseData = watch();
 
   const [isBlocked, setIsBlocked] = useState(false);
 
+  const [tab, setTab] = useState(1);
+
   return (
     <div className={style["container"]}>
+      <div className={style.lineTab}>
+        <p
+          onClick={() => setTab(1)}
+          className={classNames(style.tab, { [style.tabActive]: tab == 1 })}
+        >
+          1
+        </p>
+        <p
+          onClick={() => setTab(2)}
+          className={classNames(style.tab, { [style.tabActive]: tab == 2 })}
+        >
+          2
+        </p>
+        <p
+          onClick={() => setTab(3)}
+          className={classNames(style.tab, { [style.tabActive]: tab == 3 })}
+        >
+          3
+        </p>
+      </div>
       <FormProvider {...formMethods}>
         <form
           className={style.form}
@@ -170,35 +197,46 @@ const SendRelease = () => {
             }
           )}
         >
-          <ReleaseGeneralInfo />
+          {tab == 1 && (
+            <>
+              <ReleaseGeneralInfo />
+              <ReleasePersons />
+              <ReleaseGenre />
+              <ReleaseIdentification />
+              <ReleaseLabel />
+              <ReleaseDates />
+              <ReleaseArea />
+              <ReleasePlatforms />
+            </>
+          )}
+          {tab == 2 && <ReleaseTracks />}
 
-          <ReleasePersons />
+          {tab == 3 && <FinalCheck release={releaseData} />}
 
-          <ReleaseGenre />
-
-          <ReleaseIdentification />
-
-          <ReleaseLabel />
-
-          <ReleaseDates />
-
-          <ReleaseArea />
-
-          <ReleasePlatforms />
-
-          <ReleaseTracks />
-
-          <div className={style.wrap}>
-            <MyButton
-              text="Отправить релиз"
-              view="secondary"
-              type="submit"
-              disabled={isBlocked}
-            />
-          </div>
+          {tab == 3 && (
+            <div className={style.wrap}>
+              <MyButton
+                text="Отправить релиз"
+                view="secondary"
+                type="submit"
+                disabled={isBlocked}
+              />
+            </div>
+          )}
         </form>
       </FormProvider>
-      <pre>{JSON.stringify(releaseData, null, 4)}</pre>
+      <div className="center gap20">
+        {tab != 1 && (
+          <p onClick={() => setTab(tab - 1)} className="linkButton">
+            Назад
+          </p>
+        )}
+        {tab != 3 && (
+          <p onClick={() => setTab(tab + 1)} className="linkButton">
+            Дальше
+          </p>
+        )}
+      </div>
     </div>
   );
 };
