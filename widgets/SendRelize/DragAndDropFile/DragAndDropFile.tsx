@@ -28,9 +28,14 @@ const DragAndDropFile = ({ appendTrack }: TDragAndDropFile) => {
   };
 
   const handleAppendFiles = (newFiles: File[]) => {
+    const tracks = getValues("tracks");
+
     const withoutErrors = newFiles.every((track) => {
       const typeTrack = track.type.split("/")[1];
-      return typeTrack == "wav" || typeTrack == "flac";
+      return (
+        (typeTrack == "wav" || typeTrack == "flac") &&
+        !tracks.map((track) => track.track.name).includes(track.name)
+      );
     });
 
     if (withoutErrors) {

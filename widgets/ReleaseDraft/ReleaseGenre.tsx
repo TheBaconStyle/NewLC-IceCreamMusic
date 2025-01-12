@@ -9,9 +9,12 @@ import { useFormContext } from "react-hook-form";
 import style from "./Release.module.css";
 
 export function ReleaseGenre() {
-  const { setValue } = useFormContext();
+  const { setValue, getValues } = useFormContext();
 
-  const [genreValue, setGenreValue] = useState<IMySelectProps["value"]>();
+  const [genreValue, setGenreValue] = useState<IMySelectProps["value"]>(() => {
+    const genre = getValues("genre");
+    return allGenres.find((g) => g.value === genre);
+  });
 
   return (
     <>

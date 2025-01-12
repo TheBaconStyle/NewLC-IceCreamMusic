@@ -12,11 +12,13 @@ import { useFormContext } from "react-hook-form";
 import style from "./Release.module.css";
 
 export function ReleasePlatforms() {
-  const [showPlatforms, setShowPlatforms] = useState(false);
-
   const { watch, setValue } = useFormContext<TReleaseForm>();
 
   const platforms = watch("platforms");
+
+  const [showPlatforms, setShowPlatforms] = useState(() => {
+    return platforms && !platforms.includes("all");
+  });
 
   return (
     <>
@@ -35,6 +37,7 @@ export function ReleasePlatforms() {
               setValue("platforms", ["all"]);
             }}
             name={"areaShop"}
+            checked={platforms && platforms.includes("all")}
           />
           <MyRadio
             label={"Только на некоторых"}
@@ -43,6 +46,7 @@ export function ReleasePlatforms() {
               setValue("platforms", []);
             }}
             name={"areaShop"}
+            checked={platforms && !platforms.includes("all")}
           />
         </div>
       </div>

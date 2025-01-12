@@ -12,11 +12,20 @@ import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import style from "./Release.module.css";
 import { allLanguages } from "@/helpers/allLanguages";
+import { TReleaseForm } from "@/schema/release.schema";
 
 export function ReleaseGeneralInfo() {
-  const { register, setValue } = useFormContext();
+  const { register, setValue, watch, getValues } =
+    useFormContext<TReleaseForm>();
 
-  const [languageValue, setLanguageValue] = useState<IMySelectProps["value"]>();
+  const [languageValue, setLanguageValue] = useState<IMySelectProps["value"]>(
+    () => {
+      const language = getValues("language");
+      return allLanguages.find((l) => l.value === language);
+    }
+  );
+
+  const preview = watch("preview");
 
   return (
     <>
@@ -28,6 +37,7 @@ export function ReleaseGeneralInfo() {
               const file = files?.item(0);
               !!file && file !== null && setValue("preview", file);
             }}
+            srcPrev={preview && URL.createObjectURL(preview)}
           />
           <MyText className={style.desc}>
             Минимальный размер изображения: 3000x3000px

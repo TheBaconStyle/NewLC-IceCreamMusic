@@ -156,15 +156,15 @@ export default function FinalCheck({ release }: TFinalCheck) {
                   Страны распространения релиза:
                   <br />
                   <span className="styleTitle">
-                    {release.area.negate && <>Во всех кроме: </>}
-                    {release.area.data.length == 1 ? (
+                    {release?.area?.negate && <>Во всех кроме: </>}
+                    {release?.area?.data.length == 1 ? (
                       release.area.data[0] === "all" ? (
                         <>Во всех странах</>
                       ) : (
                         <>В странах снг</>
                       )
                     ) : (
-                      release.area.data.join(", ")
+                      release?.area?.data.join(", ")
                     )}
                   </span>
                 </p>
@@ -180,10 +180,10 @@ export default function FinalCheck({ release }: TFinalCheck) {
                   Площадки распространения релиза:
                   <br />
                   <span className="styleTitle">
-                    {release.platforms.length == 1 ? (
+                    {release?.platforms?.length == 1 ? (
                       <>На всех площадках</>
                     ) : (
-                      release.platforms.join(", ")
+                      release?.platforms?.join(", ")
                     )}
                   </span>
                 </p>

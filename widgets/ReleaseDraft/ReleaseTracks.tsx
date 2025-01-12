@@ -2,24 +2,23 @@
 
 import CloseIcon from "@/public/InfoIcon/close.svg";
 import { TReleaseForm } from "@/schema/release.schema";
-import { useFieldArray, useFormContext } from "react-hook-form";
 import DragAndDropFile from "@/widgets/SendRelize/DragAndDropFile/DragAndDropFile";
 import { TrackAccordion } from "@/widgets/SendRelize/TrackAccordion/TrackAccordion";
+import { Reorder } from "framer-motion";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import style from "./Release.module.css";
+import { TrackAdditionalParameters } from "./TrackDraft/TrackAdditionalParameters";
 import { TrackGeneralInfo } from "./TrackDraft/TrackGeneralInfo";
 import { TrackIdentification } from "./TrackDraft/TrackIdentification";
-import { TrackRoles } from "./TrackDraft/TrackRoles";
 import { TrackRights } from "./TrackDraft/TrackRights";
-import { TrackAdditionalParameters } from "./TrackDraft/TrackAdditionalParameters";
-import { TrackVersion } from "./TrackDraft/TrackVersion";
-import { TrackUseCases } from "./TrackDraft/TrackUseCases";
+import { TrackRingtone } from "./TrackDraft/TrackRingtone";
+import { TrackRoles } from "./TrackDraft/TrackRoles";
 import { TrackText } from "./TrackDraft/TrackText";
 import { TrackTextSync } from "./TrackDraft/TrackTextSync";
-import { TrackRingtone } from "./TrackDraft/TrackRingtone";
+import { TrackUseCases } from "./TrackDraft/TrackUseCases";
+import { TrackVersion } from "./TrackDraft/TrackVersion";
 import { TrackVideo } from "./TrackDraft/TrackVideo";
 import { TrackVideoShot } from "./TrackDraft/TrackVideoShot";
-import { Reorder } from "framer-motion";
-import { useState } from "react";
 
 export function ReleaseTracks() {
   const { control } = useFormContext<TReleaseForm>();

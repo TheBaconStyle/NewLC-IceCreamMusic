@@ -12,11 +12,19 @@ import { useFormContext } from "react-hook-form";
 import style from "./Release.module.css";
 
 export function ReleaseArea() {
-  const [showAreasLands, setShowAreasLands] = useState(false);
-
-  const { watch, setValue } = useFormContext<TReleaseForm>();
+  const { watch, setValue, register } = useFormContext<TReleaseForm>();
 
   const areas = watch("area");
+
+  const [showAreasLands, setShowAreasLands] = useState(() => {
+    return (
+      (areas &&
+        !areas.negate &&
+        !areas.data.includes("all") &&
+        !areas.data.includes("sng")) ||
+      (areas && areas.negate && !areas.data.includes("all"))
+    );
+  });
 
   return (
     <>
@@ -35,6 +43,7 @@ export function ReleaseArea() {
               setShowAreasLands(false);
               setValue("area", { negate: false, data: ["all"] });
             }}
+            checked={areas && areas.data.includes("all") && !areas.negate}
           />
           <MyRadio
             label={"Только в определенных странах"}
@@ -43,6 +52,12 @@ export function ReleaseArea() {
               setValue("area", { negate: false, data: [] });
             }}
             name={"areaLand"}
+            checked={
+              areas &&
+              !areas.negate &&
+              !areas.data.includes("all") &&
+              !areas.data.includes("sng")
+            }
           />
           <MyRadio
             label={"Во всех кроме"}
@@ -51,6 +66,7 @@ export function ReleaseArea() {
               setValue("area", { negate: true, data: [] });
             }}
             name={"areaLand"}
+            checked={areas && areas.negate && !areas.data.includes("all")}
           />
           <MyRadio
             label={"В СНГ"}
@@ -59,6 +75,7 @@ export function ReleaseArea() {
               setShowAreasLands(false);
               setValue("area", { negate: false, data: ["sng"] });
             }}
+            checked={areas && !areas.negate && areas.data.includes("sng")}
           />
         </div>
       </div>

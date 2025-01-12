@@ -3,6 +3,7 @@
 import classNames from "classnames";
 import { PropsWithChildren, useState } from "react";
 import style from "./TrackAccordion.module.css";
+import { motion } from "framer-motion";
 
 export type TTrackAccordion = {
   trackName: string;
@@ -28,9 +29,15 @@ export function TrackAccordion({
         {trackName}
       </div>
 
-      <div className={classNames(style.detail, { [style.open]: showDetails })}>
+      <motion.div
+        className={style.detail}
+        animate={{
+          height: showDetails ? "auto" : 0,
+          marginTop: showDetails ? "30px" : 0,
+        }}
+      >
         {children}
-      </div>
+      </motion.div>
     </div>
   );
 }

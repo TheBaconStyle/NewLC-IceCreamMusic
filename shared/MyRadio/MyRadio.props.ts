@@ -1,10 +1,6 @@
-import { DetailedHTMLProps, HTMLAttributes } from "react";
+import { InputHTMLAttributes } from "react";
 
-export default interface IMyRadioProps
-  extends DetailedHTMLProps<
-    HTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  > {
+export type TMyRadioProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
   name?: string;
   tooltip?: {
@@ -12,4 +8,4 @@ export default interface IMyRadioProps
     text: string;
   };
   value?: string;
-}
+};

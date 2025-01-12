@@ -1,4 +1,5 @@
 export const allLanguages = [
+  { value: "Без слов", label: "Без слов" },
   { value: "rus", label: "Russian " },
   { value: "eng", label: "English " },
   { value: "aar", label: "Afar " },
@@ -494,4 +495,9 @@ export const allLanguages = [
   { value: "zun", label: "Zuni " },
   { value: "zxx", label: "No linguistic content Not applicable " },
   { value: "zza", label: "Zaza Dimili Dimli Kirdki Kirmanjki Zazaki " },
+];
+
+export const trackPossibleLanguages = [
+  { value: "Без слов", label: "Без слов" },
+  ...allLanguages,
 ];

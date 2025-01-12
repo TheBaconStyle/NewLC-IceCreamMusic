@@ -31,6 +31,7 @@ import { ReleaseTracks } from "../ReleaseDraft/ReleaseTracks";
 import classNames from "classnames";
 import Image from "next/image";
 import FinalCheck from "./FinalCheck/FinalCheck";
+import { AnimatePresence, motion } from "framer-motion";
 
 export type TSendRelease = {
   release?: TReleaseForm;
@@ -45,8 +46,6 @@ const SendRelease = () => {
   });
 
   const { handleSubmit, watch } = formMethods;
-
-  // const releasePreview = watch("preview");
 
   const releaseData = watch();
 
@@ -197,34 +196,55 @@ const SendRelease = () => {
             }
           )}
         >
-          {tab == 1 && (
-            <>
-              <ReleaseGeneralInfo />
-              <ReleasePersons />
-              <ReleaseGenre />
-              <ReleaseIdentification />
-              <ReleaseLabel />
-              <ReleaseDates />
-              <ReleaseArea />
-              <ReleasePlatforms />
-            </>
-          )}
-          {tab == 2 && <ReleaseTracks />}
+          <AnimatePresence>
+            {tab == 1 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                key={1}
+              >
+                <ReleaseGeneralInfo />
+                <ReleasePersons />
+                <ReleaseGenre />
+                <ReleaseIdentification />
+                <ReleaseLabel />
+                <ReleaseDates />
+                <ReleaseArea />
+                <ReleasePlatforms />
+              </motion.div>
+            )}
+            {tab == 2 && (
+              <motion.div
+                key={2}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <ReleaseTracks />
+              </motion.div>
+            )}
 
-          {tab == 3 && <FinalCheck release={releaseData} />}
+            {tab == 3 && (
+              <motion.div
+                key={3}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <FinalCheck release={releaseData} />
 
-          {tab == 3 && (
-            <div className={style.wrap}>
-              <MyButton
-                text="Отправить релиз"
-                view="secondary"
-                type="submit"
-                disabled={isBlocked}
-              />
-            </div>
-          )}
+                <div className={style.wrap}>
+                  <MyButton
+                    text="Отправить релиз"
+                    view="secondary"
+                    type="submit"
+                    disabled={isBlocked}
+                  />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </form>
       </FormProvider>
+      {/* <pre>{JSON.stringify(releaseData, null, 4)}</pre> */}
       <div className="center gap20">
         {tab != 1 && (
           <p onClick={() => setTab(tab - 1)} className="linkButton">

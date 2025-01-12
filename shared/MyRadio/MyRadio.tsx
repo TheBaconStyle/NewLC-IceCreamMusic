@@ -2,11 +2,11 @@
 
 import style from "./MyRadio.module.css";
 import { forwardRef } from "react";
-import IMyRadioProps from "./MyRadio.props";
+import { TMyRadioProps } from "./MyRadio.props";
 import classNames from "classnames";
 import { Tooltip } from "react-tooltip";
 import IIcon from "../../public/InfoIcon/i.svg";
-const MyRadio = forwardRef<HTMLInputElement, IMyRadioProps>(function MyCheckbox(
+const MyRadio = forwardRef<HTMLInputElement, TMyRadioProps>(function MyCheckbox(
   { label, className, id, name, tooltip, ...props },
   ref
 ) {
