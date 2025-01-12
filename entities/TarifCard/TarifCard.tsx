@@ -25,7 +25,7 @@ const TarifCard = ({
         <MyTitle className={style.price} Tag={"h4"}>
           {price} ₽
         </MyTitle>
-        <MyText className={style.intoMonth}>В месяц</MyText>
+        <MyText>В месяц</MyText>
       </div>
       <ul className={style.markerList}>
         {markers.map((m) => (

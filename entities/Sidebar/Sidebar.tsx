@@ -23,11 +23,11 @@ const Sidebar = ({ isAdmin }: { isAdmin: boolean }) => {
   return (
     <aside className={style.sidebar}>
       <SidebarHeader />
-      <div className={style.menu}>
+      <div className={"col"}>
         {isAdmin && <AdminSideBar />}
         {!isAdmin && (
           <>
-            <div className={style.section}>
+            <div className={"col"}>
               <MyText className={style.section__name}>ОСНОВНОЕ</MyText>
               <Link className={style.section__item} href="/dashboard/news">
                 <ControlPanelIcon className={style.section__icon} />
@@ -48,11 +48,6 @@ const Sidebar = ({ isAdmin }: { isAdmin: boolean }) => {
                 <AnalyticIcon className={style.section__icon} />
                 Аналитика
               </Link>
-              {/* <Link className={style.section__item} href={"#"}>
-            <WalletIcon className={style.section__icon} />
-            Кошелек
-          </Link> */}
-
               <Link className={style.section__item} href="/dashboard/faq">
                 <QueryIcon className={style.section__icon} />
                 FAQ
@@ -82,22 +77,10 @@ const Sidebar = ({ isAdmin }: { isAdmin: boolean }) => {
                 <PromotionIcon className={style.section__icon} />
                 Продвижение
               </Link>
-              {/* <Link className={style.section__item} href={"/marketing/charts"}>
-            <LightningIcon className={style.section__icon} />
-            Чарты
-          </Link> */}
             </div>
 
             <div className={style.section}>
               <MyText className={style.section__name}>Инструменты</MyText>
-              {/* <Link className={style.section__item} href={"#"}>
-            <LinksIcon className={style.section__icon} />
-            Смарт-ссылки
-          </Link> */}
-              {/* <Link className={style.section__item} href={"#"}>
-            <StarsIcon className={style.section__icon} />
-            Генератор
-          </Link> */}
               <Link
                 className={style.section__item}
                 href={"/instruments/license"}
@@ -120,10 +103,6 @@ const Sidebar = ({ isAdmin }: { isAdmin: boolean }) => {
                 <LightningIcon className={style.section__icon} />
                 Тарифы
               </Link>
-              {/* <Link className={style.section__item} href={"/premium/current"}>
-            <LikeIcon className={style.section__icon} />
-            Мои подписки
-          </Link> */}
             </div>
           </>
         )}

@@ -31,7 +31,7 @@ const VerificationForm = () => {
 
   return (
     <form
-      className={style.formWrapper}
+      className={"mb30"}
       onSubmit={handleSubmit(
         async (data) => {
           setIsBlocked(true);
@@ -53,8 +53,8 @@ const VerificationForm = () => {
         }
       )}
     >
-      <div className={style.section}>
-        <MyTitle Tag={"h4"} className={style.section__title}>
+      <div className={"mt30"}>
+        <MyTitle Tag={"h4"} className={"styleValue fs20 mb10"}>
           Основная информация
         </MyTitle>
         <MyText className={style.section__desc}>
@@ -116,7 +116,7 @@ const VerificationForm = () => {
       </div>
 
       <div className={style.section}>
-        <MyTitle Tag={"h4"} className={style.section__title}>
+        <MyTitle Tag={"h4"} className={"styleValue fs20 mb10"}>
           Идентификационные данные
         </MyTitle>
         <MyText className={style.section__desc}>
@@ -180,7 +180,7 @@ const VerificationForm = () => {
       </div>
 
       <div className={style.section}>
-        <MyTitle Tag={"h4"} className={style.section__title}>
+        <MyTitle Tag={"h4"} className={"styleValue fs20 mb10"}>
           Банковские реквизиты
         </MyTitle>
         <MyText className={style.section__desc}>

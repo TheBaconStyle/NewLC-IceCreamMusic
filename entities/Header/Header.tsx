@@ -33,17 +33,11 @@ async function Header({ avatar, username, userid }: THeader) {
     <header className={style.header}>
       <div className={style.headerWrapper}>
         <div className={style.version}>BETA v0.5.2</div>
-        <div className={style.header__info}>
+        <div className={"center gap10"}>
           <ThemeToggle currentTheme={theme ?? "light"} />
           <Wallet balance={userBalance?.balance} />
-          {/* <button className={style.header__button}>
-            <div className={style.header__wrapper_w_h}>
-              <NotificationIcon className={style.header__icon} />
-            </div>
-          </button> */}
-
-          <Link className={style.noStyle} href="/profile">
-            <div className={style.header__wrapper_avatar}>
+          <Link className={"a"} href="/profile">
+            <div className={"center gap10 styleValue bold"}>
               <Image
                 className={style.avatar}
                 alt="Аватарка"
