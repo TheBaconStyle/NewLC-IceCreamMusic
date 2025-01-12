@@ -12,6 +12,25 @@ export const trackInsertSchema = createInsertSchema(track).omit({
 
 export type TTrackInsert = z.infer<typeof trackInsertSchema>;
 
+const authorRightsSchema = z.string().refine((value) => {
+  const valNum = Number(value);
+  return !isNaN(valNum) && valNum >= 1 && valNum <= 100;
+}, "Значение должно быть числом больше или равно 1 и меньше либо равно 100");
+
+const rolesSchema = z
+  .object({
+    person: z.string(),
+    role: z.string(),
+  })
+  .array()
+  .refine((value) => {
+    const roles = value.map((v) => v.role);
+    const hasPerformer = roles.includes("Исполнитель");
+    const hasTextAuthor = roles.includes("Автор слов");
+    const hasMelodyAuthor = roles.includes("Автор музыки");
+    return hasMelodyAuthor && hasTextAuthor && hasPerformer;
+  });
+
 export const trackFormSchema = trackInsertSchema.extend({
   title: z.string().min(1),
   track: fileSchema,
@@ -20,32 +39,31 @@ export const trackFormSchema = trackInsertSchema.extend({
   video: optionalFileSchema,
   video_shot: optionalFileSchema,
   instant_gratification: stringAsDateSchema.optional(),
-  roles: z
-    .object({
-      person: z.string(),
-      role: z.string(),
-    })
-    .array()
-    .refine((value) => {
-      const roles = value.map((v) => v.role);
-      const hasPerformer = roles.includes("Исполнитель");
-      const hasTextAuthor = roles.includes("Автор слов");
-      const hasMelodyAuthor = roles.includes("Автор музыки");
-      return hasMelodyAuthor && hasTextAuthor && hasPerformer;
-    }),
+  roles: rolesSchema,
   language: z.string().min(1),
-  author_rights: z.string().refine((value) => {
-    const valNum = Number(value);
-    return !isNaN(valNum) && valNum >= 1 && valNum <= 100;
-  }, "Значение должно быть числом больше или равно 1 и меньше либо равно 100"),
+  author_rights: authorRightsSchema,
 });
 
 export type TTrackForm = z.infer<typeof trackFormSchema>;
+
+export const trackUpdateSchema = trackInsertSchema
+  .partial()
+  .extend({ id: z.string(), releaseId: z.string() });
+
+export type TTrackUpdate = z.infer<typeof trackUpdateSchema>;
 
 export const releaseInsertSchema = createInsertSchema(release).omit({
   id: true,
   authorId: true,
 });
+
+export type TReleaseInsert = z.infer<typeof releaseInsertSchema>;
+
+export const releaseUpdateSchema = releaseInsertSchema
+  .partial()
+  .extend({ id: z.string() });
+
+export type TReleaseUpdate = z.infer<typeof releaseUpdateSchema>;
 
 export const releasePreviewSchema = fileSchema.refine((file) => {
   return file.size < 30000000;
@@ -71,8 +89,6 @@ export type TValidatedTrackFiles = Record<
       z.infer<typeof optionalFileSchema>
     >
   >;
-
-export type TReleaseInsert = z.infer<typeof releaseInsertSchema>;
 
 export const releaseFormSchema = releaseInsertSchema
   .omit({

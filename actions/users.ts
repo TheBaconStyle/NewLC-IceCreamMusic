@@ -15,6 +15,7 @@ import { signJWT } from "@/utils/token";
 import { cookies } from "next/headers";
 import { sessionCookieName, sessionCookieOptions } from "@/config/auth";
 import { revalidateCurrentPath } from "./revalidate";
+import { uploadFile } from "@/utils/fuleUpload";
 
 export async function registerUser(userData: TSignUpClientSchema) {
   const { email, name, password } = signUpSchema.parse(userData);
@@ -125,42 +126,49 @@ export async function editProfile(profileData: FormData) {
   if (!profileResult.success) {
     return {
       success: false,
-      message: JSON.stringify(profileResult.error),
+      message: "Данные профиля не прошли проверку",
     };
   }
 
+  const { avatar, ...otherProfileData } = profileResult.data;
+
+  const newProfile: TProfileSchema = {
+    ...otherProfileData,
+    birthDate: !!profileResult.data.birthDate
+      ? new Date(profileResult.data.birthDate)
+      : undefined,
+  };
+
   if (profileResult.data.avatar instanceof File) {
-    const minioS3 = createS3Client();
+    const client = createS3Client();
 
     const avatarFile = profileResult.data.avatar;
-
-    const avatarBytes = await avatarFile.arrayBuffer();
 
     const avatarType = avatarFile.type.split("/")[1];
 
     const fileName = `${user.id}.${avatarType}`;
 
-    const isAvatarLoaded = await minioS3
-      .putObject("avatars", fileName, Buffer.from(avatarBytes))
+    const isAvatarLoaded = await uploadFile({
+      bucket: "avatars",
+      name: fileName,
+      file: avatarFile,
+      client,
+    })
       .then(() => true)
-      .catch((e) => console.error(e));
+      .catch((e) => {
+        console.error(e);
+        return false;
+      });
 
     if (!isAvatarLoaded) {
       return {
         success: false,
-        message: "Can not upload avatar",
+        message: "Не удалось загрузить аватар",
       };
     }
 
-    profileResult.data.avatar = avatarType;
+    newProfile.avatar = avatarType;
   }
-
-  const newProfile: TProfileSchema = {
-    ...profileResult.data,
-    birthDate: !!profileResult.data.birthDate
-      ? new Date(profileResult.data.birthDate)
-      : undefined,
-  };
 
   const dbResult = await db
     .update(users)

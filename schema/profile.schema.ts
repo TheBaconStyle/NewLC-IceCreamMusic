@@ -13,6 +13,7 @@ export const profileSchema = selectUserSchema
     vk: true,
     whatsapp: true,
     viber: true,
+    avatar: true,
   })
   .partial();
 

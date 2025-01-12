@@ -29,21 +29,19 @@ export async function uploadRelease(
 
   if (!session) {
     return {
-      success: false,
+      success: false as const,
       message: "Unauthorized",
     };
   }
 
   const user = await db.query.users.findFirst({
-    where: (user, { eq }) => eq(user.id, session.id),
-    with: {
-      verifications: true,
-    },
+    where: (user, { eq, and }) =>
+      and(eq(user.isVerifiedAuthor, true), eq(user.id, session.id)),
   });
 
   if (!user) {
     return {
-      success: false,
+      success: false as const,
       message: "Unauthorized",
     };
   }
@@ -53,7 +51,7 @@ export async function uploadRelease(
   if (!releaseResult.success) {
     console.dir(releaseResult.error, { depth: Infinity });
     return {
-      success: false,
+      success: false as const,
       message: "Данные релиза не прошли автоматическую проверку",
     };
   }
@@ -65,14 +63,14 @@ export async function uploadRelease(
   if (!releasePreviewResult.success) {
     console.dir(releasePreviewResult.error, { depth: Infinity });
     return {
-      success: false,
+      success: false as const,
       message: "Файл обложки релиза не прошёл автоматическую проверку",
     };
   }
 
   if (tracksData.length !== tracksFiles.length) {
     return {
-      success: false,
+      success: false as const,
       message: `Количество файлов к трекам не соответствует количеству заполненных форм к трекам`,
     };
   }
@@ -86,7 +84,7 @@ export async function uploadRelease(
     if (!trackResult.success) {
       console.dir(trackResult.error, { depth: Infinity });
       return {
-        success: false,
+        success: false as const,
         message: `Данные к треку ${index} не прошли автоматическую проверку`,
       };
     }
@@ -97,7 +95,7 @@ export async function uploadRelease(
 
     if (!validatedTrackFile.success) {
       return {
-        success: false,
+        success: false as const,
         message: `Файл трека ${index} не прошёл автоматическую проверку`,
       };
     }
@@ -112,7 +110,7 @@ export async function uploadRelease(
       if (!validatedRingtoneFile.success) {
         console.dir(validatedRingtoneFile.error, { depth: Infinity });
         return {
-          success: false,
+          success: false as const,
           message: `Файл рингтона трека ${index} не прошёл автоматическую проверку`,
         };
       }
@@ -127,7 +125,7 @@ export async function uploadRelease(
 
       if (!validatedTextSyncFile.success) {
         return {
-          success: false,
+          success: false as const,
           message: `Файл синхротекста трека ${index} не прошёл автоматическую проверку`,
         };
       }
@@ -142,7 +140,7 @@ export async function uploadRelease(
 
       if (!validatedVideoshotFile.success) {
         return {
-          success: false,
+          success: false as const,
           message: `Файл видеошота трека ${index} не прошёл автоматическую проверку`,
         };
       }
@@ -157,7 +155,7 @@ export async function uploadRelease(
 
       if (!validatedVideoFile.success) {
         return {
-          success: false,
+          success: false as const,
           message: `Файл видео трека ${index} не прошёл автоматическую проверку`,
         };
       }
@@ -170,7 +168,7 @@ export async function uploadRelease(
     validatedTracksData.push(trackResult.data);
   }
 
-  const result = await db
+  const transactionResult = await db
     .transaction(async (tx) => {
       let confirmed = false;
 
@@ -206,9 +204,8 @@ export async function uploadRelease(
         file: releasePreviewResult.data,
         client,
       }).catch(async (e) => {
-        console.log(new Date(), e);
         await removeReleaseAssets(insertedRelease, insertedTracks);
-        throw new Error("Не удалось загрузить превью к релизу");
+        throw new Error("Не удалось загрузить превью к релизу", { cause: e });
       });
 
       const insertedTracks = await tx
@@ -242,10 +239,10 @@ export async function uploadRelease(
           file: validatedTracksFiles[index].track,
           client,
         }).catch(async (e) => {
-          console.log(new Date(), e);
           await removeReleaseAssets(insertedRelease, insertedTracks);
           throw new Error(
-            `Не удалось загрузить трек ${insertedTracks[index].title} (${trackFile.name})`
+            `Не удалось загрузить трек ${insertedTracks[index].title} (${trackFile.name})`,
+            { cause: e }
           );
         });
 
@@ -259,10 +256,10 @@ export async function uploadRelease(
             file: validatedTracksFiles[index].text_sync!,
             client,
           }).catch(async (e) => {
-            console.log(new Date(), e);
             await removeReleaseAssets(insertedRelease, insertedTracks);
             throw new Error(
-              `Не удалось загрузить синхротекст к треку ${insertedTracks[index].title} (${trackFile.name})`
+              `Не удалось загрузить синхротекст к треку ${insertedTracks[index].title} (${trackFile.name})`,
+              { cause: e }
             );
           });
         }
@@ -277,10 +274,10 @@ export async function uploadRelease(
             file: validatedTracksFiles[index].ringtone!,
             client,
           }).catch(async (e) => {
-            console.log(new Date(), e);
             await removeReleaseAssets(insertedRelease, insertedTracks);
             throw new Error(
-              `Не удалось загрузить рингтон к треку ${insertedTracks[index].title} (${trackFile.name})`
+              `Не удалось загрузить рингтон к треку ${insertedTracks[index].title} (${trackFile.name})`,
+              { cause: e }
             );
           });
         }
@@ -295,10 +292,10 @@ export async function uploadRelease(
             file: await validatedTracksFiles[index].video!,
             client,
           }).catch(async (e) => {
-            console.log(new Date(), e);
             await removeReleaseAssets(insertedRelease, insertedTracks);
             throw new Error(
-              `Не удалось загрузить видео к треку ${insertedTracks[index].title} (${trackFile.name})`
+              `Не удалось загрузить видео к треку ${insertedTracks[index].title} (${trackFile.name})`,
+              { cause: e }
             );
           });
         }
@@ -313,28 +310,33 @@ export async function uploadRelease(
             file: validatedTracksFiles[index].video_shot!,
             client,
           }).catch(async (e) => {
-            console.log(new Date(), e);
             await removeReleaseAssets(insertedRelease, insertedTracks);
             throw new Error(
-              `Не удалось загрузить видео-шот к треку ${insertedTracks[index].title} (${trackFile.name})`
+              `Не удалось загрузить видео-шот к треку ${insertedTracks[index].title} (${trackFile.name})`,
+              { cause: e }
             );
           });
         }
       }
+
+      return { success: true as const };
     })
-    .catch((e) => {
-      console.dir({ date: new Date(), error: e }, { depth: Infinity });
+    .catch((e: Error) => {
+      console.dir(
+        { date: new Date(), error: e.cause, message: e.message },
+        { depth: Infinity }
+      );
       return {
-        success: false,
+        success: false as const,
         message: e.message,
       };
     });
 
-  if (!!result) {
-    return result;
+  if (!transactionResult.success) {
+    return transactionResult;
   }
 
-  revalidatePathAction("/dashboard");
+  await revalidatePathAction("/dashboard");
 
   redirect("/dashboard");
 }
