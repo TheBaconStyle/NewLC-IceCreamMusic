@@ -4,9 +4,7 @@
   background-color: var(--wrapper-color);
   padding: 20px;
   border-radius: 10px;
-
   overflow: hidden;
-  cursor: pointer;
   transition: all 0.3s ease;
 }
 

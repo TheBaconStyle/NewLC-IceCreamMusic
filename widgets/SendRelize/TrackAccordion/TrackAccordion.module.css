@@ -6,7 +6,7 @@
   border-radius: 10px;
 
   overflow: hidden;
-  cursor: pointer;
+  cursor: default;
   transition: all 0.3s ease;
 }
 
@@ -16,6 +16,7 @@
   gap: 20px;
   align-items: center;
   caret-color: transparent;
+  cursor: grab;
 }
 .arrow {
   width: 15px;
@@ -23,10 +24,13 @@
   border-bottom: 3px solid var(--light-text-color);
   border-left: 3px solid var(--light-text-color);
   transform: rotate(-45deg);
-  transition: all 0.6s ease;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-top: -7px;
 }
 .arrow_open {
   transform: rotate(-225deg);
+  margin-top: 0px;
 }
 
 .detail {

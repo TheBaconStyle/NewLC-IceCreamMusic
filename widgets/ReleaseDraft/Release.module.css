@@ -73,12 +73,14 @@
 }
 .wrap_track {
   position: relative;
+  cursor: grab;
+  margin-top: 10px;
 }
 .close {
   position: absolute;
   content: "";
-  right: 20px;
-  top: 20px;
+  right: 35px;
+  top: 35px;
 }
 .deleteTrack {
   cursor: pointer;

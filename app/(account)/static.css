@@ -224,3 +224,16 @@
 .between {
   justify-content: space-between;
 }
+.overHidden {
+  overflow: hidden;
+}
+.oFit {
+  object-fit: cover;
+}
+
+.listNone {
+  list-style: none;
+}
+.pointer {
+  cursor: pointer;
+}

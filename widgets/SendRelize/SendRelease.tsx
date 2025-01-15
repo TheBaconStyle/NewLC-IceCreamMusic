@@ -196,21 +196,23 @@ const SendRelease = () => {
             }
           )}
         >
-          <AnimatePresence>
+          <>
             {tab == 1 && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 key={1}
               >
-                <ReleaseGeneralInfo />
-                <ReleasePersons />
-                <ReleaseGenre />
-                <ReleaseIdentification />
-                <ReleaseLabel />
-                <ReleaseDates />
-                <ReleaseArea />
-                <ReleasePlatforms />
+                <div className="col gap30">
+                  <ReleaseGeneralInfo />
+                  <ReleasePersons />
+                  <ReleaseGenre />
+                  <ReleaseIdentification />
+                  <ReleaseLabel />
+                  <ReleaseDates />
+                  <ReleaseArea />
+                  <ReleasePlatforms />
+                </div>
               </motion.div>
             )}
             {tab == 2 && (
@@ -241,7 +243,7 @@ const SendRelease = () => {
                 </div>
               </motion.div>
             )}
-          </AnimatePresence>
+          </>
         </form>
       </FormProvider>
       {/* <pre>{JSON.stringify(releaseData, null, 4)}</pre> */}

@@ -3,6 +3,8 @@ import { TReleaseForm } from "@/schema/release.schema";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import { allGenres } from "@/helpers/allGenres";
 import dateFormatter from "@/utils/dateFormatter";
+import FinalCheckTrack from "./FinalCheckTrack";
+import MyTextArea from "@/shared/MyTextArea/MyTextArea";
 
 export type TFinalCheck = {
   release: TReleaseForm;
@@ -10,15 +12,16 @@ export type TFinalCheck = {
 
 export default function FinalCheck({ release }: TFinalCheck) {
   return (
-    <>
+    <div className="col gap20 mb20">
       <div className="wrap col">
         <div className="row gap30 itemsStart">
           {release.preview && (
             <Image
               src={URL.createObjectURL(release.preview)}
-              alt={"Превью "}
-              width={200}
-              height={200}
+              alt={"Превью"}
+              width={225}
+              height={225}
+              className="oFit"
             />
           )}
           <div className="col gap20 itemsStart">
@@ -192,7 +195,13 @@ export default function FinalCheck({ release }: TFinalCheck) {
           </div>
         </div>
       </div>
-      <div className="wrap">asd</div>
-    </>
+
+      {release.tracks.map((e) => (
+        <FinalCheckTrack track={e} />
+      ))}
+      <div className="wrap">
+        <MyTextArea label={"Сообщение для модератора"} />
+      </div>
+    </div>
   );
 }

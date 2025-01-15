@@ -4,7 +4,7 @@ import CloseIcon from "@/public/InfoIcon/close.svg";
 import { TReleaseForm } from "@/schema/release.schema";
 import DragAndDropFile from "@/widgets/SendRelize/DragAndDropFile/DragAndDropFile";
 import { TrackAccordion } from "@/widgets/SendRelize/TrackAccordion/TrackAccordion";
-import { Reorder } from "framer-motion";
+import { motion, Reorder } from "framer-motion";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import style from "./Release.module.css";
 import { TrackAdditionalParameters } from "./TrackDraft/TrackAdditionalParameters";
@@ -19,9 +19,11 @@ import { TrackUseCases } from "./TrackDraft/TrackUseCases";
 import { TrackVersion } from "./TrackDraft/TrackVersion";
 import { TrackVideo } from "./TrackDraft/TrackVideo";
 import { TrackVideoShot } from "./TrackDraft/TrackVideoShot";
+import { useRef } from "react";
 
 export function ReleaseTracks() {
   const { control } = useFormContext<TReleaseForm>();
+  const constraintsRef = useRef(null);
 
   const {
     append: appendTrack,
@@ -34,7 +36,7 @@ export function ReleaseTracks() {
   });
 
   return (
-    <>
+    <div>
       <div className={style.wrap}>
         <DragAndDropFile appendTrack={appendTrack} />
       </div>
@@ -43,12 +45,19 @@ export function ReleaseTracks() {
         axis="y"
         values={tracks}
         onReorder={replaceTrack}
-        className="col gap10"
+        className="col gap10 mt10"
+        ref={constraintsRef}
       >
         {tracks.map((trackData, trackIndex) => (
-          <Reorder.Item key={trackData.track.name} value={trackData}>
+          <Reorder.Item
+            key={trackData.track.name}
+            value={trackData}
+            layout={"position"}
+            className="listNone"
+            dragConstraints={constraintsRef}
+          >
             <div className={style.wrap_track}>
-              <TrackAccordion trackName={trackData.track.name}>
+              <TrackAccordion track={trackData}>
                 <TrackGeneralInfo trackIndex={trackIndex} />
                 <TrackIdentification trackIndex={trackIndex} />
                 <TrackRoles trackIndex={trackIndex} />
@@ -73,6 +82,6 @@ export function ReleaseTracks() {
           </Reorder.Item>
         ))}
       </Reorder.Group>
-    </>
+    </div>
   );
 }
