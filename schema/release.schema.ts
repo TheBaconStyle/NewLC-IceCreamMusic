@@ -17,19 +17,24 @@ const authorRightsSchema = z.string().refine((value) => {
   return !isNaN(valNum) && valNum >= 1 && valNum <= 100;
 }, "Значение должно быть числом больше или равно 1 и меньше либо равно 100");
 
-const rolesSchema = z
-  .object({
-    person: z.string(),
-    role: z.string(),
-  })
-  .array()
-  .refine((value) => {
-    const roles = value.map((v) => v.role);
-    const hasPerformer = roles.includes("Исполнитель");
-    const hasTextAuthor = roles.includes("Автор слов");
-    const hasMelodyAuthor = roles.includes("Автор музыки");
-    return hasMelodyAuthor && hasTextAuthor && hasPerformer;
-  });
+const roleSchema = z.object({
+  person: z.string(),
+  role: z.string(),
+});
+
+const trackRolesSchema = roleSchema.array().refine((value) => {
+  const roles = value.map((v) => v.role);
+  const hasPerformer = roles.includes("Исполнитель");
+  const hasTextAuthor = roles.includes("Автор слов");
+  const hasMelodyAuthor = roles.includes("Автор музыки");
+  return hasMelodyAuthor && hasTextAuthor && hasPerformer;
+});
+
+const releaseRolesSchema = roleSchema.array().refine((value) => {
+  const roles = value.map((v) => v.role);
+  const hasPerformer = roles.includes("Исполнитель");
+  return hasPerformer;
+});
 
 export const trackFormSchema = trackInsertSchema.extend({
   title: z.string().min(1),
@@ -39,7 +44,7 @@ export const trackFormSchema = trackInsertSchema.extend({
   video: optionalFileSchema,
   video_shot: optionalFileSchema,
   instant_gratification: stringAsDateSchema.optional(),
-  roles: rolesSchema,
+  roles: trackRolesSchema,
   language: z.string().min(1),
   author_rights: authorRightsSchema,
 });
@@ -111,6 +116,10 @@ export const releaseFormSchema = releaseInsertSchema
     startDate: stringAsDateSchema,
 
     preorderDate: stringAsDateSchema,
+
+    roles: releaseRolesSchema,
+
+    moderatorComment: z.string().optional(),
   });
 
 export type TReleaseForm = z.infer<typeof releaseFormSchema>;
