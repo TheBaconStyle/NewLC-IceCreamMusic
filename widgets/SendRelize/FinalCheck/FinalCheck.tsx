@@ -5,6 +5,7 @@ import { allGenres } from "@/helpers/allGenres";
 import dateFormatter from "@/utils/dateFormatter";
 import FinalCheckTrack from "./FinalCheckTrack";
 import MyTextArea from "@/shared/MyTextArea/MyTextArea";
+import { allLanguages } from "@/helpers/allLanguages";
 
 export type TFinalCheck = {
   release: TReleaseForm;
@@ -15,30 +16,40 @@ export default function FinalCheck({ release }: TFinalCheck) {
     <div className="col gap20 mb20">
       <div className="wrap col">
         <div className="row gap30 itemsStart">
-          {release.preview && (
+          {release.preview ? (
             <Image
               src={URL.createObjectURL(release.preview)}
               alt={"Превью"}
               width={225}
               height={225}
-              className="oFit"
+              className="oFit round15"
             />
+          ) : (
+            <div className={"noPhoto styleTitle warningUnderline"}>
+              Обложка отсутствует
+            </div>
           )}
+
           <div className="col gap20 itemsStart">
             <div>
               <MyTitle Tag={"h2"} className="fs18">
                 Общая информация
               </MyTitle>
-              <div className="row gap50 mt10 ">
-                {(release.title || release.subtitle) && (
-                  <p className="styleValue fs14">
-                    Название: <br />
-                    {release.title}
-                    {release.subtitle && (
-                      <span className="styleTitle"> - {release.subtitle}</span>
-                    )}
-                  </p>
-                )}
+              <div className="row gap50 mt10 itemsStart">
+                <p className="styleValue fs14">
+                  Название: <br />
+                  {release.title ? (
+                    release.title
+                  ) : (
+                    <span className="warningUnderline">
+                      Название трека отсутствует
+                    </span>
+                  )}
+                  {release.subtitle && (
+                    <span className="styleTitle"> - {release.subtitle}</span>
+                  )}
+                </p>
+
                 {release.labelName && (
                   <p className="styleValue fs14">
                     Лейбл:
@@ -46,24 +57,35 @@ export default function FinalCheck({ release }: TFinalCheck) {
                     <span className="styleTitle">{release.labelName}</span>
                   </p>
                 )}
-                {release.type && (
-                  <p className="styleValue fs14">
-                    Тип релиза:
-                    <br /> <span className="styleTitle">{release.type}</span>
-                  </p>
-                )}
-                {release.genre && (
-                  <p className="styleValue fs14">
-                    Жанр: <br />
-                    <span className="styleTitle">
-                      {
-                        allGenres.find((e) => {
-                          return e.value == release.genre;
-                        })?.label
-                      }
-                    </span>
-                  </p>
-                )}
+
+                <p className="styleValue fs14">
+                  Тип релиза:
+                  <br />{" "}
+                  <span className="styleTitle">
+                    {release.type ? (
+                      release.type
+                    ) : (
+                      <span className="warningUnderline">
+                        Информация о типе релиза отсутствует
+                      </span>
+                    )}
+                  </span>
+                </p>
+
+                <p className="styleValue fs14">
+                  Жанр: <br />
+                  <span className="styleTitle">
+                    {release.genre ? (
+                      allGenres.find((e) => {
+                        return e.value == release.genre;
+                      })?.label
+                    ) : (
+                      <span className="warningUnderline">
+                        Информация о жанре отсутствует
+                      </span>
+                    )}
+                  </span>
+                </p>
               </div>
             </div>
 
@@ -71,24 +93,33 @@ export default function FinalCheck({ release }: TFinalCheck) {
               <MyTitle Tag={"h2"} className="fs18">
                 Персоны и роли
               </MyTitle>
-              <div className="row gap50 mt10 ">
-                {release.performer && (
-                  <p className="styleValue fs14">
-                    Исполнитель: <br />
-                    <span className="styleTitle">{release.performer}</span>
-                  </p>
-                )}
-                {release.feat && (
-                  <p className="styleValue fs14">
-                    Лица Feat: <br />
-                    <span className="styleTitle">{release.feat}</span>
-                  </p>
-                )}
-                {release.remixer && (
-                  <p className="styleValue fs14">
-                    Лица Remixer: <br />
-                    <span className="styleTitle">{release.remixer}</span>
-                  </p>
+              <div className="col mt10 ">
+                {release.roles.length > 0 ? (
+                  release.roles.map((e) => (
+                    <p className="styleValue fs14">
+                      {e.person ? (
+                        e.person
+                      ) : (
+                        <span className="styleTitle warningUnderline">
+                          Информация о персоне отсутствует
+                        </span>
+                      )}{" "}
+                      -{" "}
+                      <span className="styleTitle">
+                        {e.role ? (
+                          e.role
+                        ) : (
+                          <span className="styleTitle warningUnderline">
+                            Информация о роли персоны отсутствует
+                          </span>
+                        )}
+                      </span>
+                    </p>
+                  ))
+                ) : (
+                  <span className="styleTitle warningUnderline">
+                    Информация о персонах альбома отсутствует
+                  </span>
                 )}
               </div>
             </div>
@@ -100,7 +131,16 @@ export default function FinalCheck({ release }: TFinalCheck) {
               <div className="row gap50 mt10 ">
                 <p className="styleValue">
                   Язык метаданных: <br />
-                  <span className="styleTitle">{release.language}</span>
+                  <span className="styleTitle">
+                    {release.language ? (
+                      allLanguages.find((e) => e.value == release.language)
+                        ?.label
+                    ) : (
+                      <span className="styleTitle warningUnderline">
+                        Язык метаданных отсутствует
+                      </span>
+                    )}
+                  </span>
                 </p>
                 {release.upc && (
                   <p className="styleValue">
@@ -122,7 +162,9 @@ export default function FinalCheck({ release }: TFinalCheck) {
                     {release.releaseDate ? (
                       dateFormatter(new Date(release.releaseDate))
                     ) : (
-                      <>???</>
+                      <span className="styleTitle warningUnderline">
+                        Информация о дате релиза отсутствует
+                      </span>
                     )}
                   </span>
                 </p>
@@ -132,7 +174,9 @@ export default function FinalCheck({ release }: TFinalCheck) {
                     {release.startDate ? (
                       dateFormatter(new Date(release.startDate))
                     ) : (
-                      <>???</>
+                      <span className="styleTitle warningUnderline">
+                        Информация о дате старта отсутствует
+                      </span>
                     )}
                   </span>
                 </p>
@@ -143,7 +187,9 @@ export default function FinalCheck({ release }: TFinalCheck) {
                     {release.preorderDate ? (
                       dateFormatter(new Date(release.preorderDate))
                     ) : (
-                      <>???</>
+                      <span className="styleTitle warningUnderline">
+                        Информация о дате предзаказа отсутствует
+                      </span>
                     )}
                   </span>
                 </p>
@@ -159,15 +205,27 @@ export default function FinalCheck({ release }: TFinalCheck) {
                   Страны распространения релиза:
                   <br />
                   <span className="styleTitle">
-                    {release?.area?.negate && <>Во всех кроме: </>}
-                    {release?.area?.data.length == 1 ? (
-                      release.area.data[0] === "all" ? (
-                        <>Во всех странах</>
-                      ) : (
-                        <>В странах снг</>
-                      )
-                    ) : (
-                      release?.area?.data.join(", ")
+                    {Array.isArray(release.area?.data) && (
+                      <>
+                        {release.area?.negate && <>Во всех кроме: </>}
+                        {release.area.data[0] === "all" && <>Все страны</>}
+                        {release.area.data[0] === "sng" && <>В странах СНГ</>}
+                        {release.area.data.length > 0 ? (
+                          release.area.data[0] !== "sng" &&
+                          release.area.data[0] !== "all" &&
+                          release.area.data.join(", ")
+                        ) : (
+                          <span className="styleTitle warningUnderline">
+                            Не указаны страны
+                          </span>
+                        )}
+                      </>
+                    )}
+
+                    {!Array.isArray(release.area?.data) && (
+                      <span className="styleTitle warningUnderline">
+                        Информация о странах распространения отсутствует
+                      </span>
                     )}
                   </span>
                 </p>
@@ -183,10 +241,25 @@ export default function FinalCheck({ release }: TFinalCheck) {
                   Площадки распространения релиза:
                   <br />
                   <span className="styleTitle">
-                    {release?.platforms?.length == 1 ? (
-                      <>На всех площадках</>
-                    ) : (
-                      release?.platforms?.join(", ")
+                    {Array.isArray(release.platforms) && (
+                      <>
+                        {release.platforms[0] === "all" && (
+                          <>На всех площадках</>
+                        )}
+                        {release.platforms.length > 0 ? (
+                          release.platforms?.join(", ")
+                        ) : (
+                          <span className="styleTitle warningUnderline">
+                            Не указаны площалки
+                          </span>
+                        )}
+                      </>
+                    )}
+
+                    {!Array.isArray(release.platforms) && (
+                      <span className="styleTitle warningUnderline">
+                        Информация о площадках распространения отсутствует
+                      </span>
                     )}
                   </span>
                 </p>

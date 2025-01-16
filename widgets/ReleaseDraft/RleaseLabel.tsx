@@ -20,7 +20,7 @@ export function ReleaseLabel() {
       <div className={style.wrap}>
         <div>
           <MyTitle Tag={"h2"}>Название лейбла</MyTitle>
-          <MyText className={classNames(style.desc, style.mb20)}>
+          <MyText className={style.desc}>
             Укажите наименование лейбла, данная информация будет отображена на
             площадках.
           </MyText>

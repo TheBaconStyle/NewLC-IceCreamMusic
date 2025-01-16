@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 import style from "../TrackAccordion/TrackAccordion.module.css";
+import { allLanguages } from "@/helpers/allLanguages";
 
 export type TFinalCheckTrack = {
   track: TTrackForm;
@@ -17,7 +18,13 @@ export default function FinalCheckTrack({ track }: TFinalCheckTrack) {
     <div className="wrap" key={track.title}>
       <div className="row between mb20">
         <p className="styleValue ">
-          {track.title}
+          {track.title ? (
+            track.title
+          ) : (
+            <span className="styleTitle warningUnderline">
+              Не указано название трека
+            </span>
+          )}
           {track.subtitle && (
             <span className="styleTitle">- {track.subtitle}</span>
           )}
@@ -60,12 +67,18 @@ export default function FinalCheckTrack({ track }: TFinalCheckTrack) {
               </p>
             )}
 
-            {track.author_rights && (
-              <p className="styleValue fs14">
-                Авторские права: <br />
-                <span className="styleTitle">{track.author_rights}</span>
-              </p>
-            )}
+            <p className="styleValue fs14">
+              Авторские права: <br />
+              <span className="styleTitle">
+                {track.author_rights ? (
+                  track.author_rights
+                ) : (
+                  <span className="styleTitle warningUnderline">
+                    Не указаны авторские права
+                  </span>
+                )}
+              </span>
+            </p>
 
             <p className="styleValue fs14">
               Смежные права: <br />
@@ -79,21 +92,53 @@ export default function FinalCheckTrack({ track }: TFinalCheckTrack) {
               </span>
             </p>
           </div>
-          {track.roles.length > 0 && (
-            <div className="row gap20">
-              <p className="styleValue fs14">
-                Персоны и роли: <br />
-                {track.roles.map((p) => (
-                  <>
-                    <span className="styleTitle">
-                      {p.person}-{p.role}
-                    </span>
-                    <br />
-                  </>
-                ))}
-              </p>
-            </div>
-          )}
+
+          <div className="row gap20">
+            <p className="styleValue fs14">
+              Персоны и роли: <br />
+              {track.roles.length > 0 && (
+                <>
+                  {track.roles.map((p) => (
+                    <>
+                      <span className="styleTitle">
+                        {p.person ? (
+                          p.person
+                        ) : (
+                          <span className="styleTitle warningUnderline">
+                            Информация о персоне отсутствует
+                          </span>
+                        )}
+                        -
+                        {p.role ? (
+                          p.role
+                        ) : (
+                          <span className="styleTitle warningUnderline">
+                            Информация о роли персоны отсутствует
+                          </span>
+                        )}
+                      </span>
+                      <br />
+                    </>
+                  ))}
+                </>
+              )}
+              {!track.roles.map((r) => r.role).includes("Исполнитель") && (
+                <p className="styleTitle warningUnderline">
+                  Не указаны данные об исполнителе
+                </p>
+              )}
+              {!track.roles.map((r) => r.role).includes("Автор слов") && (
+                <p className="styleTitle warningUnderline">
+                  Не указаны данные об авторе слов
+                </p>
+              )}
+              {!track.roles.map((r) => r.role).includes("Автор музыки") && (
+                <p className="styleTitle warningUnderline">
+                  Не указаны данные об авторе музыки
+                </p>
+              )}
+            </p>
+          </div>
 
           <div className="row gap20">
             {track.instant_gratification && (
@@ -140,6 +185,9 @@ export default function FinalCheckTrack({ track }: TFinalCheckTrack) {
                 <span className="styleTitle">{track.instrumental && "Да"}</span>
               </p>
             )}
+          </div>
+
+          <div className="row gap">
             {track.text_sync && (
               <p className="styleValue fs14">
                 Синхронзация текста: <br />
@@ -193,13 +241,19 @@ export default function FinalCheckTrack({ track }: TFinalCheckTrack) {
               </p>
             )}
           </div>
+          <p className="styleValue fs14">
+            Язык трека: <br />
+            <span className="styleTitle">
+              {track.language.length ? (
+                allLanguages.find((e) => e.value == track.language)?.label
+              ) : (
+                <span className="styleTitle warningUnderline">
+                  Не указаны данные о языке
+                </span>
+              )}
+            </span>
+          </p>
 
-          {track.language && (
-            <p className="styleValue fs14">
-              Язык трека: <br />
-              <span className="styleTitle">{track.language}</span>
-            </p>
-          )}
           {track.text && (
             <pre className="styleValue fs14">
               Текст трека: <br />

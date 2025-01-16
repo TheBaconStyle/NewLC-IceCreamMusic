@@ -32,7 +32,7 @@ async function Header({ avatar, username, userid }: THeader) {
   return (
     <header className={style.header}>
       <div className={style.headerWrapper}>
-        <div className={style.version}>BETA v0.5.2</div>
+        <div className={style.version}>BETA v 1.3.4</div>
         <div className={"center gap10"}>
           <ThemeToggle currentTheme={theme ?? "light"} />
           <Wallet balance={userBalance?.balance} />

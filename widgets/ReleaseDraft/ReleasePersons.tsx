@@ -3,62 +3,90 @@
 import MyInput from "@/shared/MyInput/MyInput";
 import MyText from "@/shared/MyText/MyText";
 import MyTitle from "@/shared/MyTitle/MyTitle";
-import { useFormContext } from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import style from "./Release.module.css";
+import { TReleaseForm } from "@/schema/release.schema";
+import MySelect from "@/shared/MySelect/MySelect";
+import { allRolesAlbum } from "@/helpers/allRolesAlbum";
 
 export function ReleasePersons() {
-  const { register } = useFormContext();
+  const { control, register, setValue, watch } = useFormContext<TReleaseForm>();
+
+  const {
+    fields: roles,
+    append: appendRole,
+    remove: removeRole,
+  } = useFieldArray({
+    name: `roles`,
+    control,
+  });
+
+  const rolesData = watch("roles");
 
   return (
     <>
-      <div className={style.wrap}>
-        <div className={style.wrap__title}>
-          <MyTitle Tag={"h2"}>Персоны и роли</MyTitle>
-          <MyText className={style.desc}>
-            Для Исполнителей, Соисполнителей (feat.), Remixer необходимо указать
-            псевдоним артиста, группы или проекта.{" "}
-            <span style={{ color: "#fb4444" }}>
-              В скобках ОБЯЗАТЕЛЬНО укажите ФИО.
-            </span>
-          </MyText>
+      <div className={"wrap col gap30"}>
+        <div>
+          <MyTitle Tag={"h3"}>Персоны и роли</MyTitle>
+          <div className="mt10">
+            <MyText className={style.desc}>
+              Для Авторов музыки и Авторов слов и Исполнителей необходимо
+              указать фактические имена и фамилии, не указывайте псевдонимы
+              артистов, групп или проектов.
+            </MyText>
+            <MyText className={style.desc}>
+              <span style={{ color: "#fb4444" }}>
+                Обязательно указать исполнителя, автора музыки и автора текста
+              </span>
+            </MyText>
+          </div>
         </div>
-        <div className={style.row}>
-          <MyInput
-            className={style.inp}
-            label={"Bведите исполнителя"}
-            type={"text"}
-            placeholder="Исполнитель"
-            inpLk
-            tooltip={{
-              id: "ispolnitelName",
-              text: "Введите исполнителей, через запятую",
+        <div>
+          {roles.map((role, roleIndex) => (
+            <div key={role.id} className={"row"}>
+              <MyInput
+                {...register(`roles.${roleIndex}.person`)}
+                label={`Персона ${roleIndex + 1}`}
+                placeholder={
+                  rolesData[roleIndex].role === "Исполнитель"
+                    ? "ФИО исполнителя"
+                    : "Nickname персоны"
+                }
+                inpLk
+                type={"text"}
+                className="mb0"
+              />
+              <div className={"w30"}>
+                <MySelect
+                  className={style.select}
+                  label={"Выберите роль"}
+                  options={allRolesAlbum}
+                  value={allRolesAlbum.find(
+                    (r) => r.value === rolesData[roleIndex].role
+                  )}
+                  onValueChange={({ value }) => {
+                    // handleChangeRole(roleIndex, { role: value });
+                    setValue(`roles.${roleIndex}.role`, value);
+                  }}
+                />
+              </div>
+              <div
+                className={style.delete}
+                onClick={() => removeRole(roleIndex)}
+              >
+                <div className={style.line1}></div>
+                <div className={style.line2}></div>
+              </div>
+            </div>
+          ))}
+          <div
+            className={"linkButton wfit"}
+            onClick={() => {
+              appendRole({ person: "", role: "" });
             }}
-            {...register("performer")}
-          />
-          <MyInput
-            className={style.inp}
-            label={"Bведите лиц со статусом feat"}
-            type={"text"}
-            placeholder="feat"
-            inpLk
-            tooltip={{
-              id: "featName",
-              text: "Bведите лиц со статусом feat, через запятую",
-            }}
-            {...register("feat")}
-          />
-          <MyInput
-            className={style.inp}
-            label={"Bведите лиц со статусом Remixer"}
-            type={"text"}
-            placeholder="Remixer"
-            inpLk
-            tooltip={{
-              id: "RemixerName",
-              text: "Bведите лиц со статусом Remixer, через запятую",
-            }}
-            {...register("remixer")}
-          />
+          >
+            Добавить персону
+          </div>
         </div>
       </div>
     </>

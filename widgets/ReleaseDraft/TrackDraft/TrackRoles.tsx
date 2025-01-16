@@ -42,8 +42,8 @@ export function TrackRoles({ trackIndex }: TTrackItem) {
           <div key={role.id} className={style.row}>
             <MyInput
               {...register(`tracks.${trackIndex}.roles.${roleIndex}.person`)}
-              label={`Имя персоны`}
-              placeholder="Введите имя персоны"
+              label={`Персона ${roleIndex}`}
+              placeholder="ФИО персоны"
               inpLk
               type={"text"}
             />

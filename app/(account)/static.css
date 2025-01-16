@@ -237,3 +237,12 @@
 .pointer {
   cursor: pointer;
 }
+.wfit {
+  width: fit-content;
+}
+.w30 {
+  width: 30%;
+}
+.round15 {
+  border-radius: 15px;
+}

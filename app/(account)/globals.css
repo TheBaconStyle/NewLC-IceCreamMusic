@@ -167,3 +167,19 @@ body {
 .audio::-webkit-media-controls-panel {
   background-color: var(--wrapper-color);
 }
+
+.noPhoto {
+  width: 225px;
+  height: 225px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  border-radius: 15px;
+}
+
+.warningUnderline {
+  text-decoration: underline;
+  text-decoration-color: #dc4454;
+  color: #dc4454;
+}

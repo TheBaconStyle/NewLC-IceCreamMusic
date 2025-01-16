@@ -88,3 +88,29 @@
 .deleteTrack:hover > * {
   fill: var(--light-text-color);
 }
+.delete {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.line1 {
+  position: absolute;
+  content: "";
+  width: 15px;
+  height: 1px;
+  left: -7px;
+  background-color: red;
+  caret-color: transparent;
+  transform: rotate(45deg);
+}
+.line2 {
+  position: absolute;
+  transform: rotate(45deg);
+  content: "";
+  top: -7px;
+  width: 1px;
+  height: 15px;
+  caret-color: transparent;
+  background-color: red;
+}
