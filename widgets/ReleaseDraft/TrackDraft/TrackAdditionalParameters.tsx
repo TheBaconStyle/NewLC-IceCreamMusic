@@ -4,18 +4,36 @@ import { TReleaseForm } from "@/schema/release.schema";
 import MyCheckbox from "@/shared/MyCheckbox/MyCheckbox";
 import MyInput from "@/shared/MyInput/MyInput";
 import MyText from "@/shared/MyText/MyText";
-import { useFormContext } from "react-hook-form";
-import { TTrackItem } from "./TrackItem.props";
-import { useState } from "react";
 import MyTitle from "@/shared/MyTitle/MyTitle";
+import { useState } from "react";
+import { useFormContext } from "react-hook-form";
 import style from "./TrackItem.module.css";
+import { TTrackItem } from "./TrackItem.props";
+import { useIMask } from "react-imask";
+import { mergeRefs } from "react-merge-refs";
 
 export function TrackAdditionalParameters({ trackIndex }: TTrackItem) {
   const { register, setValue, getValues } = useFormContext<TReleaseForm>();
 
+  const { ref: maskedRef } = useIMask({
+    mask: "XX:XX",
+    definitions: {
+      X: {
+        mask: "0",
+        placeholderChar: "0",
+      },
+    },
+    lazy: false,
+    autofix: true,
+  });
+
   const [showInstantGratification, setShowInstantGratification] = useState(
     () => !!getValues(`tracks.${trackIndex}.instant_gratification`)
   );
+
+  const previewRegister = register(`tracks.${trackIndex}.preview_start`);
+
+  const previewRef = mergeRefs([maskedRef, previewRegister.ref]);
 
   return (
     <>
@@ -28,14 +46,15 @@ export function TrackAdditionalParameters({ trackIndex }: TTrackItem) {
         </div>
 
         <MyInput
-          {...register(`tracks.${trackIndex}.preview_start`)}
+          {...previewRegister}
+          ref={previewRef}
           label={"Начало предпрослушивания (секунды)"}
           inpLk
           tooltip={{
             id: `startProsl-${trackIndex}`,
             text: "С выбранной секунды начинается воспроизведение фрагмента: который будет использован на сервисе VK Клипы, в качестве сниппета на VK музыка, проигрываться до покупки на ITunes, использоваться как сниппет на Apple Music и использоваться как официальный звук на TikTik, Likee",
           }}
-          placeholder="20:00"
+          // placeholder="20:00"
           type={"text"}
         />
         <MyCheckbox

@@ -7,9 +7,22 @@ import MyInput from "@/shared/MyInput/MyInput";
 import { useFormContext } from "react-hook-form";
 import { TReleaseForm } from "@/schema/release.schema";
 import style from "./TrackItem.module.css";
+import { mergeRefs } from "react-merge-refs";
+import { useIMask } from "react-imask";
 
 export function TrackRights({ trackIndex }: TTrackItem) {
   const { register } = useFormContext<TReleaseForm>();
+
+  const rightsRegister = register(`tracks.${trackIndex}.author_rights`);
+
+  const { ref: maskedRef } = useIMask({
+    mask: Number,
+    min: 1,
+    max: 100,
+    autofix: true,
+  });
+
+  const rightsRef = mergeRefs([maskedRef, rightsRegister.ref]);
 
   return (
     <>
@@ -26,20 +39,15 @@ export function TrackRights({ trackIndex }: TTrackItem) {
         </div>
         <div className={style.row}>
           <MyInput
-            {...register(`tracks.${trackIndex}.author_rights`)}
+            {...rightsRegister}
+            ref={rightsRef}
             label={"Авторские права"}
             inpLk
             tooltip={{
               id: `avtorPrava-${trackIndex}`,
               text: "Укажите долю. Если авторов несколько укажите сумму долей",
             }}
-            type="number"
-            min={1}
-            max={100}
-            // value={track.author_rights}
-            // onChange={(e) =>
-            //   handleTrackChange({ author_rights: e.target.value })
-            // }
+            type="text"
           />
           <MyInput
             label={"Смежные права"}

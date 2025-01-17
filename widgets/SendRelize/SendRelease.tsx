@@ -32,6 +32,7 @@ import classNames from "classnames";
 import Image from "next/image";
 import FinalCheck from "./FinalCheck/FinalCheck";
 import { AnimatePresence, motion } from "framer-motion";
+import { ReleaseModeratorComment } from "../ReleaseDraft/ReleaseModeratorComment";
 
 export type TSendRelease = {
   release?: TReleaseForm;
@@ -233,6 +234,8 @@ const SendRelease = () => {
               >
                 <FinalCheck release={releaseData} />
 
+                <ReleaseModeratorComment />
+
                 <div className={style.wrap}>
                   <MyButton
                     text="Отправить релиз"
@@ -246,7 +249,7 @@ const SendRelease = () => {
           </>
         </form>
       </FormProvider>
-      {/* <pre>{JSON.stringify(releaseData, null, 4)}</pre> */}
+      <pre>{JSON.stringify(releaseData, null, 4)}</pre>
       <div className="center gap20">
         {tab != 1 && (
           <p onClick={() => setTab(tab - 1)} className="linkButton">

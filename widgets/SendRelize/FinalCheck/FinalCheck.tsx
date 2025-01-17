@@ -273,9 +273,6 @@ export default function FinalCheck({ release }: TFinalCheck) {
       {release.tracks.map((e, i) => (
         <FinalCheckTrack track={e} key={i} />
       ))}
-      <div className="wrap">
-        <MyTextArea label={"Сообщение для модератора"} />
-      </div>
     </div>
   );
 }
