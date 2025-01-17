@@ -6,7 +6,7 @@ const webpack = require("webpack");
 
 module.exports = {
   mode: "production",
-  entry: "server.ts",
+  entry: "migration.ts",
   target: "node",
   devtool: "inline-source-map",
   module: {
@@ -22,7 +22,7 @@ module.exports = {
     extensions: [".ts", ".js"],
     plugins: [
       new TsconfigPathsPlugin({
-        configFile: "tsconfig.server.json",
+        configFile: "tsconfig.migration.json",
       }),
     ],
   },
@@ -30,6 +30,6 @@ module.exports = {
   output: {
     path: path.join(__dirname, "dist"),
     publicPath: "/",
-    filename: "app.js",
+    filename: "migration.js",
   },
 };

@@ -11,10 +11,11 @@ import MyTitle from "@/shared/MyTitle/MyTitle";
 import style from "./TrackItem.module.css";
 
 export function TrackAdditionalParameters({ trackIndex }: TTrackItem) {
-  const { register, setValue } = useFormContext<TReleaseForm>();
+  const { register, setValue, getValues } = useFormContext<TReleaseForm>();
 
-  const [showInstantGratification, setShowInstantGratification] =
-    useState(false);
+  const [showInstantGratification, setShowInstantGratification] = useState(
+    () => !!getValues(`tracks.${trackIndex}.instant_gratification`)
+  );
 
   return (
     <>
@@ -48,7 +49,6 @@ export function TrackAdditionalParameters({ trackIndex }: TTrackItem) {
           checked={showInstantGratification}
           onChange={() => {
             if (showInstantGratification) {
-              // handleTrackChange({ instant_gratification: undefined });
               setValue(`tracks.${trackIndex}.instant_gratification`, undefined);
             }
             setShowInstantGratification(!showInstantGratification);
@@ -65,12 +65,7 @@ export function TrackAdditionalParameters({ trackIndex }: TTrackItem) {
         )}
         <MyCheckbox
           {...register(`tracks.${trackIndex}.focus`)}
-          // name={`Focus-track-${trackIndex}`}
           label={"Focus track"}
-          // checked={!!track.focus}
-          // onChange={() => {
-          //   handleTrackChange({ focus: !!!track.focus });
-          // }}
           tooltip={{
             id: "Focus track",
             text: "Простой способ выделить лучшее из лучшего. Отметьте трек, к которому хотите привлечь внимание слушателя. Поддерживает только VK Музыка",

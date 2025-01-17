@@ -2,18 +2,24 @@
 
 import { TReleaseForm } from "@/schema/release.schema";
 import MyCheckbox from "@/shared/MyCheckbox/MyCheckbox";
+import MyFile from "@/shared/MyFile/MyFile";
+import MyText from "@/shared/MyText/MyText";
+import MyTitle from "@/shared/MyTitle/MyTitle";
+import classNames from "classnames";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { TTrackItem } from "./TrackItem.props";
-import MyTitle from "@/shared/MyTitle/MyTitle";
-import MyText from "@/shared/MyText/MyText";
-import MyFile from "@/shared/MyFile/MyFile";
 import style from "./TrackItem.module.css";
-import classNames from "classnames";
+import { TTrackItem } from "./TrackItem.props";
 
 export function TrackVideo({ trackIndex }: TTrackItem) {
-  const { setValue } = useFormContext<TReleaseForm>();
-  const [addVideo, setAddVideo] = useState(false);
+  const { setValue, getValues, watch } = useFormContext<TReleaseForm>();
+
+  const videoFile = watch(`tracks.${trackIndex}.video`);
+
+  const [addVideo, setAddVideo] = useState(
+    () => !!getValues(`tracks.${trackIndex}.video`)
+  );
+
   return (
     <>
       <MyCheckbox
@@ -22,7 +28,6 @@ export function TrackVideo({ trackIndex }: TTrackItem) {
         checked={addVideo}
         onChange={() => {
           if (addVideo) {
-            // handleTrackChange({ video: undefined });
             setValue(`tracks.${trackIndex}.video`, undefined);
           }
           setAddVideo(!addVideo);
@@ -40,10 +45,8 @@ export function TrackVideo({ trackIndex }: TTrackItem) {
             Максимальный размер: не более 6 ГБ
           </MyText>
           <MyFile
+            files={videoFile ? [videoFile] : undefined}
             onChange={(e) =>
-              // handleTrackChange({
-              //   video: Array.from(e.target.files ?? []).at(0),
-              // })
               setValue(
                 `tracks.${trackIndex}.video`,
                 Array.from(e.target.files ?? []).at(0)

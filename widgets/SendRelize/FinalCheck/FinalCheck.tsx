@@ -6,6 +6,7 @@ import dateFormatter from "@/utils/dateFormatter";
 import FinalCheckTrack from "./FinalCheckTrack";
 import MyTextArea from "@/shared/MyTextArea/MyTextArea";
 import { allLanguages } from "@/helpers/allLanguages";
+import { useFormContext } from "react-hook-form";
 
 export type TFinalCheck = {
   release: TReleaseForm;
@@ -95,8 +96,8 @@ export default function FinalCheck({ release }: TFinalCheck) {
               </MyTitle>
               <div className="col mt10 ">
                 {release.roles.length > 0 ? (
-                  release.roles.map((e) => (
-                    <p className="styleValue fs14">
+                  release.roles.map((e, index) => (
+                    <p className="styleValue fs14" key={index}>
                       {e.person ? (
                         e.person
                       ) : (
@@ -269,8 +270,8 @@ export default function FinalCheck({ release }: TFinalCheck) {
         </div>
       </div>
 
-      {release.tracks.map((e) => (
-        <FinalCheckTrack track={e} />
+      {release.tracks.map((e, i) => (
+        <FinalCheckTrack track={e} key={i} />
       ))}
       <div className="wrap">
         <MyTextArea label={"Сообщение для модератора"} />

@@ -16,7 +16,8 @@ export function TrackText({ trackIndex }: TTrackItem) {
 
   const value = watch(`tracks.${trackIndex}.text`);
 
-  const [addText, setAddText] = useState(false);
+  const [addText, setAddText] = useState(() => !!value);
+
   return (
     <>
       <MyCheckbox

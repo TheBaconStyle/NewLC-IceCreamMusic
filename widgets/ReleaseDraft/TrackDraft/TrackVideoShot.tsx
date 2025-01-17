@@ -12,9 +12,13 @@ import { useState } from "react";
 import style from "./TrackItem.module.css";
 
 export function TrackVideoShot({ trackIndex }: TTrackItem) {
-  const { setValue } = useFormContext<TReleaseForm>();
+  const { setValue, getValues, watch } = useFormContext<TReleaseForm>();
 
-  const [addVideoShot, setAddVideoShot] = useState(false);
+  const videoShotFile = watch(`tracks.${trackIndex}.video_shot`);
+
+  const [addVideoShot, setAddVideoShot] = useState(
+    () => !!getValues(`tracks.${trackIndex}.video_shot`)
+  );
 
   return (
     <>
@@ -25,7 +29,6 @@ export function TrackVideoShot({ trackIndex }: TTrackItem) {
         onChange={() => {
           console.log("qweqweqwe");
           if (addVideoShot) {
-            // handleTrackChange({ video_shot: undefined });
             setValue(`tracks.${trackIndex}.video_shot`, undefined);
           }
           setAddVideoShot(!addVideoShot);
@@ -43,10 +46,8 @@ export function TrackVideoShot({ trackIndex }: TTrackItem) {
             Максимальный размер: не более 6 ГБ
           </MyText>
           <MyFile
+            files={videoShotFile ? [videoShotFile] : undefined}
             onChange={(e) =>
-              // handleTrackChange({
-              //   video_shot: Array.from(e.target.files ?? []).at(0),
-              // })
               setValue(
                 `tracks.${trackIndex}.video_shot`,
                 Array.from(e.target.files ?? []).at(0)

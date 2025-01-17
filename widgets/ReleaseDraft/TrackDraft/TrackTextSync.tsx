@@ -12,9 +12,13 @@ import classNames from "classnames";
 import style from "./TrackItem.module.css";
 
 export function TrackTextSync({ trackIndex }: TTrackItem) {
-  const { setValue } = useFormContext<TReleaseForm>();
+  const { setValue, getValues, watch } = useFormContext<TReleaseForm>();
 
-  const [addTextSync, setAddTextSync] = useState(false);
+  const textSyncFile = watch(`tracks.${trackIndex}.text_sync`);
+
+  const [addTextSync, setAddTextSync] = useState(
+    () => !!getValues(`tracks.${trackIndex}.text_sync`)
+  );
 
   return (
     <>
@@ -24,7 +28,6 @@ export function TrackTextSync({ trackIndex }: TTrackItem) {
         checked={addTextSync}
         onChange={() => {
           if (addTextSync) {
-            // handleTrackChange({ text_sync: undefined });
             setValue(`tracks.${trackIndex}.text_sync`, undefined);
           }
           setAddTextSync(!addTextSync);
@@ -41,10 +44,8 @@ export function TrackTextSync({ trackIndex }: TTrackItem) {
             Формат: .ttml
           </MyText>
           <MyFile
+            files={textSyncFile ? [textSyncFile] : undefined}
             onChange={(e) =>
-              // handleTrackChange({
-              //   text_sync: Array.from(e.target.files ?? []).at(0),
-              // })
               setValue(
                 `tracks.${trackIndex}.text_sync`,
                 Array.from(e.target.files ?? []).at(0)

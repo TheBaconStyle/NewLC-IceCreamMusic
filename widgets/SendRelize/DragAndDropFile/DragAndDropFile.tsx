@@ -15,7 +15,7 @@ const DragAndDropFile = ({ appendTrack }: TDragAndDropFile) => {
   const [drag, setDrag] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
-  const { setValue, getValues } = useFormContext<TReleaseForm>();
+  const { getValues } = useFormContext<TReleaseForm>();
 
   const dragStartHandler = (e: DragEvent) => {
     e.preventDefault();
@@ -41,7 +41,7 @@ const DragAndDropFile = ({ appendTrack }: TDragAndDropFile) => {
     if (withoutErrors) {
       newFiles.forEach((track) => {
         appendTrack({
-          language: "без слов",
+          language: "",
           partner_code: "",
           preview_start: "",
           roles: [],

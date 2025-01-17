@@ -10,7 +10,9 @@ import style from "./TrackItem.module.css";
 import { TTrackItem } from "./TrackItem.props";
 
 export function TrackRingtone({ trackIndex }: TTrackItem) {
-  const { setValue } = useFormContext<TReleaseForm>();
+  const { setValue, watch } = useFormContext<TReleaseForm>();
+
+  const ringtone = watch(`tracks.${trackIndex}.ringtone`);
 
   return (
     <>
@@ -22,10 +24,8 @@ export function TrackRingtone({ trackIndex }: TTrackItem) {
         Длина: от 5 до 29.99 сек.
       </MyText>
       <MyFile
+        files={ringtone ? [ringtone] : undefined}
         onChange={(e) =>
-          // handleTrackChange({
-          //   ringtone: Array.from(e.target.files ?? []).at(0),
-          // })
           setValue(
             `tracks.${trackIndex}.ringtone`,
             Array.from(e.target.files ?? []).at(0)

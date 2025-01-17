@@ -192,52 +192,48 @@ export default function FinalCheckTrack({ track }: TFinalCheckTrack) {
               <p className="styleValue fs14">
                 Синхронзация текста: <br />
                 Скачать:{" "}
-                <Link
+                <a
                   href={URL.createObjectURL(track.text_sync)}
-                  prefetch={false}
                   download={track.text_sync.name}
                 >
                   {track.text_sync.name}
-                </Link>
+                </a>
               </p>
             )}
             {track.ringtone && (
               <p className="styleValue fs14">
                 Рингтон: <br />
                 Скачать:{" "}
-                <Link
+                <a
                   href={URL.createObjectURL(track.ringtone)}
-                  prefetch={false}
                   download={track.ringtone.name}
                 >
                   {track.ringtone.name}
-                </Link>
+                </a>
               </p>
             )}
             {track.video && (
               <p className="styleValue fs14">
                 Видео к треку: <br />
                 Скачать:{" "}
-                <Link
+                <a
                   href={URL.createObjectURL(track.video)}
-                  prefetch={false}
                   download={track.video.name}
                 >
                   {track.video.name}
-                </Link>
+                </a>
               </p>
             )}
             {track.video_shot && (
               <p className="styleValue fs14">
                 Видео-шот: <br />
                 Скачать:{" "}
-                <Link
+                <a
                   href={URL.createObjectURL(track.video_shot)}
-                  prefetch={false}
-                  download={true}
+                  download={track.video_shot.name}
                 >
                   {track.video_shot.name}
-                </Link>
+                </a>
               </p>
             )}
           </div>
