@@ -8,7 +8,7 @@ export function ReleaseModeratorComment() {
   return (
     <div className="wrap mb20">
       <MyTextArea
-        value={moderatorComment}
+        value={moderatorComment ?? ""}
         label="Сообщение для модератора"
         onChange={(e) => setValue("moderatorComment", e.target.value)}
       />

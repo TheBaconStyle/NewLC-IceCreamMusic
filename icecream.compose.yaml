@@ -116,6 +116,21 @@ services:
     networks:
       - icecream
     restart: unless-stopped
+  migration_tool:
+    container_name: icecream_migration_tool
+    image: icecreammusic_migration:18-01-2025-13-30
+    environment:
+      DB_USER: ${DB_USER:?error}
+      DB_PASSWORD: ${DB_PASSWORD:?error}
+      DB_HOST: postgres
+      DB_PORT: ${DB_PORT:?error}
+      DB_NAME: ${DB_NAME:?error}
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    networks:
+      - icecream
 
 volumes:
   icecream_s3:

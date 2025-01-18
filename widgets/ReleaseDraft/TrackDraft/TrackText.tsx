@@ -14,9 +14,9 @@ import classNames from "classnames";
 export function TrackText({ trackIndex }: TTrackItem) {
   const { setValue, watch } = useFormContext<TReleaseForm>();
 
-  const value = watch(`tracks.${trackIndex}.text`);
+  const trackText = watch(`tracks.${trackIndex}.text`);
 
-  const [addText, setAddText] = useState(() => !!value);
+  const [addText, setAddText] = useState(() => !!trackText);
 
   return (
     <>
@@ -45,7 +45,7 @@ export function TrackText({ trackIndex }: TTrackItem) {
           </MyText>
           <MyTextArea
             label={"Введите текст трека"}
-            value={String(value ?? "")}
+            value={trackText ?? ""}
             onChange={(e) =>
               // handleTrackChange({ text: e.target.value })
               setValue(`tracks.${trackIndex}.text`, e.target.value)

@@ -148,6 +148,10 @@ export const release = schema.table("release", {
   status: verificationStatuses("status").notNull().default("moderating"),
 
   rejectReason: text("rejectReason"),
+
+  roles: jsonb("roles"),
+
+  moderatorComment: text("moderatorComment"),
 });
 
 export const releaseRelations = relations(release, ({ one, many }) => ({

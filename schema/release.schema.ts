@@ -118,8 +118,6 @@ export const releaseFormSchema = releaseInsertSchema
     preorderDate: stringAsDateSchema,
 
     roles: releaseRolesSchema,
-
-    moderatorComment: z.string().optional(),
   });
 
 export type TReleaseForm = z.infer<typeof releaseFormSchema>;
