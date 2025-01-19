@@ -1,0 +1,1 @@
+ALTER TABLE "icecream"."track" ADD COLUMN "index" smallint DEFAULT 0 NOT NULL;

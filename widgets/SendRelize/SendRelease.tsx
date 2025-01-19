@@ -10,29 +10,28 @@ import {
 } from "@/schema/release.schema";
 import MyButton from "@/shared/MyButton/MyButton";
 import { zodResolver } from "@hookform/resolvers/zod";
+import classNames from "classnames";
+import { motion } from "framer-motion";
 import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { ReleaseArea } from "../ReleaseDraft/ReleaseArea";
+import { ReleaseDates } from "../ReleaseDraft/ReleaseDates";
+import { ReleaseGeneralInfo } from "../ReleaseDraft/ReleaseGeneralInfo";
+import { ReleaseGenre } from "../ReleaseDraft/ReleaseGenre";
+import { ReleaseIdentification } from "../ReleaseDraft/ReleaseIdentification";
+import { ReleaseModeratorComment } from "../ReleaseDraft/ReleaseModeratorComment";
+import { ReleasePersons } from "../ReleaseDraft/ReleasePersons";
+import { ReleasePlatforms } from "../ReleaseDraft/ReleasePlatform";
+import { ReleaseTracks } from "../ReleaseDraft/ReleaseTracks";
+import { ReleaseLabel } from "../ReleaseDraft/RleaseLabel";
+import FinalCheck from "./FinalCheck/FinalCheck";
 import trackRusificator, {
   releaseRussificator,
   type TReleaseFormTrimmed,
   TTrackFormTrimmed,
 } from "./russificator";
 import style from "./SendRelease.module.css";
-import { ReleaseGeneralInfo } from "../ReleaseDraft/ReleaseGeneralInfo";
-import { ReleasePersons } from "../ReleaseDraft/ReleasePersons";
-import { ReleaseGenre } from "../ReleaseDraft/ReleaseGenre";
-import { ReleaseIdentification } from "../ReleaseDraft/ReleaseIdentification";
-import { ReleaseLabel } from "../ReleaseDraft/RleaseLabel";
-import { ReleaseDates } from "../ReleaseDraft/ReleaseDates";
-import { ReleaseArea } from "../ReleaseDraft/ReleaseArea";
-import { ReleasePlatforms } from "../ReleaseDraft/ReleasePlatform";
-import { ReleaseTracks } from "../ReleaseDraft/ReleaseTracks";
-import classNames from "classnames";
-import Image from "next/image";
-import FinalCheck from "./FinalCheck/FinalCheck";
-import { AnimatePresence, motion } from "framer-motion";
-import { ReleaseModeratorComment } from "../ReleaseDraft/ReleaseModeratorComment";
 
 export type TSendRelease = {
   release?: TReleaseForm;
@@ -99,7 +98,7 @@ const SendRelease = () => {
 
                 const tracksData: TTrackInsert[] = [];
 
-                for (let track of tracks) {
+                tracks.forEach((track, index) => {
                   const trackFiles = new FormData();
                   trackFiles.set("track", track.track);
                   !!track.ringtone &&
@@ -127,10 +126,11 @@ const SendRelease = () => {
                     ringtone: !!track.ringtone
                       ? track.ringtone.type.split("/")[1]
                       : undefined,
+                    index,
                   };
                   tracksData.push(trackData);
                   tracksFiles.push(trackFiles);
-                }
+                });
 
                 const releaseData: TReleaseInsert = {
                   ...release,

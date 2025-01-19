@@ -8,6 +8,7 @@ import {
   text,
   timestamp,
   uuid,
+  smallint,
 } from "drizzle-orm/pg-core";
 
 export const schema = pgSchema("icecream");
@@ -210,6 +211,8 @@ export const track = schema.table("track", {
   video: text("video"),
 
   video_shot: text("video_shot"),
+
+  index: smallint("index").notNull(),
 });
 
 export const trackRelations = relations(track, ({ one }) => ({

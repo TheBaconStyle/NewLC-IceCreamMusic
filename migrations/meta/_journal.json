@@ -232,6 +232,20 @@
       "when": 1737234228814,
       "tag": "0032_majestic_supreme_intelligence",
       "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1737284639009,
+      "tag": "0033_tranquil_anthem",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1737285321321,
+      "tag": "0034_nifty_genesis",
+      "breakpoints": true
     }
   ]
 }

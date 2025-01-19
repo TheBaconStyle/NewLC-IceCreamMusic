@@ -1,0 +1,1 @@
+ALTER TABLE "icecream"."track" ALTER COLUMN "index" DROP DEFAULT;

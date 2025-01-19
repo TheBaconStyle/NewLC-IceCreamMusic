@@ -470,14 +470,20 @@ export default async function AdminReleaseDetailPage({
                               </MyText>
                               <MyText className={style.value}>
                                 {e.text_sync ? (
-                                  <Link
-                                    href={`${process.env.NEXT_PUBLIC_S3_URL}/syncs/${releaseData.id}.${e.text_sync}`}
-                                    download
+                                  // <Link
+                                  //   href={`${process.env.NEXT_PUBLIC_S3_URL}/syncs/${e.id}.${e.text_sync}`}
+                                  //   download
+                                  //   className={style.link}
+                                  //   prefetch={false}
+                                  // >
+                                  //   Файл
+                                  // </Link>
+                                  <DownloadButton
+                                    type="button"
+                                    src={`${process.env.NEXT_PUBLIC_S3_URL}/syncs/${e.id}.${e.text_sync}`}
+                                    fileName={`${e.title}.${e.text_sync}`}
                                     className={style.link}
-                                    prefetch={false}
-                                  >
-                                    Файл
-                                  </Link>
+                                  />
                                 ) : (
                                   <span className={style.warning}>
                                     Информация отсутствует
@@ -492,14 +498,20 @@ export default async function AdminReleaseDetailPage({
                               <MyText className={style.title}>Рингтон</MyText>
                               <MyText className={style.value}>
                                 {e.ringtone ? (
-                                  <Link
-                                    href={`${process.env.NEXT_PUBLIC_S3_URL}/ringtones/${releaseData.id}.${e.ringtone}`}
-                                    download
+                                  // <Link
+                                  //   href={`${process.env.NEXT_PUBLIC_S3_URL}/ringtones/${e.id}.${e.ringtone}`}
+                                  //   download
+                                  //   className={style.link}
+                                  //   prefetch={false}
+                                  // >
+                                  //   Файл
+                                  // </Link>
+                                  <DownloadButton
+                                    type="button"
+                                    src={`${process.env.NEXT_PUBLIC_S3_URL}/ringtones/${e.id}.${e.ringtone}`}
+                                    fileName={`${e.title}.${e.ringtone}`}
                                     className={style.link}
-                                    prefetch={false}
-                                  >
-                                    Файл
-                                  </Link>
+                                  />
                                 ) : (
                                   <span className={style.warning}>
                                     Информация отсутствует
@@ -516,14 +528,20 @@ export default async function AdminReleaseDetailPage({
                               </MyText>
                               <MyText className={style.value}>
                                 {e.video ? (
-                                  <Link
-                                    href={`${process.env.NEXT_PUBLIC_S3_URL}/videos/${releaseData.id}.${e.video}`}
-                                    download
+                                  // <Link
+                                  //   href={`${process.env.NEXT_PUBLIC_S3_URL}/videos/${e.id}.${e.video}`}
+                                  //   download
+                                  //   className={style.link}
+                                  //   prefetch={false}
+                                  // >
+                                  //   Файл
+                                  // </Link>
+                                  <DownloadButton
+                                    type="button"
+                                    src={`${process.env.NEXT_PUBLIC_S3_URL}/videos/${e.id}.${e.video}`}
+                                    fileName={`${e.title}.${e.video}`}
                                     className={style.link}
-                                    prefetch={false}
-                                  >
-                                    Файл
-                                  </Link>
+                                  />
                                 ) : (
                                   <span className={style.warning}>
                                     Информация отсутствует
@@ -538,14 +556,20 @@ export default async function AdminReleaseDetailPage({
                               <MyText className={style.title}>Видео-шот</MyText>
                               <MyText className={style.value}>
                                 {e.video ? (
-                                  <Link
-                                    href={`${process.env.NEXT_PUBLIC_S3_URL}/videoshots/${releaseData.id}.${e.video_shot}`}
-                                    download
+                                  // <Link
+                                  //   href={`${process.env.NEXT_PUBLIC_S3_URL}/videoshots/${e.id}.${e.video_shot}`}
+                                  //   download
+                                  //   className={style.link}
+                                  //   prefetch={false}
+                                  // >
+                                  //   Файл
+                                  // </Link>
+                                  <DownloadButton
+                                    type="button"
+                                    src={`${process.env.NEXT_PUBLIC_S3_URL}/videoshots/${e.id}.${e.video_shot}`}
+                                    fileName={`${e.title}.${e.video_shot}`}
                                     className={style.link}
-                                    prefetch={false}
-                                  >
-                                    Файл
-                                  </Link>
+                                  />
                                 ) : (
                                   <span className={style.warning}>
                                     Информация отсутствует

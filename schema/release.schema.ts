@@ -36,18 +36,22 @@ const releaseRolesSchema = roleSchema.array().refine((value) => {
   return hasPerformer;
 });
 
-export const trackFormSchema = trackInsertSchema.extend({
-  title: z.string().min(1),
-  track: fileSchema,
-  text_sync: optionalFileSchema,
-  ringtone: optionalFileSchema,
-  video: optionalFileSchema,
-  video_shot: optionalFileSchema,
-  instant_gratification: stringAsDateSchema.optional(),
-  roles: trackRolesSchema,
-  language: z.string().min(1),
-  author_rights: authorRightsSchema,
-});
+export const trackFormSchema = trackInsertSchema
+  .omit({
+    index: true,
+  })
+  .extend({
+    title: z.string().min(1),
+    track: fileSchema,
+    text_sync: optionalFileSchema,
+    ringtone: optionalFileSchema,
+    video: optionalFileSchema,
+    video_shot: optionalFileSchema,
+    instant_gratification: stringAsDateSchema.optional(),
+    roles: trackRolesSchema,
+    language: z.string().min(1),
+    author_rights: authorRightsSchema,
+  });
 
 export type TTrackForm = z.infer<typeof trackFormSchema>;
 

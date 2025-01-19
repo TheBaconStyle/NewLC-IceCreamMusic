@@ -1,4 +1,4 @@
-import { roboto } from "@/fonts";
+import { rubik } from "@/fonts";
 import { NotificationProvider } from "@/providers/NotificationProvider";
 import Script from "next/script";
 import { PropsWithChildren, Suspense } from "react";
@@ -18,7 +18,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <Script src="https://yookassa.ru/payouts-data/3.1.0/widget.js" />
-      <body className={roboto.className}>
+      <body className={rubik.className}>
         <NotificationProvider>
           <Suspense fallback={<Loading />}>{children}</Suspense>
         </NotificationProvider>

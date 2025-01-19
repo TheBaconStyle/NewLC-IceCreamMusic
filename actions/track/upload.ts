@@ -43,6 +43,7 @@ export async function uploadTrack(
   const release = await db.query.release.findFirst({
     where: (rel, { eq, and }) =>
       and(eq(rel.authorId, user.id), eq(rel.id, releaseId)),
+    with: { tracks: true },
   });
 
   if (!release) {
@@ -73,7 +74,11 @@ export async function uploadTrack(
       const insertedTrack = (
         await tx
           .insert(track)
-          .values({ ...validatedTrackData.data, releaseId })
+          .values({
+            ...validatedTrackData.data,
+            releaseId,
+            index: release.tracks.length,
+          })
           .returning({
             id: track.id,
             track: track.track,
