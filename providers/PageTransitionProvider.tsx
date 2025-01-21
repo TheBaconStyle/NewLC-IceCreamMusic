@@ -12,17 +12,5 @@ export function PageTransitionProvider({
 }: Readonly<PropsWithChildren<TPageTransitionProvider>>) {
   const pathname = usePathname();
 
-  return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.2 }}
-        key={pathname}
-        className={className}
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
-  );
+  return <AnimatePresence mode="wait">{children}</AnimatePresence>;
 }

@@ -19,7 +19,9 @@ export default function FinalCheck({ release }: TFinalCheck) {
         <div className="row gap30 itemsStart">
           {release.preview ? (
             <Image
-              src={URL.createObjectURL(release.preview)}
+              //TODO: Сделлать
+              src={""}
+              // URL.createObjectURL(release.preview)
               alt={"Превью"}
               width={225}
               height={225}

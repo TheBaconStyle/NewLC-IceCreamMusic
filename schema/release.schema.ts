@@ -2,6 +2,7 @@ import { release, track } from "@/db/schema";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { fileSchema, stringAsDateSchema } from "./shared.schema";
+import { InferSelectModel } from "drizzle-orm";
 
 export const optionalFileSchema = fileSchema.optional();
 
@@ -125,3 +126,6 @@ export const releaseFormSchema = releaseInsertSchema
   });
 
 export type TReleaseForm = z.infer<typeof releaseFormSchema>;
+
+export type TRelease = InferSelectModel<typeof release>;
+export type TTrack = InferSelectModel<typeof track>;

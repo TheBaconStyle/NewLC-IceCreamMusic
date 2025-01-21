@@ -2,11 +2,14 @@ import { getAuthSession } from "@/actions/auth";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
 import { Error } from "@/entities/Error";
 import { db } from "@/db";
+import { sql } from "drizzle-orm";
+import { track } from "@/db/schema";
+import UpdateRelize from "@/widgets/UpdateRelize/UpdateRelize";
 
 export default async function ReleaseDraftPage({
   params,
 }: {
-  params: { id: string };
+  params: { releaseId: string };
 }) {
   const session = await getAuthSession();
 
@@ -25,8 +28,12 @@ export default async function ReleaseDraftPage({
 
   const release = await db.query.release.findFirst({
     where: (rel, { eq, and }) =>
-      and(eq(rel.id, params.id), eq(rel.authorId, user.id)),
-    with: { tracks: true },
+      and(eq(rel.id, params.releaseId), eq(rel.authorId, user.id)),
+    with: {
+      tracks: {
+        orderBy: sql`${track.index}`,
+      },
+    },
   });
 
   if (!release) {
@@ -36,6 +43,7 @@ export default async function ReleaseDraftPage({
   return (
     <PageTransitionProvider>
       <pre>{JSON.stringify(release, null, 4)}</pre>
+      <UpdateRelize release={release} />
     </PageTransitionProvider>
   );
 }

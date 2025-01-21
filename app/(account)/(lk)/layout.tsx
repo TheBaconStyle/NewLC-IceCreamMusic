@@ -11,6 +11,8 @@ import classNames from "classnames";
 import { cookies } from "next/headers";
 import { PropsWithChildren } from "react";
 import style from "./layout.module.css";
+import { AudioPlayerProvider } from "@/providers/AudioPlayerContext";
+import { AudioPlayer } from "@/widgets/AudioPlayer/AudioPlayer";
 
 export default async function CabinetLayout({ children }: PropsWithChildren) {
   const theme = cookies().get("__theme__")?.value || "system";
@@ -26,22 +28,24 @@ export default async function CabinetLayout({ children }: PropsWithChildren) {
   return (
     <AppThemeProvider attribute="data-theme" defaultTheme={theme}>
       <SidebarContextProvider>
-        <main className={classNames(style.main, open.className)}>
-          <div className={style.row}>
-            <Sidebar isAdmin={isAdmin} />
-            <div className={style.col}>
-              <Header
-                userid={session!.id}
-                username={session!.name}
-                avatar={session!.avatar}
-              />
-              <div className={style.content}>
-                <BreadCrumbs home="Панель управления" />
-                {children}
+        <AudioPlayerProvider>
+          <main className={classNames(style.main, open.className)}>
+            <div className={style.row}>
+              <Sidebar isAdmin={isAdmin} />
+              <div className={style.col}>
+                <Header
+                  userid={session!.id}
+                  username={session!.name}
+                  avatar={session!.avatar}
+                />
+                <div className={style.content}>
+                  <BreadCrumbs home="Панель управления" />
+                  {children}
+                </div>
               </div>
             </div>
-          </div>
-        </main>
+          </main>
+        </AudioPlayerProvider>
       </SidebarContextProvider>
     </AppThemeProvider>
   );

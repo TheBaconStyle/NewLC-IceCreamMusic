@@ -249,7 +249,7 @@ const SendRelease = () => {
           </>
         </form>
       </FormProvider>
-      <pre>{JSON.stringify(releaseData, null, 4)}</pre>
+      {/* <pre>{JSON.stringify(releaseData, null, 4)}</pre> */}
       <div className="center gap20">
         {tab != 1 && (
           <p onClick={() => setTab(tab - 1)} className="linkButton">

@@ -14,32 +14,14 @@ export default async function MainPage() {
 
   const releasesData = await db.query.release.findMany({
     where: (release, { eq }) => eq(release.authorId, session.id),
+    with: { tracks: true },
   });
 
   return (
     <PageTransitionProvider>
       <div className="col gap20">
         {releasesData.map((release) => {
-          return (
-            <RelizeItem
-              key={release.id}
-              id={release.id}
-              srcPreview={`${process.env.NEXT_PUBLIC_S3_URL}/previews/${release.id}.${release.preview}`}
-              relizeName={release.title}
-              upc={release.upc}
-              labelName={release.labelName}
-              genre={release.genre}
-              artistsName={release.performer}
-              typeRelize={release.type}
-              status={release.status}
-              moderatorComment={release.rejectReason}
-              dateCreate={release.preorderDate}
-              dateRelize={release.releaseDate}
-              dateStart={release.startDate}
-              confirmed={release.confirmed}
-              showConfirmed={true}
-            />
-          );
+          return <RelizeItem release={release} />;
         })}
       </div>
 

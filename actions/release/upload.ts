@@ -204,7 +204,6 @@ export async function uploadRelease(
         file: releasePreviewResult.data,
         client,
       }).catch(async (e) => {
-        await removeReleaseAssets(insertedRelease, insertedTracks);
         throw new Error("Не удалось загрузить превью к релизу", { cause: e });
       });
 

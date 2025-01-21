@@ -37,7 +37,9 @@ export function ReleaseGeneralInfo() {
               const file = files?.item(0);
               !!file && file !== null && setValue("preview", file);
             }}
-            srcPrev={preview && URL.createObjectURL(preview)}
+            // TODO: сделать!!!!!!!!!!!!!!!!
+            srcPrev={""}
+            //preview && URL.createObjectURL(preview)
           />
           <MyText className={style.desc}>
             Минимальный размер изображения: 3000x3000px

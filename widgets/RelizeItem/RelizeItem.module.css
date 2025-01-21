@@ -72,3 +72,26 @@
   right: 10px;
   top: 60px;
 }
+.linkToEdit {
+  position: absolute !important;
+  right: 10px;
+  top: 120px;
+}
+
+.tracks {
+  overflow: hidden;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.track {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+.trackTitle {
+  min-width: fit-content;
+  font-size: 14px;
+}
