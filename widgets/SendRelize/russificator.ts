@@ -1,7 +1,7 @@
-import { TReleaseForm, TTrackForm } from "@/schema/release.schema";
+import { TReleaseInsertForm, TTrackInsertForm } from "@/schema/release.schema";
 
 export type TReleaseFormTrimmed = Omit<
-  TReleaseForm,
+  TReleaseInsertForm,
   "tracks" | "labelName" | "upc"
 >;
 
@@ -35,7 +35,7 @@ export function releaseRussificator(
 }
 
 export type TTrackFormTrimmed = Pick<
-  TTrackForm,
+  TTrackInsertForm,
   "author_rights" | "language" | "title" | "roles"
 >;
 

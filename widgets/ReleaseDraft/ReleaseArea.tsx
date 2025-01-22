@@ -1,7 +1,7 @@
 "use client";
 
 import { allCountry } from "@/helpers/allCountry";
-import { TReleaseForm } from "@/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import MyCheckbox from "@/shared/MyCheckbox/MyCheckbox";
 import MyRadio from "@/shared/MyRadio/MyRadio";
 import MyText from "@/shared/MyText/MyText";
@@ -12,7 +12,7 @@ import { useFormContext } from "react-hook-form";
 import style from "./Release.module.css";
 
 export function ReleaseArea() {
-  const { watch, setValue, register } = useFormContext<TReleaseForm>();
+  const { watch, setValue, register } = useFormContext<TReleaseInsertForm>();
 
   const areas = watch("area");
 

@@ -1,7 +1,15 @@
 "use client";
 
-import { standardLabelName } from "@/helpers/priceList";
-import { releaseFormSchema, TReleaseForm } from "@/schema/release.schema";
+import {
+  releaseAreaSchema,
+  releasePlatformsSchema,
+  releaseRolesSchema,
+  releaseUpdateFormSchema,
+  trackRolesSchema,
+  TRelease,
+  TReleaseUpdateForm,
+  TTrack,
+} from "@/schema/release.schema";
 import MyButton from "@/shared/MyButton/MyButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import classNames from "classnames";
@@ -17,19 +25,34 @@ import { ReleaseModeratorComment } from "../ReleaseDraft/ReleaseModeratorComment
 import { ReleasePersons } from "../ReleaseDraft/ReleasePersons";
 import { ReleasePlatforms } from "../ReleaseDraft/ReleasePlatform";
 import { ReleaseTracks } from "../ReleaseDraft/ReleaseTracks";
-import { ReleaseLabel } from "../ReleaseDraft/RleaseLabel";
-
 import FinalCheck from "../SendRelize/FinalCheck/FinalCheck";
 import style from "./UpdateRelize.module.css";
 
 export type TUpdateRelease = {
-  release?: TReleaseForm;
+  release: TRelease & { tracks: TTrack[] };
 };
 
-const UpdateRelize = ({ release }: TUpdateRelease) => {
-  const formMethods = useForm<TReleaseForm>({
-    resolver: zodResolver(releaseFormSchema),
-    defaultValues: { labelName: standardLabelName, tracks: [], ...release },
+const UpdateRelease = ({ release }: TUpdateRelease) => {
+  const { tracks, platforms, area, roles, ...otherReleaseData } = release;
+
+  const formMethods = useForm<TReleaseUpdateForm>({
+    resolver: zodResolver(releaseUpdateFormSchema),
+    defaultValues: {
+      ...otherReleaseData,
+      roles: releaseRolesSchema.parse(roles),
+      area: releaseAreaSchema.parse(area),
+      platforms: releasePlatformsSchema.parse(platforms),
+      tracks: tracks.map((track) => ({
+        ...track,
+        roles: trackRolesSchema.parse(track.roles),
+        language: track.language ?? undefined,
+        trackId: track.id,
+        text_sync: track.text_sync ?? undefined,
+        ringtone: track.ringtone ?? undefined,
+        video: track.video ?? undefined,
+        video_shot: track.video_shot ?? undefined,
+      })),
+    },
     progressive: true,
     mode: "all",
   });
@@ -117,7 +140,6 @@ const UpdateRelize = ({ release }: TUpdateRelease) => {
           </>
         </form>
       </FormProvider>
-      {/* <pre>{JSON.stringify(releaseData, null, 4)}</pre> */}
       <div className="center gap20">
         {tab != 1 && (
           <p onClick={() => setTab(tab - 1)} className="linkButton">
@@ -133,4 +155,4 @@ const UpdateRelize = ({ release }: TUpdateRelease) => {
     </div>
   );
 };
-export default UpdateRelize;
+export default UpdateRelease;

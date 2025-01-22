@@ -1,15 +1,16 @@
-import Image from "next/image";
-import { TReleaseForm } from "@/schema/release.schema";
-import MyTitle from "@/shared/MyTitle/MyTitle";
 import { allGenres } from "@/helpers/allGenres";
-import dateFormatter from "@/utils/dateFormatter";
-import FinalCheckTrack from "./FinalCheckTrack";
-import MyTextArea from "@/shared/MyTextArea/MyTextArea";
 import { allLanguages } from "@/helpers/allLanguages";
-import { useFormContext } from "react-hook-form";
+import {
+  TReleaseInsertForm,
+  TReleaseUpdateForm,
+} from "@/schema/release.schema";
+import MyTitle from "@/shared/MyTitle/MyTitle";
+import dateFormatter from "@/utils/dateFormatter";
+import Image from "next/image";
+import FinalCheckTrack from "./FinalCheckTrack";
 
 export type TFinalCheck = {
-  release: TReleaseForm;
+  release: TReleaseUpdateForm | TReleaseInsertForm;
 };
 
 export default function FinalCheck({ release }: TFinalCheck) {
@@ -97,7 +98,7 @@ export default function FinalCheck({ release }: TFinalCheck) {
                 Персоны и роли
               </MyTitle>
               <div className="col mt10 ">
-                {release.roles.length > 0 ? (
+                {release.roles && release.roles.length > 0 ? (
                   release.roles.map((e, index) => (
                     <p className="styleValue fs14" key={index}>
                       {e.person ? (

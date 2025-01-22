@@ -9,10 +9,11 @@ import classNames from "classnames";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import style from "./Release.module.css";
-import { TReleaseForm } from "@/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 
 export function ReleaseLabel() {
-  const { register, setValue, getValues } = useFormContext<TReleaseForm>();
+  const { register, setValue, getValues } =
+    useFormContext<TReleaseInsertForm>();
 
   const [changeLabel, setChangeLabel] = useState(
     () => getValues("labelName") !== standardLabelName

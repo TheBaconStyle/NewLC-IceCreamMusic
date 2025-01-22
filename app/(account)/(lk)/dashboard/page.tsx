@@ -3,7 +3,7 @@ import { db } from "@/db";
 import { Error } from "@/entities/Error";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
 import MyText from "@/shared/MyText/MyText";
-import RelizeItem from "@/widgets/RelizeItem/RelizeItem";
+import ReleaseItem from "@/widgets/RelizeItem/RelizeItem";
 
 export default async function MainPage() {
   const session = await getAuthSession();
@@ -21,7 +21,7 @@ export default async function MainPage() {
     <PageTransitionProvider>
       <div className="col gap20">
         {releasesData.map((release) => {
-          return <RelizeItem release={release} />;
+          return <ReleaseItem release={release} key={release.id} />;
         })}
       </div>
 

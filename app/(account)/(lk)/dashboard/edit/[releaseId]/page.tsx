@@ -1,10 +1,10 @@
 import { getAuthSession } from "@/actions/auth";
-import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
-import { Error } from "@/entities/Error";
 import { db } from "@/db";
-import { sql } from "drizzle-orm";
 import { track } from "@/db/schema";
-import UpdateRelize from "@/widgets/UpdateRelize/UpdateRelize";
+import { Error } from "@/entities/Error";
+import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
+import UpdateRelease from "@/widgets/UpdateRelize/UpdateRelize";
+import { sql } from "drizzle-orm";
 
 export default async function ReleaseDraftPage({
   params,
@@ -42,8 +42,8 @@ export default async function ReleaseDraftPage({
 
   return (
     <PageTransitionProvider>
+      <UpdateRelease release={release as any} />
       <pre>{JSON.stringify(release, null, 4)}</pre>
-      <UpdateRelize release={release} />
     </PageTransitionProvider>
   );
 }

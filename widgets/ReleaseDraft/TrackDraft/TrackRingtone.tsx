@@ -1,6 +1,6 @@
 "use client";
 
-import { TReleaseForm } from "@/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import MyFile from "@/shared/MyFile/MyFile";
 import MyText from "@/shared/MyText/MyText";
 import MyTitle from "@/shared/MyTitle/MyTitle";
@@ -10,7 +10,7 @@ import style from "./TrackItem.module.css";
 import { TTrackItem } from "./TrackItem.props";
 
 export function TrackRingtone({ trackIndex }: TTrackItem) {
-  const { setValue, watch } = useFormContext<TReleaseForm>();
+  const { setValue, watch } = useFormContext<TReleaseInsertForm>();
 
   const ringtone = watch(`tracks.${trackIndex}.ringtone`);
 

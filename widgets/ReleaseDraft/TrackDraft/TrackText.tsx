@@ -2,7 +2,7 @@
 
 import { useFormContext } from "react-hook-form";
 import { TTrackItem } from "./TrackItem.props";
-import { TReleaseForm } from "@/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import style from "./TrackItem.module.css";
 import MyCheckbox from "@/shared/MyCheckbox/MyCheckbox";
 import MyTitle from "@/shared/MyTitle/MyTitle";
@@ -12,7 +12,7 @@ import MyTextArea from "@/shared/MyTextArea/MyTextArea";
 import classNames from "classnames";
 
 export function TrackText({ trackIndex }: TTrackItem) {
-  const { setValue, watch } = useFormContext<TReleaseForm>();
+  const { setValue, watch } = useFormContext<TReleaseInsertForm>();
 
   const trackText = watch(`tracks.${trackIndex}.text`);
 

@@ -1,5 +1,10 @@
 "use client";
 
+import { allLanguages } from "@/helpers/allLanguages";
+import {
+  TReleaseInsertForm,
+  TReleaseUpdateForm,
+} from "@/schema/release.schema";
 import MyInpFile from "@/shared/MyInpFile/MyInpFile";
 import MyInput from "@/shared/MyInput/MyInput";
 import MyRadio from "@/shared/MyRadio/MyRadio";
@@ -11,12 +16,14 @@ import classNames from "classnames";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import style from "./Release.module.css";
-import { allLanguages } from "@/helpers/allLanguages";
-import { TReleaseForm } from "@/schema/release.schema";
+import { TReleaseFieldGroup } from "./types";
+
+export type TReleaseGeneralInfo = TReleaseFieldGroup & {};
 
 export function ReleaseGeneralInfo() {
-  const { register, setValue, watch, getValues } =
-    useFormContext<TReleaseForm>();
+  const { register, setValue, watch, getValues } = useFormContext<
+    TReleaseInsertForm | TReleaseUpdateForm
+  >();
 
   const [languageValue, setLanguageValue] = useState<IMySelectProps["value"]>(
     () => {
@@ -26,6 +33,8 @@ export function ReleaseGeneralInfo() {
   );
 
   const preview = watch("preview");
+
+  const id = watch("id");
 
   return (
     <>
@@ -37,9 +46,12 @@ export function ReleaseGeneralInfo() {
               const file = files?.item(0);
               !!file && file !== null && setValue("preview", file);
             }}
-            // TODO: сделать!!!!!!!!!!!!!!!!
-            srcPrev={""}
-            //preview && URL.createObjectURL(preview)
+            srcPrev={
+              preview &&
+              (preview instanceof File
+                ? URL.createObjectURL(preview)
+                : `${process.env.NEXT_PUBLIC_S3_URL}/preview/${id}.${preview}`)
+            }
           />
           <MyText className={style.desc}>
             Минимальный размер изображения: 3000x3000px

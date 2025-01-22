@@ -3,7 +3,7 @@ import { db } from "@/db";
 import { Error } from "@/entities/Error";
 import MyText from "@/shared/MyText/MyText";
 import MyTitle from "@/shared/MyTitle/MyTitle";
-import RelizeItem from "@/widgets/RelizeItem/RelizeItem";
+import ReleaseItem from "@/widgets/RelizeItem/RelizeItem";
 import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
@@ -95,7 +95,7 @@ export default async function ProfilePage() {
         <div className="col gap20">
           {userData?.releases.map((release) => {
             return (
-              <RelizeItem
+              <ReleaseItem
                 key={release.id}
                 srcPreview={`${process.env.NEXT_PUBLIC_S3_URL}/previews/${release.id}.${release.preview}`}
                 relizeName={release.title}

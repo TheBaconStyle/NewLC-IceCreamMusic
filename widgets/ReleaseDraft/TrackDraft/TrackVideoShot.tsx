@@ -6,13 +6,13 @@ import MyText from "@/shared/MyText/MyText";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import { TTrackItem } from "./TrackItem.props";
 import { useFormContext } from "react-hook-form";
-import { TReleaseForm } from "@/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import classNames from "classnames";
 import { useState } from "react";
 import style from "./TrackItem.module.css";
 
 export function TrackVideoShot({ trackIndex }: TTrackItem) {
-  const { setValue, getValues, watch } = useFormContext<TReleaseForm>();
+  const { setValue, getValues, watch } = useFormContext<TReleaseInsertForm>();
 
   const videoShotFile = watch(`tracks.${trackIndex}.video_shot`);
 

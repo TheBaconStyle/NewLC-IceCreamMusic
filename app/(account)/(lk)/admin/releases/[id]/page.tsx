@@ -4,12 +4,15 @@ import MyTitle from "@/shared/MyTitle/MyTitle";
 import dateFormatter from "@/utils/dateFormatter";
 import classNames from "classnames";
 import Image from "next/image";
-import Link from "next/link";
 import { z } from "zod";
+import { DownloadButton } from "@/widgets/DownloadButton/DownloadButton";
 import { ConfirmButton } from "./ConfirmButton";
 import style from "./page.module.css";
 import { RejectButton } from "./RejectButton";
-import { DownloadButton } from "./DownloadButton";
+import {
+  releaseAreaSchema,
+  releasePlatformsSchema,
+} from "@/schema/release.schema";
 
 export default async function AdminReleaseDetailPage({
   params,
@@ -22,7 +25,7 @@ export default async function AdminReleaseDetailPage({
   });
 
   // платформы
-  let platforms = z.string().array().parse(releaseData?.platforms);
+  let platforms = releasePlatformsSchema.parse(releaseData?.platforms);
   if (platforms.includes("all")) {
     platforms = ["На всех площадках"];
   } else {
@@ -30,12 +33,8 @@ export default async function AdminReleaseDetailPage({
   }
 
   // территории
-  let areas = z
-    .object({
-      negate: z.boolean(),
-      data: z.string().array(),
-    })
-    .parse(releaseData?.area);
+  let areas = releaseAreaSchema.parse(releaseData?.area);
+
   if (areas.negate) {
     areas.data = ["Во всех кроме: ", areas.data.join(", ")];
   }
@@ -56,7 +55,6 @@ export default async function AdminReleaseDetailPage({
               src={`${process.env.NEXT_PUBLIC_S3_URL}/previews/${
                 releaseData!.id
               }.${releaseData!.preview}`}
-              // alt={data!.title}
               className={style.image}
               width={250}
               height={250}
@@ -118,7 +116,7 @@ export default async function AdminReleaseDetailPage({
                 </div>
                 <div className="col">
                   <MyText className={style.title}>
-                    Лицаиц со статусом Remixer
+                    Лица со статусом Remixer
                   </MyText>
                   <MyText className={style.value}>{releaseData.remixer}</MyText>
                 </div>
@@ -249,14 +247,6 @@ export default async function AdminReleaseDetailPage({
                           </MyTitle>
                           <div className="col mt10">
                             <MyText className={style.title}>Ссылка</MyText>
-                            {/* <Link
-                              href={`${process.env.NEXT_PUBLIC_S3_URL}/tracks/${e.id}.${e.track}`}
-                              download={`${e.title}.${e.track}`}
-                              className={style.link}
-                              prefetch={false}
-                            >
-                              Файл
-                            </Link> */}
                             <DownloadButton
                               type="button"
                               src={`${process.env.NEXT_PUBLIC_S3_URL}/tracks/${e.id}.${e.track}`}
@@ -470,14 +460,6 @@ export default async function AdminReleaseDetailPage({
                               </MyText>
                               <MyText className={style.value}>
                                 {e.text_sync ? (
-                                  // <Link
-                                  //   href={`${process.env.NEXT_PUBLIC_S3_URL}/syncs/${e.id}.${e.text_sync}`}
-                                  //   download
-                                  //   className={style.link}
-                                  //   prefetch={false}
-                                  // >
-                                  //   Файл
-                                  // </Link>
                                   <DownloadButton
                                     type="button"
                                     src={`${process.env.NEXT_PUBLIC_S3_URL}/syncs/${e.id}.${e.text_sync}`}
@@ -498,14 +480,6 @@ export default async function AdminReleaseDetailPage({
                               <MyText className={style.title}>Рингтон</MyText>
                               <MyText className={style.value}>
                                 {e.ringtone ? (
-                                  // <Link
-                                  //   href={`${process.env.NEXT_PUBLIC_S3_URL}/ringtones/${e.id}.${e.ringtone}`}
-                                  //   download
-                                  //   className={style.link}
-                                  //   prefetch={false}
-                                  // >
-                                  //   Файл
-                                  // </Link>
                                   <DownloadButton
                                     type="button"
                                     src={`${process.env.NEXT_PUBLIC_S3_URL}/ringtones/${e.id}.${e.ringtone}`}
@@ -528,14 +502,6 @@ export default async function AdminReleaseDetailPage({
                               </MyText>
                               <MyText className={style.value}>
                                 {e.video ? (
-                                  // <Link
-                                  //   href={`${process.env.NEXT_PUBLIC_S3_URL}/videos/${e.id}.${e.video}`}
-                                  //   download
-                                  //   className={style.link}
-                                  //   prefetch={false}
-                                  // >
-                                  //   Файл
-                                  // </Link>
                                   <DownloadButton
                                     type="button"
                                     src={`${process.env.NEXT_PUBLIC_S3_URL}/videos/${e.id}.${e.video}`}
@@ -556,14 +522,6 @@ export default async function AdminReleaseDetailPage({
                               <MyText className={style.title}>Видео-шот</MyText>
                               <MyText className={style.value}>
                                 {e.video ? (
-                                  // <Link
-                                  //   href={`${process.env.NEXT_PUBLIC_S3_URL}/videoshots/${e.id}.${e.video_shot}`}
-                                  //   download
-                                  //   className={style.link}
-                                  //   prefetch={false}
-                                  // >
-                                  //   Файл
-                                  // </Link>
                                   <DownloadButton
                                     type="button"
                                     src={`${process.env.NEXT_PUBLIC_S3_URL}/videoshots/${e.id}.${e.video_shot}`}

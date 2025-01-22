@@ -1,14 +1,16 @@
-import { TTrackForm } from "@/schema/release.schema";
+"use client";
+
+import { trackPossibleLanguages } from "@/helpers/allLanguages";
+import { TTrackInsertForm, TTrackUpdateForm } from "@/schema/release.schema";
 import dateFormatter from "@/utils/dateFormatter";
 import classNames from "classnames";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { useState } from "react";
+import { DownloadButton } from "../../DownloadButton/DownloadButton";
 import style from "../TrackAccordion/TrackAccordion.module.css";
-import { allLanguages } from "@/helpers/allLanguages";
 
 export type TFinalCheckTrack = {
-  track: TTrackForm;
+  track: TTrackInsertForm | TTrackUpdateForm;
 };
 
 export default function FinalCheckTrack({ track }: TFinalCheckTrack) {
@@ -41,7 +43,13 @@ export default function FinalCheckTrack({ track }: TFinalCheckTrack) {
         </div>
       </div>
       <audio
-        src={URL.createObjectURL(track.track)}
+        src={
+          track.track instanceof File
+            ? URL.createObjectURL(track.track)
+            : `${process.env.NEXT_PUBLIC_S3_URL}/tracks/${
+                (track as TTrackUpdateForm).trackId
+              }.${track.track}`
+        }
         controls
         className="audio"
       ></audio>
@@ -191,57 +199,92 @@ export default function FinalCheckTrack({ track }: TFinalCheckTrack) {
             {track.text_sync && (
               <p className="styleValue fs14">
                 Синхронзация текста: <br />
-                Скачать:{" "}
-                <a
-                  href={URL.createObjectURL(track.text_sync)}
-                  download={track.text_sync.name}
-                >
-                  {track.text_sync.name}
-                </a>
+                <DownloadButton
+                  src={
+                    track.text_sync instanceof File
+                      ? URL.createObjectURL(track.text_sync)
+                      : `${process.env.NEXT_PUBLIC_S3_URL}/syncs/${
+                          (track as TTrackUpdateForm).trackId
+                        }.${track.text_sync}`
+                  }
+                  fileName={
+                    track.text_sync instanceof File
+                      ? track.text_sync.name
+                      : `${(track as TTrackUpdateForm).trackId}.${
+                          track.text_sync
+                        }`
+                  }
+                />
               </p>
             )}
             {track.ringtone && (
               <p className="styleValue fs14">
                 Рингтон: <br />
-                Скачать:{" "}
-                <a
-                  href={URL.createObjectURL(track.ringtone)}
-                  download={track.ringtone.name}
-                >
-                  {track.ringtone.name}
-                </a>
+                <DownloadButton
+                  src={
+                    track.ringtone instanceof File
+                      ? URL.createObjectURL(track.ringtone)
+                      : `${process.env.NEXT_PUBLIC_S3_URL}/ringtones/${
+                          (track as TTrackUpdateForm).trackId
+                        }.${track.ringtone}`
+                  }
+                  fileName={
+                    track.ringtone instanceof File
+                      ? track.ringtone.name
+                      : `${(track as TTrackUpdateForm).trackId}.${
+                          track.ringtone
+                        }`
+                  }
+                />
               </p>
             )}
             {track.video && (
               <p className="styleValue fs14">
                 Видео к треку: <br />
-                Скачать:{" "}
-                <a
-                  href={URL.createObjectURL(track.video)}
-                  download={track.video.name}
-                >
-                  {track.video.name}
-                </a>
+                <DownloadButton
+                  src={
+                    track.video instanceof File
+                      ? URL.createObjectURL(track.video)
+                      : `${process.env.NEXT_PUBLIC_S3_URL}/ringtones/${
+                          (track as TTrackUpdateForm).trackId
+                        }.${track.video}`
+                  }
+                  fileName={
+                    track.video instanceof File
+                      ? track.video.name
+                      : `${(track as TTrackUpdateForm).trackId}.${track.video}`
+                  }
+                />
               </p>
             )}
             {track.video_shot && (
               <p className="styleValue fs14">
                 Видео-шот: <br />
-                Скачать:{" "}
-                <a
-                  href={URL.createObjectURL(track.video_shot)}
-                  download={track.video_shot.name}
-                >
-                  {track.video_shot.name}
-                </a>
+                <DownloadButton
+                  src={
+                    track.video_shot instanceof File
+                      ? URL.createObjectURL(track.video_shot)
+                      : `${process.env.NEXT_PUBLIC_S3_URL}/ringtones/${
+                          (track as TTrackUpdateForm).trackId
+                        }.${track.video_shot}`
+                  }
+                  fileName={
+                    track.video_shot instanceof File
+                      ? track.video_shot.name
+                      : `${(track as TTrackUpdateForm).trackId}.${
+                          track.video_shot
+                        }`
+                  }
+                />
               </p>
             )}
           </div>
           <p className="styleValue fs14">
             Язык трека: <br />
             <span className="styleTitle">
-              {track.language.length ? (
-                allLanguages.find((e) => e.value == track.language)?.label
+              {typeof track.language === "string" ? (
+                trackPossibleLanguages.find((e) => e.value == track.language)
+                  ?.label
               ) : (
                 <span className="styleTitle warningUnderline">
                   Не указаны данные о языке

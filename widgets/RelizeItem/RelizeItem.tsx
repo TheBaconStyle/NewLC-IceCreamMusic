@@ -1,22 +1,20 @@
 "use client";
-import classNames from "classnames";
-import style from "./RelizeItem.module.css";
-import Image from "next/image";
+import { TRelease, TTrack } from "@/schema/release.schema";
 import MyText from "@/shared/MyText/MyText";
 import dateFormatter from "@/utils/dateFormatter";
-import Link from "next/link";
-import { IoIosArrowForward } from "react-icons/io";
-import { useState } from "react";
+import classNames from "classnames";
 import { motion } from "framer-motion";
-import { TRelease, TTrack } from "@/schema/release.schema";
-import { DownloadButton } from "@/app/(account)/(lk)/admin/releases/[id]/DownloadButton";
-import { downloadFileBrowser } from "ipull/browser";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import { IoIosArrowForward } from "react-icons/io";
+import style from "./RelizeItem.module.css";
 
 export type TReleaseItem = {
   release: TRelease & { tracks: TTrack[] };
 };
 
-const RelizeItem = ({ release, ...props }: TReleaseItem) => {
+const ReleaseItem = ({ release, ...props }: TReleaseItem) => {
   const [showTracks, setShowTracks] = useState<boolean>(false);
 
   return (
@@ -131,7 +129,7 @@ const RelizeItem = ({ release, ...props }: TReleaseItem) => {
         <motion.div className={style.tracks}>
           {release.tracks.map((track) => {
             return (
-              <div className={style.track}>
+              <div className={style.track} key={track.id}>
                 <MyText className={style.trackTitle}>{track.title}</MyText>
                 <audio className="audio" src={track.track} controls></audio>
               </div>
@@ -142,4 +140,4 @@ const RelizeItem = ({ release, ...props }: TReleaseItem) => {
     </div>
   );
 };
-export default RelizeItem;
+export default ReleaseItem;

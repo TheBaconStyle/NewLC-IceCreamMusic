@@ -3,8 +3,8 @@
 import { uploadRelease } from "@/actions/release/upload";
 import { standardLabelName } from "@/helpers/priceList";
 import {
-  releaseFormSchema,
-  TReleaseForm,
+  releaseInsertFormSchema,
+  TReleaseInsertForm,
   TReleaseInsert,
   TTrackInsert,
 } from "@/schema/release.schema";
@@ -34,18 +34,18 @@ import trackRusificator, {
 import style from "./SendRelease.module.css";
 
 export type TSendRelease = {
-  release?: TReleaseForm;
+  release?: TReleaseInsertForm;
 };
 
 const SendRelease = () => {
-  const formMethods = useForm<TReleaseForm>({
-    resolver: zodResolver(releaseFormSchema),
+  const formMethods = useForm<TReleaseInsertForm>({
+    resolver: zodResolver(releaseInsertFormSchema),
     defaultValues: { labelName: standardLabelName, tracks: [] },
     progressive: true,
     mode: "all",
   });
 
-  const { handleSubmit, watch } = formMethods;
+  const { handleSubmit, watch, control } = formMethods;
 
   const releaseData = watch();
 
@@ -78,124 +78,124 @@ const SendRelease = () => {
       <FormProvider {...formMethods}>
         <form
           className={style.form}
-          onSubmit={handleSubmit(
-            async (data) => {
-              if (!isBlocked) {
-                enqueueSnackbar({
-                  variant: "info",
-                  message: "Загружаем релиз. Подождите.",
-                });
+          // onSubmit={handleSubmit(
+          //   async (data) => {
+          //     if (!isBlocked) {
+          //       enqueueSnackbar({
+          //         variant: "info",
+          //         message: "Загружаем релиз. Подождите.",
+          //       });
 
-                setIsBlocked(true);
+          //       setIsBlocked(true);
 
-                const { tracks, ...release } = data;
+          //       const { tracks, ...release } = data;
 
-                const releasePreview = new FormData();
+          //       const releasePreview = new FormData();
 
-                releasePreview.set("preview", release.preview);
+          //       releasePreview.set("preview", release.preview);
 
-                const tracksFiles: FormData[] = [];
+          //       const tracksFiles: FormData[] = [];
 
-                const tracksData: TTrackInsert[] = [];
+          //       const tracksData: TTrackInsert[] = [];
 
-                tracks.forEach((track, index) => {
-                  const trackFiles = new FormData();
-                  trackFiles.set("track", track.track);
-                  !!track.ringtone &&
-                    trackFiles.set("ringtone", track.ringtone);
-                  !!track.text_sync &&
-                    trackFiles.set("text_sync", track.text_sync);
-                  !!track.video && trackFiles.set("video", track.video);
-                  !!track.video_shot &&
-                    trackFiles.set("video_shot", track.video_shot);
-                  const trackData: TTrackInsert = {
-                    ...track,
-                    track: track.track.type.split("/")[1],
-                    instant_gratification: !!track.instant_gratification
-                      ? new Date(track.instant_gratification)
-                      : undefined,
-                    text_sync: !!track.text_sync
-                      ? track.text_sync.type.split("/")[1]
-                      : undefined,
-                    video: !!track.video
-                      ? track.video.type.split("/")[1]
-                      : undefined,
-                    video_shot: !!track.video_shot
-                      ? track.video_shot.type.split("/")[1]
-                      : undefined,
-                    ringtone: !!track.ringtone
-                      ? track.ringtone.type.split("/")[1]
-                      : undefined,
-                    index,
-                  };
-                  tracksData.push(trackData);
-                  tracksFiles.push(trackFiles);
-                });
+          //       tracks.forEach((track, index) => {
+          //         const trackFiles = new FormData();
+          //         trackFiles.set("track", track.track);
+          //         !!track.ringtone &&
+          //           trackFiles.set("ringtone", track.ringtone);
+          //         !!track.text_sync &&
+          //           trackFiles.set("text_sync", track.text_sync);
+          //         !!track.video && trackFiles.set("video", track.video);
+          //         !!track.video_shot &&
+          //           trackFiles.set("video_shot", track.video_shot);
+          //         const trackData: TTrackInsert = {
+          //           ...track,
+          //           track: track.trackFile?.type.split("/")[1],
+          //           instant_gratification: !!track.instant_gratification
+          //             ? new Date(track.instant_gratification)
+          //             : undefined,
+          //           text_sync: !!track.text_sync
+          //             ? track.text_syncFile?.type.split("/")[1]
+          //             : undefined,
+          //           video: !!track.video
+          //             ? track.videoFile?.type.split("/")[1]
+          //             : undefined,
+          //           video_shot: !!track.video_shot
+          //             ? track.video_shotFile?.type.split("/")[1]
+          //             : undefined,
+          //           ringtone: !!track.ringtone
+          //             ? track.ringtoneFile?.type.split("/")[1]
+          //             : undefined,
+          //           index,
+          //         };
+          //         tracksData.push(trackData);
+          //         tracksFiles.push(trackFiles);
+          //       });
 
-                const releaseData: TReleaseInsert = {
-                  ...release,
-                  preview: release.preview.type.split("/")[1],
-                  area: JSON.stringify(release.area),
-                  platforms: JSON.stringify(release.platforms),
-                  releaseDate: new Date(release.releaseDate),
-                  startDate: new Date(release.startDate),
-                  preorderDate: new Date(release.preorderDate),
-                };
+          //       const releaseData: TReleaseInsert = {
+          //         ...release,
+          //         preview: release.previewFile?.type.split("/")[1]!,
+          //         area: JSON.stringify(release.area),
+          //         platforms: JSON.stringify(release.platforms),
+          //         releaseDate: new Date(release.releaseDate),
+          //         startDate: new Date(release.startDate),
+          //         preorderDate: new Date(release.preorderDate),
+          //       };
 
-                await uploadRelease(
-                  releaseData,
-                  releasePreview,
-                  tracksData,
-                  ...tracksFiles
-                ).then((res) => {
-                  setIsBlocked(false);
-                  if (res) {
-                    return enqueueSnackbar({
-                      variant: "error",
-                      message: res.message,
-                    });
-                  }
-                  return enqueueSnackbar({
-                    variant: "success",
-                    message: "Релиз успешно загружен",
-                  });
-                });
-              }
-            },
-            (e) => {
-              console.log(e);
+          //       await uploadRelease(
+          //         releaseData,
+          //         releasePreview,
+          //         tracksData,
+          //         ...tracksFiles
+          //       ).then((res) => {
+          //         setIsBlocked(false);
+          //         if (res) {
+          //           return enqueueSnackbar({
+          //             variant: "error",
+          //             message: res.message,
+          //           });
+          //         }
+          //         return enqueueSnackbar({
+          //           variant: "success",
+          //           message: "Релиз успешно загружен",
+          //         });
+          //       });
+          //     }
+          //   },
+          //   (e) => {
+          //     console.log(e);
 
-              const generalErrors = Object.keys(e).filter(
-                (i) => i !== "tracks"
-              ) as (keyof TReleaseFormTrimmed)[];
+          //     const generalErrors = Object.keys(e).filter(
+          //       (i) => i !== "tracks"
+          //     ) as (keyof TReleaseFormTrimmed)[];
 
-              const tracksErrors = Array.isArray(e.tracks)
-                ? e.tracks
-                    ?.map(
-                      (t, i) =>
-                        t &&
-                        `Трек №${
-                          i + 1
-                        } из формы неверно заполнено: ${trackRusificator(
-                          Object.keys(t) as (keyof TTrackFormTrimmed)[]
-                        )}`
-                    )
-                    .filter(Boolean)
-                    .join(";")
-                : "";
+          //     const tracksErrors = Array.isArray(e.tracks)
+          //       ? e.tracks
+          //           ?.map(
+          //             (t, i) =>
+          //               t &&
+          //               `Трек №${
+          //                 i + 1
+          //               } из формы неверно заполнено: ${trackRusificator(
+          //                 Object.keys(t) as (keyof TTrackFormTrimmed)[]
+          //               )}`
+          //           )
+          //           .filter(Boolean)
+          //           .join(";")
+          //       : "";
 
-              enqueueSnackbar({
-                variant: "error",
-                message: (
-                  <div>
-                    {releaseRussificator(generalErrors)}
-                    <br />
-                    {tracksErrors}
-                  </div>
-                ),
-              });
-            }
-          )}
+          //     enqueueSnackbar({
+          //       variant: "error",
+          //       message: (
+          //         <div>
+          //           {releaseRussificator(generalErrors)}
+          //           <br />
+          //           {tracksErrors}
+          //         </div>
+          //       ),
+          //     });
+          //   }
+          // )}
         >
           <>
             {tab == 1 && (
@@ -249,7 +249,7 @@ const SendRelease = () => {
           </>
         </form>
       </FormProvider>
-      {/* <pre>{JSON.stringify(releaseData, null, 4)}</pre> */}
+      <pre>{JSON.stringify(releaseData, null, 4)}</pre>
       <div className="center gap20">
         {tab != 1 && (
           <p onClick={() => setTab(tab - 1)} className="linkButton">

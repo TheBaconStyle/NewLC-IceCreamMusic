@@ -7,11 +7,11 @@ import MyText from "@/shared/MyText/MyText";
 import MyInput from "@/shared/MyInput/MyInput";
 import MySelect from "@/shared/MySelect/MySelect";
 import { allRoles } from "@/helpers/allRoles";
-import { TReleaseForm } from "@/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import style from "./TrackItem.module.css";
 
 export function TrackRoles({ trackIndex }: TTrackItem) {
-  const { control, register, setValue } = useFormContext<TReleaseForm>();
+  const { control, register, setValue } = useFormContext<TReleaseInsertForm>();
 
   const {
     fields: roles,

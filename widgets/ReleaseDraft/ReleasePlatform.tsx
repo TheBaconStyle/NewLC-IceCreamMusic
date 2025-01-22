@@ -1,7 +1,7 @@
 "use client";
 
 import { allAreasMusic } from "@/helpers/allAreasMusic";
-import { TReleaseForm } from "@/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import MyCheckbox from "@/shared/MyCheckbox/MyCheckbox";
 import MyRadio from "@/shared/MyRadio/MyRadio";
 import MyText from "@/shared/MyText/MyText";
@@ -12,7 +12,7 @@ import { useFormContext } from "react-hook-form";
 import style from "./Release.module.css";
 
 export function ReleasePlatforms() {
-  const { watch, setValue } = useFormContext<TReleaseForm>();
+  const { watch, setValue } = useFormContext<TReleaseInsertForm>();
 
   const platforms = watch("platforms");
 

@@ -1,9 +1,9 @@
-import { TReleaseForm } from "@/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import MyTextArea from "@/shared/MyTextArea/MyTextArea";
 import { useFormContext } from "react-hook-form";
 
 export function ReleaseModeratorComment() {
-  const { watch, setValue } = useFormContext<TReleaseForm>();
+  const { watch, setValue } = useFormContext<TReleaseInsertForm>();
   const moderatorComment = watch("moderatorComment");
   return (
     <div className="wrap mb20">

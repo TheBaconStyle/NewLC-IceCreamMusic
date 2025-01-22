@@ -4,11 +4,13 @@ import MyInput from "@/shared/MyInput/MyInput";
 import MyText from "@/shared/MyText/MyText";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import classNames from "classnames";
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import style from "./Release.module.css";
+import { TReleaseInsertForm } from "@/schema/release.schema";
+import { inputDateFormat } from "@/utils/dateFormatter";
 
 export function ReleaseDates() {
-  const { register } = useFormContext();
+  const { register, control } = useFormContext<TReleaseInsertForm>();
 
   return (
     <>
@@ -20,43 +22,67 @@ export function ReleaseDates() {
           </MyText>
         </div>
         <div className={style.row}>
-          <MyInput
-            className={style.inp}
-            label={"Дата релиза"}
-            type={"date"}
-            placeholder="ДД.ММ.ГГГГ"
-            inpLk
-            tooltip={{
-              id: "dateRelize",
-              text: "Дата, когда релиз был впервые опубликован, независимо от того, был ли он выпущен в физическом или цифром формате",
-            }}
-            {...register("releaseDate")}
+          <Controller
+            control={control}
+            name="releaseDate"
+            render={({ field: { value, onChange, ...otherFieldData } }) => (
+              <MyInput
+                {...otherFieldData}
+                value={value ? inputDateFormat(value) : value}
+                onChange={(e) => onChange(new Date(e.target.value))}
+                className={style.inp}
+                label={"Дата релиза"}
+                type={"date"}
+                placeholder="ДД.ММ.ГГГГ"
+                inpLk
+                tooltip={{
+                  id: "dateRelize",
+                  text: "Дата, когда релиз был впервые опубликован, независимо от того, был ли он выпущен в физическом или цифром формате",
+                }}
+              />
+            )}
           />
-          <MyInput
-            className={style.inp}
-            label={"Дата старта"}
-            type={"date"}
-            placeholder="ДД.ММ.ГГГГ"
-            inpLk
-            tooltip={{
-              id: "dateStart",
-              text: "Дата, когда ваш релиз должен стать доступным на площадках",
-            }}
-            {...register("startDate")}
+          <Controller
+            control={control}
+            name="startDate"
+            render={({ field: { value, onChange, ...otherFieldData } }) => (
+              <MyInput
+                {...otherFieldData}
+                value={value ? inputDateFormat(value) : value}
+                onChange={(e) => onChange(new Date(e.target.value))}
+                className={style.inp}
+                label={"Дата релиза"}
+                type={"date"}
+                placeholder="ДД.ММ.ГГГГ"
+                inpLk
+                tooltip={{
+                  id: "dateRelize",
+                  text: "Дата, когда релиз был впервые опубликован, независимо от того, был ли он выпущен в физическом или цифром формате",
+                }}
+              />
+            )}
           />
         </div>
         <div className={style.row}>
-          <MyInput
-            className={style.inp}
-            label={"Дата предзаказа"}
-            type={"date"}
-            placeholder="ДД.ММ.ГГГГ"
-            inpLk
-            tooltip={{
-              id: "datePreRelize",
-              text: "Дата для предзаказа альбома на iTunes и Apple Music. Если релиз выпускается без предзаказа, укажите дату старта",
-            }}
-            {...register("preorderDate")}
+          <Controller
+            control={control}
+            name="preorderDate"
+            render={({ field: { value, onChange, ...otherFieldData } }) => (
+              <MyInput
+                {...otherFieldData}
+                value={value ? inputDateFormat(value) : value}
+                onChange={(e) => onChange(new Date(e.target.value))}
+                className={style.inp}
+                label={"Дата предзаказа"}
+                type={"date"}
+                placeholder="ДД.ММ.ГГГГ"
+                inpLk
+                tooltip={{
+                  id: "datePreRelize",
+                  text: "Дата для предзаказа альбома на iTunes и Apple Music. Если релиз выпускается без предзаказа, укажите дату старта",
+                }}
+              />
+            )}
           />
         </div>
       </div>

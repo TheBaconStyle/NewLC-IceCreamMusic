@@ -1,5 +1,5 @@
-import { allLanguages, trackPossibleLanguages } from "@/helpers/allLanguages";
-import { TReleaseForm } from "@/schema/release.schema";
+import { trackPossibleLanguages } from "@/helpers/allLanguages";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import MySelect from "@/shared/MySelect/MySelect";
 import IMySelectProps from "@/shared/MySelect/MySelect.props";
 import MyText from "@/shared/MyText/MyText";
@@ -14,7 +14,7 @@ export function TrackUseCases({
   trackIndex,
   children,
 }: PropsWithChildren<TTrackItem>) {
-  const { setValue, getValues } = useFormContext<TReleaseForm>();
+  const { setValue, getValues } = useFormContext<TReleaseInsertForm>();
 
   const [language, setLanguage] = useState<IMySelectProps["value"]>(() => {
     const language = getValues(`tracks.${trackIndex}.language`);

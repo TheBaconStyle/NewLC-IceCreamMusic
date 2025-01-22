@@ -1,6 +1,6 @@
 "use client";
 
-import { TReleaseForm } from "@/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import MyCheckbox from "@/shared/MyCheckbox/MyCheckbox";
 import MyFile from "@/shared/MyFile/MyFile";
 import MyText from "@/shared/MyText/MyText";
@@ -12,7 +12,7 @@ import style from "./TrackItem.module.css";
 import { TTrackItem } from "./TrackItem.props";
 
 export function TrackVideo({ trackIndex }: TTrackItem) {
-  const { setValue, getValues, watch } = useFormContext<TReleaseForm>();
+  const { setValue, getValues, watch } = useFormContext<TReleaseInsertForm>();
 
   const videoFile = watch(`tracks.${trackIndex}.video`);
 

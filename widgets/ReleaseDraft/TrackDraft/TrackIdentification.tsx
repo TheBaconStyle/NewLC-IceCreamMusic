@@ -5,11 +5,11 @@ import MyText from "@/shared/MyText/MyText";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import { useFormContext } from "react-hook-form";
 import { TTrackItem } from "./TrackItem.props";
-import { TReleaseForm } from "@/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import style from "./TrackItem.module.css";
 
 export function TrackIdentification({ trackIndex }: TTrackItem) {
-  const { register } = useFormContext<TReleaseForm>();
+  const { register } = useFormContext<TReleaseInsertForm>();
 
   return (
     <>

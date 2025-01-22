@@ -1,6 +1,6 @@
 "use client";
 
-import { TReleaseForm } from "@/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { TTrackItem } from "./TrackItem.props";
@@ -12,7 +12,7 @@ import classNames from "classnames";
 import style from "./TrackItem.module.css";
 
 export function TrackTextSync({ trackIndex }: TTrackItem) {
-  const { setValue, getValues, watch } = useFormContext<TReleaseForm>();
+  const { setValue, getValues, watch } = useFormContext<TReleaseInsertForm>();
 
   const textSyncFile = watch(`tracks.${trackIndex}.text_sync`);
 

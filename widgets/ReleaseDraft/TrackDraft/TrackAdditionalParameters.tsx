@@ -1,19 +1,21 @@
 "use client";
 
-import { TReleaseForm } from "@/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import MyCheckbox from "@/shared/MyCheckbox/MyCheckbox";
 import MyInput from "@/shared/MyInput/MyInput";
 import MyText from "@/shared/MyText/MyText";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import { useState } from "react";
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import style from "./TrackItem.module.css";
 import { TTrackItem } from "./TrackItem.props";
 import { useIMask } from "react-imask";
 import { mergeRefs } from "react-merge-refs";
+import { inputDateFormat } from "@/utils/dateFormatter";
 
 export function TrackAdditionalParameters({ trackIndex }: TTrackItem) {
-  const { register, setValue, getValues } = useFormContext<TReleaseForm>();
+  const { register, setValue, getValues, control } =
+    useFormContext<TReleaseInsertForm>();
 
   const { ref: maskedRef } = useIMask({
     mask: "XX:XX",
@@ -74,12 +76,20 @@ export function TrackAdditionalParameters({ trackIndex }: TTrackItem) {
           }}
         />
         {showInstantGratification && (
-          <MyInput
-            {...register(`tracks.${trackIndex}.instant_gratification`)}
-            className={style.mt30}
-            label={"Выберите дату"}
-            inpLk
-            type={"date"}
+          <Controller
+            control={control}
+            name={`tracks.${trackIndex}.instant_gratification`}
+            render={({ field: { value, onChange, ...otherFieldDAta } }) => (
+              <MyInput
+                {...otherFieldDAta}
+                value={!!value ? inputDateFormat(value) : undefined}
+                onChange={(e) => onChange(new Date(e.target.value))}
+                className={style.mt30}
+                label={"Выберите дату"}
+                inpLk
+                type={"date"}
+              />
+            )}
           />
         )}
         <MyCheckbox

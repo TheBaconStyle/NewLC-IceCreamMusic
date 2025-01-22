@@ -5,12 +5,13 @@ import MyText from "@/shared/MyText/MyText";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import style from "./Release.module.css";
-import { TReleaseForm } from "@/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import MySelect from "@/shared/MySelect/MySelect";
 import { allRolesAlbum } from "@/helpers/allRolesAlbum";
 
 export function ReleasePersons() {
-  const { control, register, setValue, watch } = useFormContext<TReleaseForm>();
+  const { control, register, setValue, watch } =
+    useFormContext<TReleaseInsertForm>();
 
   const {
     fields: roles,

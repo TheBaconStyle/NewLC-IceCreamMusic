@@ -1,6 +1,9 @@
 "use client";
 
-import { TReleaseForm } from "@/schema/release.schema";
+import {
+  TReleaseInsertForm,
+  TReleaseUpdateForm,
+} from "@/schema/release.schema";
 import classNames from "classnames";
 import { ChangeEvent, DragEvent, useState } from "react";
 import { UseFieldArrayAppend, useFormContext } from "react-hook-form";
@@ -8,14 +11,20 @@ import MyText from "@/shared/MyText/MyText";
 import style from "./DragAndDropFile.module.css";
 
 export type TDragAndDropFile = {
-  appendTrack: UseFieldArrayAppend<TReleaseForm, "tracks">;
+  appendTrack: UseFieldArrayAppend<
+    TReleaseInsertForm | TReleaseUpdateForm,
+    "tracks"
+  >;
 };
 
 const DragAndDropFile = ({ appendTrack }: TDragAndDropFile) => {
   const [drag, setDrag] = useState<boolean>(false);
+
   const [error, setError] = useState<boolean>(false);
 
-  const { getValues } = useFormContext<TReleaseForm>();
+  const { getValues } = useFormContext<
+    TReleaseInsertForm | TReleaseUpdateForm
+  >();
 
   const dragStartHandler = (e: DragEvent) => {
     e.preventDefault();
@@ -34,7 +43,10 @@ const DragAndDropFile = ({ appendTrack }: TDragAndDropFile) => {
       const typeTrack = track.type.split("/")[1];
       return (
         (typeTrack == "wav" || typeTrack == "flac") &&
-        !tracks.map((track) => track.track.name).includes(track.name)
+        !tracks
+          .map((track) => track.track instanceof File && track.track.name)
+          .filter(Boolean)
+          .includes(track.name)
       );
     });
 
@@ -49,6 +61,8 @@ const DragAndDropFile = ({ appendTrack }: TDragAndDropFile) => {
           title: "",
           track: track,
           author_rights: "",
+          releaseId: "",
+          trackId: "",
         });
       });
     } else {

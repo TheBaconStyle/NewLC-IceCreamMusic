@@ -1,10 +1,14 @@
 "use client";
 
 import CloseIcon from "@/public/InfoIcon/close.svg";
-import { TReleaseForm } from "@/schema/release.schema";
+import {
+  TReleaseInsertForm,
+  TReleaseUpdateForm,
+} from "@/schema/release.schema";
 import DragAndDropFile from "@/widgets/SendRelize/DragAndDropFile/DragAndDropFile";
 import { TrackAccordion } from "@/widgets/SendRelize/TrackAccordion/TrackAccordion";
-import { motion, Reorder } from "framer-motion";
+import { Reorder } from "framer-motion";
+import { useRef } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import style from "./Release.module.css";
 import { TrackAdditionalParameters } from "./TrackDraft/TrackAdditionalParameters";
@@ -19,21 +23,35 @@ import { TrackUseCases } from "./TrackDraft/TrackUseCases";
 import { TrackVersion } from "./TrackDraft/TrackVersion";
 import { TrackVideo } from "./TrackDraft/TrackVideo";
 import { TrackVideoShot } from "./TrackDraft/TrackVideoShot";
-import { useRef } from "react";
 
-export function ReleaseTracks() {
-  const { control } = useFormContext<TReleaseForm>();
+export type TReleaseTracks = {};
+
+export function ReleaseTracks({}: TReleaseTracks) {
+  const { control } = useFormContext<TReleaseInsertForm | TReleaseUpdateForm>();
+
   const constraintsRef = useRef(null);
 
   const {
     append: appendTrack,
     remove: removeTrack,
     fields: tracks,
-    replace: replaceTrack,
+    swap: swapTracks,
   } = useFieldArray({
     control: control,
     name: "tracks",
   });
+
+  const reorderTracks = (newTracks: typeof tracks) => {
+    const firstDiffIndex = tracks.findIndex(
+      (field, index) => field.id !== newTracks[index].id
+    );
+    if (firstDiffIndex !== -1) {
+      const newIndex = newTracks.findIndex(
+        (field) => field.id === tracks[firstDiffIndex].id
+      );
+      swapTracks(firstDiffIndex, newIndex);
+    }
+  };
 
   return (
     <div>
@@ -44,20 +62,20 @@ export function ReleaseTracks() {
       <Reorder.Group
         axis="y"
         values={tracks}
-        onReorder={replaceTrack}
+        onReorder={reorderTracks}
         className="col gap10 mt10"
         ref={constraintsRef}
       >
         {tracks.map((trackData, trackIndex) => (
           <Reorder.Item
-            key={trackData.track.name}
+            key={trackData.id}
             value={trackData}
             layout={"position"}
             className="listNone"
             dragConstraints={constraintsRef}
           >
             <div className={style.wrap_track}>
-              <TrackAccordion track={trackData}>
+              <TrackAccordion trackIndex={trackIndex}>
                 <TrackGeneralInfo trackIndex={trackIndex} />
                 <TrackIdentification trackIndex={trackIndex} />
                 <TrackRoles trackIndex={trackIndex} />

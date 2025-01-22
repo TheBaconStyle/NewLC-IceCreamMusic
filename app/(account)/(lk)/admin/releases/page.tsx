@@ -1,7 +1,7 @@
 import { isAdminUser } from "@/actions/users";
 import { db } from "@/db";
 import style from "./page.module.css";
-import RelizeItem from "@/widgets/RelizeItem/RelizeItem";
+import ReleaseItem from "@/widgets/RelizeItem/RelizeItem";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import ModerationFilter from "../ModerationFilter";
@@ -34,7 +34,7 @@ export default async function AdminReleasesPage({
           key={e.id}
           href={`/admin/releases/${e.id}`}
         >
-          <RelizeItem release={e} />
+          <ReleaseItem release={e} />
         </Link>
       ))}
     </div>

@@ -1,21 +1,39 @@
 "use client";
 
+import {
+  TReleaseInsertForm,
+  TReleaseUpdateForm,
+  TTrackInsertForm,
+} from "@/schema/release.schema";
 import classNames from "classnames";
-import { PropsWithChildren, useState } from "react";
-import style from "./TrackAccordion.module.css";
 import { motion } from "framer-motion";
-import { TTrackForm } from "@/schema/release.schema";
-import { AudioPlayer } from "@/widgets/AudioPlayer/AudioPlayer";
+import { PropsWithChildren, useMemo, useState } from "react";
+import style from "./TrackAccordion.module.css";
+import { useFormContext } from "react-hook-form";
 
 export type TTrackAccordion = {
-  track: TTrackForm;
+  trackIndex: number;
 };
 
 export function TrackAccordion({
-  track,
+  trackIndex,
   children,
 }: PropsWithChildren<TTrackAccordion>) {
   const [showDetails, setShowDetails] = useState(false);
+
+  const { watch } = useFormContext<TReleaseInsertForm | TReleaseUpdateForm>();
+
+  const trackData = watch(`tracks.${trackIndex}`);
+
+  const trackSrc = useMemo(
+    () =>
+      trackData.track instanceof File
+        ? URL.createObjectURL(trackData.track)
+        : `${process.env.NEXT_PUBLIC_S3_URL}/tracks/${
+            (trackData as TReleaseUpdateForm["tracks"][number]).trackId
+          }.${trackData.track}`,
+    [trackData]
+  );
 
   return (
     <>
@@ -31,15 +49,10 @@ export function TrackAccordion({
               })}
             />
           </div>
-          {track.track.name}
-          <audio
-            //TODO: Сделать ссылку!!!!!!!!!!!!!!!!!!!!!!!!
-            src={""}
-            // URL.createObjectURL(track.track)
-            controls
-            className="audio pr50"
-          />
-          <div>Play</div>
+          {trackData.track instanceof File
+            ? trackData.track.name
+            : `${trackData.title}.${trackData.track}`}
+          <audio src={trackSrc} controls className="audio pr50" />
         </div>
 
         <motion.div

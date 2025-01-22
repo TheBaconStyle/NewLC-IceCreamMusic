@@ -2,14 +2,14 @@
 
 import { useFormContext } from "react-hook-form";
 import { TTrackItem } from "./TrackItem.props";
-import { TReleaseForm } from "@/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import MyText from "@/shared/MyText/MyText";
 import MyInput from "@/shared/MyInput/MyInput";
 import style from "./TrackItem.module.css";
 
 export function TrackGeneralInfo({ trackIndex }: TTrackItem) {
-  const { register } = useFormContext<TReleaseForm>();
+  const { register } = useFormContext<TReleaseInsertForm>();
 
   return (
     <>

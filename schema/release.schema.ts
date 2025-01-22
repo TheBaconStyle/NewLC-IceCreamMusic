@@ -1,17 +1,7 @@
 import { release, track } from "@/db/schema";
-import { createInsertSchema } from "drizzle-zod";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
-import { fileSchema, stringAsDateSchema } from "./shared.schema";
-import { InferSelectModel } from "drizzle-orm";
-
-export const optionalFileSchema = fileSchema.optional();
-
-export const trackInsertSchema = createInsertSchema(track).omit({
-  id: true,
-  releaseId: true,
-});
-
-export type TTrackInsert = z.infer<typeof trackInsertSchema>;
+import { fileSchema } from "./shared.schema";
 
 const authorRightsSchema = z.string().refine((value) => {
   const valNum = Number(value);
@@ -23,7 +13,7 @@ const roleSchema = z.object({
   role: z.string(),
 });
 
-const trackRolesSchema = roleSchema.array().refine((value) => {
+export const trackRolesSchema = roleSchema.array().refine((value) => {
   const roles = value.map((v) => v.role);
   const hasPerformer = roles.includes("Исполнитель");
   const hasTextAuthor = roles.includes("Автор слов");
@@ -31,60 +21,26 @@ const trackRolesSchema = roleSchema.array().refine((value) => {
   return hasMelodyAuthor && hasTextAuthor && hasPerformer;
 });
 
-const releaseRolesSchema = roleSchema.array().refine((value) => {
+export const releaseRolesSchema = roleSchema.array().refine((value) => {
   const roles = value.map((v) => v.role);
   const hasPerformer = roles.includes("Исполнитель");
   return hasPerformer;
 });
 
-export const trackFormSchema = trackInsertSchema
-  .omit({
-    index: true,
+export const optionalFileSchema = fileSchema.optional();
+
+export const releasePreviewSchema = fileSchema
+  .refine((file) => {
+    return file.size < 30000000;
   })
-  .extend({
-    title: z.string().min(1),
-    track: fileSchema,
-    text_sync: optionalFileSchema,
-    ringtone: optionalFileSchema,
-    video: optionalFileSchema,
-    video_shot: optionalFileSchema,
-    instant_gratification: stringAsDateSchema.optional(),
-    roles: trackRolesSchema,
-    language: z.string().min(1),
-    author_rights: authorRightsSchema,
-  });
+  .optional();
 
-export type TTrackForm = z.infer<typeof trackFormSchema>;
-
-export const trackUpdateSchema = trackInsertSchema
-  .partial()
-  .extend({ id: z.string(), releaseId: z.string() });
-
-export type TTrackUpdate = z.infer<typeof trackUpdateSchema>;
-
-export const releaseInsertSchema = createInsertSchema(release).omit({
-  id: true,
-  authorId: true,
-});
-
-export type TReleaseInsert = z.infer<typeof releaseInsertSchema>;
-
-export const releaseUpdateSchema = releaseInsertSchema
-  .partial()
-  .extend({ id: z.string() });
-
-export type TReleaseUpdate = z.infer<typeof releaseUpdateSchema>;
-
-export const releasePreviewSchema = fileSchema.refine((file) => {
-  return file.size < 30000000;
-});
-
-export const areaSchema = z.object({
+export const releaseAreaSchema = z.object({
   negate: z.boolean(),
   data: z.string().array(),
 });
 
-export const platformSchema = z.string().array();
+export const releasePlatformsSchema = z.string().array();
 
 export type TValidatedTrackFiles = Record<
   keyof Pick<TTrackInsert, "track">,
@@ -100,32 +56,95 @@ export type TValidatedTrackFiles = Record<
     >
   >;
 
-export const releaseFormSchema = releaseInsertSchema
+const trackInsertBaseSchema = createInsertSchema(track);
+
+const trackSelectBaseSchema = createSelectSchema(track);
+
+export const trackInsertSchema = trackInsertBaseSchema.omit({
+  id: true,
+});
+
+export type TTrackInsert = z.infer<typeof trackInsertSchema>;
+
+export const trackInsertFormSchema = trackInsertSchema
   .omit({
-    status: true,
-    rejectReason: true,
-    confirmed: true,
+    index: true,
   })
   .extend({
     title: z.string().min(1),
-    preview: releasePreviewSchema,
-
-    area: areaSchema,
-
-    platforms: platformSchema,
-
-    tracks: trackFormSchema.array().min(1),
-
-    releaseDate: stringAsDateSchema,
-
-    startDate: stringAsDateSchema,
-
-    preorderDate: stringAsDateSchema,
-
-    roles: releaseRolesSchema,
+    language: z.string().min(1),
+    author_rights: authorRightsSchema,
+    roles: trackRolesSchema,
+    track: fileSchema,
+    text_sync: optionalFileSchema,
+    ringtone: optionalFileSchema,
+    video: optionalFileSchema,
+    video_shot: optionalFileSchema,
   });
 
-export type TReleaseForm = z.infer<typeof releaseFormSchema>;
+export type TTrackInsertForm = z.infer<typeof trackInsertFormSchema>;
 
-export type TRelease = InferSelectModel<typeof release>;
-export type TTrack = InferSelectModel<typeof track>;
+export const trackUpdateSchema = trackInsertSchema
+  .partial()
+  .extend({ id: z.string(), releaseId: z.string() });
+
+export type TTrackUpdate = z.infer<typeof trackUpdateSchema>;
+
+export const trackUpdateFormSchema = trackInsertFormSchema.extend({
+  track: z.union([z.string(), fileSchema]),
+  text_sync: z.union([z.string(), optionalFileSchema]),
+  ringtone: z.union([z.string(), optionalFileSchema]),
+  video: z.union([z.string(), optionalFileSchema]),
+  video_shot: z.union([z.string(), optionalFileSchema]),
+  trackId: z.string(),
+});
+
+export type TTrackUpdateForm = z.infer<typeof trackUpdateFormSchema>;
+
+type qwe = TTrackUpdateForm["trackId"];
+
+const releaseInsertBaseSchema = createInsertSchema(release);
+
+const releaseSelectSchema = createSelectSchema(release);
+
+export const releaseInsertSchema = releaseInsertBaseSchema.omit({
+  id: true,
+  authorId: true,
+  status: true,
+  rejectReason: true,
+  confirmed: true,
+});
+
+export type TReleaseInsert = z.infer<typeof releaseInsertSchema>;
+
+export const releaseUpdateSchema = releaseSelectSchema
+  .omit({ authorId: true, status: true, rejectReason: true, confirmed: true })
+  .partial()
+  .extend({ id: z.string() });
+
+export type TReleaseUpdate = z.infer<typeof releaseUpdateSchema>;
+
+export const releaseInsertFormSchema = releaseInsertSchema.extend({
+  title: z.string().min(1),
+  preview: releasePreviewSchema,
+  area: releaseAreaSchema,
+  platforms: releasePlatformsSchema,
+  tracks: trackInsertFormSchema.array().min(1),
+  roles: releaseRolesSchema,
+});
+
+export const releaseUpdateFormSchema = releaseInsertFormSchema
+  .partial()
+  .extend({
+    preview: z.union([z.string(), releasePreviewSchema]),
+    tracks: trackUpdateFormSchema.array().min(1),
+    id: z.string(),
+  });
+
+export type TReleaseUpdateForm = z.infer<typeof releaseUpdateFormSchema>;
+
+export type TReleaseInsertForm = z.infer<typeof releaseInsertFormSchema>;
+
+export type TRelease = z.infer<typeof releaseSelectSchema>;
+
+export type TTrack = z.infer<typeof trackSelectBaseSchema>;
