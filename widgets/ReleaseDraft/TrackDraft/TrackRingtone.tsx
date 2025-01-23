@@ -1,6 +1,9 @@
 "use client";
 
-import { TReleaseInsertForm } from "@/schema/release.schema";
+import {
+  TReleaseInsertForm,
+  TReleaseUpdateForm,
+} from "@/schema/release.schema";
 import MyFile from "@/shared/MyFile/MyFile";
 import MyText from "@/shared/MyText/MyText";
 import MyTitle from "@/shared/MyTitle/MyTitle";
@@ -10,9 +13,16 @@ import style from "./TrackItem.module.css";
 import { TTrackItem } from "./TrackItem.props";
 
 export function TrackRingtone({ trackIndex }: TTrackItem) {
-  const { setValue, watch } = useFormContext<TReleaseInsertForm>();
+  const { setValue, watch } = useFormContext<
+    TReleaseInsertForm | TReleaseUpdateForm
+  >();
 
   const ringtone = watch(`tracks.${trackIndex}.ringtone`);
+  const trackName = watch(`tracks.${trackIndex}.title`);
+
+  const files: File[] = [];
+
+  if (ringtone instanceof File) files.push(ringtone);
 
   return (
     <>
@@ -24,7 +34,10 @@ export function TrackRingtone({ trackIndex }: TTrackItem) {
         Длина: от 5 до 29.99 сек.
       </MyText>
       <MyFile
-        files={ringtone ? [ringtone] : undefined}
+        fileName={
+          !(ringtone instanceof File) ? `${trackName}.${ringtone}` : undefined
+        }
+        files={files}
         onChange={(e) =>
           setValue(
             `tracks.${trackIndex}.ringtone`,

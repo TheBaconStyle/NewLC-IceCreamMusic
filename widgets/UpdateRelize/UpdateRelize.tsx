@@ -3,6 +3,7 @@
 import {
   releaseAreaSchema,
   releasePlatformsSchema,
+  releaseRolesSchema,
   releaseUpdateFormSchema,
   trackRolesSchema,
   TRelease,
@@ -44,7 +45,13 @@ export type TUpdateRelease = {
 const UpdateRelease = ({ release }: TUpdateRelease) => {
   const { tracks, platforms, area, roles, ...otherReleaseData } = release;
 
+  const releaseRolesResult = releaseRolesSchema.safeParse(roles);
+
   const releaseRoles: TReleaseRoles = [];
+
+  if (releaseRolesResult.success) {
+    releaseRoles.push(...releaseRolesResult.data);
+  }
 
   if (!!release.performer) {
     releaseRoles.push({
@@ -57,13 +64,6 @@ const UpdateRelease = ({ release }: TUpdateRelease) => {
     releaseRoles.push({
       role: "feat.",
       person: release.feat,
-    });
-  }
-
-  if (!release.performer && !release.feat) {
-    releaseRoles.push({
-      role: "",
-      person: "",
     });
   }
 
@@ -179,7 +179,7 @@ const UpdateRelease = ({ release }: TUpdateRelease) => {
                 tracksFiles.push(trackFiles);
               });
 
-              const releaseDataForUpdate = await editUserRelease(
+              await editUserRelease(
                 releaseUpdateData,
                 releaseFiles,
                 tracksData,

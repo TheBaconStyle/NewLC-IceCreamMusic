@@ -4,6 +4,7 @@ import CloseIcon from "@/public/InfoIcon/close.svg";
 import {
   TReleaseInsertForm,
   TReleaseUpdateForm,
+  TTrackUpdateForm,
 } from "@/schema/release.schema";
 import DragAndDropFile from "@/widgets/SendRelize/DragAndDropFile/DragAndDropFile";
 import { TrackAccordion } from "@/widgets/SendRelize/TrackAccordion/TrackAccordion";
@@ -23,6 +24,8 @@ import { TrackUseCases } from "./TrackDraft/TrackUseCases";
 import { TrackVersion } from "./TrackDraft/TrackVersion";
 import { TrackVideo } from "./TrackDraft/TrackVideo";
 import { TrackVideoShot } from "./TrackDraft/TrackVideoShot";
+import { deleteUserTrack } from "@/actions/track/delete/user";
+import { enqueueSnackbar } from "notistack";
 
 export type TReleaseTracks = {
   update?: boolean;
@@ -104,7 +107,28 @@ export function ReleaseTracks({ update }: TReleaseTracks) {
               </TrackAccordion>
               <div
                 className={style.close}
-                onClick={() => removeTrack(trackIndex)}
+                onClick={async () => {
+                  if (
+                    confirm(
+                      "Вы точно хотите удалить трек? Это действие невозможно будет отменить."
+                    )
+                  ) {
+                    if (update) {
+                      enqueueSnackbar({
+                        variant: "info",
+                        message: "Удаляем трек из релиза",
+                      });
+                      await deleteUserTrack(
+                        (trackData as TTrackUpdateForm).trackId
+                      );
+                      enqueueSnackbar({
+                        variant: "success",
+                        message: "Готово",
+                      });
+                    }
+                    removeTrack(trackIndex);
+                  }
+                }}
               >
                 <CloseIcon className={style.deleteTrack} />
               </div>

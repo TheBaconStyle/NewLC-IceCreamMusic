@@ -6,7 +6,7 @@ import { TMyFileProps } from "./MyFile.props";
 import classNames from "classnames";
 
 const MyFile = forwardRef<HTMLInputElement, TMyFileProps>(function FileInput(
-  { className, onChange, files, ...props },
+  { className, onChange, files, fileName, ...props },
   ref
 ) {
   // const [file, setFile] = useState<FileList | null>(null);
@@ -25,6 +25,7 @@ const MyFile = forwardRef<HTMLInputElement, TMyFileProps>(function FileInput(
         ref={ref}
       />
       {!!files && Array.from(files).map((f) => <p key={f.name}>{f.name}</p>)}
+      {fileName && <p>{fileName}</p>}
     </label>
   );
 });

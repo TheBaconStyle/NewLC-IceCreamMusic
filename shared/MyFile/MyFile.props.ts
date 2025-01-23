@@ -5,4 +5,5 @@ export type TMyFileProps = DetailedHTMLProps<
   HTMLInputElement
 > & {
   files?: File[];
+  fileName?: string;
 };

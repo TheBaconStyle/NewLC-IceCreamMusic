@@ -110,7 +110,7 @@ export async function editUserRelease(
       const updatedRelease = (
         await tx
           .update(release)
-          .set(otherReleaseData)
+          .set({ ...otherReleaseData, performer: null, feat: null })
           .where(eq(release.id, id))
           .returning({ id: release.id, preview: release.preview })
       ).pop();
@@ -340,7 +340,7 @@ export async function editUserRelease(
     return transactionResult;
   }
 
-  await revalidatePathAction(`/dashboard/release/${transactionResult.data.id}`);
+  await revalidatePathAction(`/dashboard/edit/${transactionResult.data.id}`);
 
-  redirect(`/dashboard/release/${transactionResult.data.id}`);
+  redirect(`/dashboard/edit/${transactionResult.data.id}`);
 }
