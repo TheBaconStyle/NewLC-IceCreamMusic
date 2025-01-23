@@ -3,12 +3,14 @@
 import {
   releaseAreaSchema,
   releasePlatformsSchema,
-  releaseRolesSchema,
   releaseUpdateFormSchema,
   trackRolesSchema,
   TRelease,
+  TReleaseRoles,
+  TReleaseUpdate,
   TReleaseUpdateForm,
   TTrack,
+  TTrackUpdate,
 } from "@/schema/release.schema";
 import MyButton from "@/shared/MyButton/MyButton";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,6 +29,13 @@ import { ReleasePlatforms } from "../ReleaseDraft/ReleasePlatform";
 import { ReleaseTracks } from "../ReleaseDraft/ReleaseTracks";
 import FinalCheck from "../SendRelize/FinalCheck/FinalCheck";
 import style from "./UpdateRelize.module.css";
+import trackRusificator, {
+  releaseRussificator,
+  TReleaseFormTrimmed,
+  TTrackFormTrimmed,
+} from "../SendRelize/russificator";
+import { enqueueSnackbar } from "notistack";
+import { editUserRelease } from "@/actions/release/edit/user";
 
 export type TUpdateRelease = {
   release: TRelease & { tracks: TTrack[] };
@@ -35,11 +44,34 @@ export type TUpdateRelease = {
 const UpdateRelease = ({ release }: TUpdateRelease) => {
   const { tracks, platforms, area, roles, ...otherReleaseData } = release;
 
+  const releaseRoles: TReleaseRoles = [];
+
+  if (!!release.performer) {
+    releaseRoles.push({
+      role: "Исполнитель",
+      person: release.performer,
+    });
+  }
+
+  if (!!release.feat) {
+    releaseRoles.push({
+      role: "feat.",
+      person: release.feat,
+    });
+  }
+
+  if (!release.performer && !release.feat) {
+    releaseRoles.push({
+      role: "",
+      person: "",
+    });
+  }
+
   const formMethods = useForm<TReleaseUpdateForm>({
     resolver: zodResolver(releaseUpdateFormSchema),
     defaultValues: {
       ...otherReleaseData,
-      roles: releaseRolesSchema.parse(roles),
+      roles: releaseRoles,
       area: releaseAreaSchema.parse(area),
       platforms: releasePlatformsSchema.parse(platforms),
       tracks: tracks.map((track) => ({
@@ -88,7 +120,119 @@ const UpdateRelease = ({ release }: TUpdateRelease) => {
         </p>
       </div>
       <FormProvider {...formMethods}>
-        <form className={style.form}>
+        <form
+          className={style.form}
+          onSubmit={handleSubmit(
+            async (data) => {
+              setIsBlocked(true);
+
+              enqueueSnackbar({
+                variant: "info",
+                message: "Загружаем релиз. Подождите.",
+              });
+
+              enqueueSnackbar({
+                variant: "info",
+                message: "Скорость загрузки зависит от качества соединения.",
+              });
+
+              const { tracks, ...release } = data;
+
+              const { preview, labelName, ...releaseUpdateData } = release;
+
+              const releaseFiles = new FormData();
+
+              if (release.preview instanceof File) {
+                releaseFiles.set("preview", release.preview);
+              }
+
+              const tracksFiles: FormData[] = [];
+
+              const tracksData: TTrackUpdate[] = [];
+
+              tracks.forEach((track, index) => {
+                track.text = undefined;
+
+                track.video = undefined;
+
+                track.video_shot = undefined;
+
+                track.text_sync = undefined;
+
+                const trackFiles = new FormData();
+                trackFiles.set("track", track.track);
+                const trackData: TTrackUpdate = {
+                  id: track.trackId,
+                  releaseId: release.id,
+                };
+
+                if (track.ringtone instanceof File) {
+                  trackData.ringtone = track.ringtone.type.split("/")[1];
+                  trackFiles.set("ringtone", track.ringtone);
+                }
+
+                tracksData.push({
+                  ...trackData,
+                  index,
+                });
+
+                tracksFiles.push(trackFiles);
+              });
+
+              const releaseDataForUpdate = await editUserRelease(
+                releaseUpdateData,
+                releaseFiles,
+                tracksData,
+                ...tracksFiles
+              ).then((res) => {
+                setIsBlocked(false);
+                if (res) {
+                  return enqueueSnackbar({
+                    variant: "error",
+                    message: res.message,
+                  });
+                }
+                return enqueueSnackbar({
+                  variant: "success",
+                  message: "Релиз успешно загружен",
+                });
+              });
+            },
+            (e) => {
+              console.dir(e, { depth: Infinity });
+
+              const generalErrors = Object.keys(e).filter(
+                (i) => i !== "tracks"
+              ) as (keyof TReleaseFormTrimmed)[];
+
+              const tracksErrors = Array.isArray(e.tracks)
+                ? e.tracks
+                    ?.map(
+                      (t, i) =>
+                        t &&
+                        `Трек №${
+                          i + 1
+                        } из формы неверно заполнено: ${trackRusificator(
+                          Object.keys(t) as (keyof TTrackFormTrimmed)[]
+                        )}`
+                    )
+                    .filter(Boolean)
+                    .join(";")
+                : "";
+
+              enqueueSnackbar({
+                variant: "error",
+                message: (
+                  <div>
+                    {releaseRussificator(generalErrors)}
+                    <br />
+                    {tracksErrors}
+                  </div>
+                ),
+              });
+            }
+          )}
+        >
           <>
             {tab == 1 && (
               <motion.div
@@ -113,7 +257,7 @@ const UpdateRelease = ({ release }: TUpdateRelease) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <ReleaseTracks />
+                <ReleaseTracks update />
               </motion.div>
             )}
 

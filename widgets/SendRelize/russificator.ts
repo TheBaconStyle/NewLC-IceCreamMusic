@@ -20,6 +20,8 @@ const releaseRusText: Record<keyof TReleaseFormTrimmed, string> = {
   feat: "Персоны и роли",
   performer: "Персоны и роли",
   remixer: "Персоны и роли",
+  roles: "Персоны и роли",
+  moderatorComment: "Комментарий модератору",
 };
 
 export function releaseRussificator(

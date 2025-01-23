@@ -64,6 +64,7 @@ const MyInpFile = forwardRef<HTMLInputElement, IMyInpFile>(function Input(
               <Image
                 className={style.previewImage}
                 src={previewUrl}
+                unoptimized
                 alt="Превью"
                 width={225}
                 height={225}

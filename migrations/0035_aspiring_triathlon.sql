@@ -1,0 +1,1 @@
+ALTER TABLE "icecream"."track" ALTER COLUMN "language" SET NOT NULL;

@@ -24,9 +24,11 @@ import { TrackVersion } from "./TrackDraft/TrackVersion";
 import { TrackVideo } from "./TrackDraft/TrackVideo";
 import { TrackVideoShot } from "./TrackDraft/TrackVideoShot";
 
-export type TReleaseTracks = {};
+export type TReleaseTracks = {
+  update?: boolean;
+};
 
-export function ReleaseTracks({}: TReleaseTracks) {
+export function ReleaseTracks({ update }: TReleaseTracks) {
   const { control } = useFormContext<TReleaseInsertForm | TReleaseUpdateForm>();
 
   const constraintsRef = useRef(null);
@@ -55,9 +57,11 @@ export function ReleaseTracks({}: TReleaseTracks) {
 
   return (
     <div>
-      <div className={style.wrap}>
-        <DragAndDropFile appendTrack={appendTrack} />
-      </div>
+      {!update && (
+        <div className={style.wrap}>
+          <DragAndDropFile appendTrack={appendTrack} />
+        </div>
+      )}
 
       <Reorder.Group
         axis="y"
@@ -83,11 +87,19 @@ export function ReleaseTracks({}: TReleaseTracks) {
                 <TrackAdditionalParameters trackIndex={trackIndex} />
                 <TrackVersion trackIndex={trackIndex} />
                 <TrackUseCases trackIndex={trackIndex}>
-                  <TrackText trackIndex={trackIndex} />
-                  <TrackTextSync trackIndex={trackIndex} />
+                  {!update && (
+                    <>
+                      <TrackText trackIndex={trackIndex} />
+                      <TrackTextSync trackIndex={trackIndex} />
+                    </>
+                  )}
                   <TrackRingtone trackIndex={trackIndex} />
-                  <TrackVideo trackIndex={trackIndex} />
-                  <TrackVideoShot trackIndex={trackIndex} />
+                  {!update && (
+                    <>
+                      <TrackVideo trackIndex={trackIndex} />
+                      <TrackVideoShot trackIndex={trackIndex} />
+                    </>
+                  )}
                 </TrackUseCases>
               </TrackAccordion>
               <div

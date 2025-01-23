@@ -198,7 +198,7 @@ export const track = schema.table("track", {
 
   instrumental: boolean("instrumental").notNull().default(false),
 
-  language: text("language"),
+  language: text("language").notNull(),
 
   text: text("text"),
 

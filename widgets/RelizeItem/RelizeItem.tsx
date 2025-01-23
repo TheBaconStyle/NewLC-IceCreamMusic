@@ -131,7 +131,11 @@ const ReleaseItem = ({ release, ...props }: TReleaseItem) => {
             return (
               <div className={style.track} key={track.id}>
                 <MyText className={style.trackTitle}>{track.title}</MyText>
-                <audio className="audio" src={track.track} controls></audio>
+                <audio
+                  className="audio"
+                  src={`${process.env.NEXT_PUBLIC_S3_URL}/tracks/${track.id}.${track.track}`}
+                  controls
+                ></audio>
               </div>
             );
           })}

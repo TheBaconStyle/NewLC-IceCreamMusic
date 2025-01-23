@@ -27,13 +27,13 @@ export const releaseRolesSchema = roleSchema.array().refine((value) => {
   return hasPerformer;
 });
 
+export type TReleaseRoles = z.infer<typeof releaseRolesSchema>;
+
 export const optionalFileSchema = fileSchema.optional();
 
-export const releasePreviewSchema = fileSchema
-  .refine((file) => {
-    return file.size < 30000000;
-  })
-  .optional();
+export const releasePreviewSchema = fileSchema.refine((file) => {
+  return file.size < 30000000;
+});
 
 export const releaseAreaSchema = z.object({
   negate: z.boolean(),
@@ -90,14 +90,16 @@ export const trackUpdateSchema = trackInsertSchema
 
 export type TTrackUpdate = z.infer<typeof trackUpdateSchema>;
 
-export const trackUpdateFormSchema = trackInsertFormSchema.extend({
-  track: z.union([z.string(), fileSchema]),
-  text_sync: z.union([z.string(), optionalFileSchema]),
-  ringtone: z.union([z.string(), optionalFileSchema]),
-  video: z.union([z.string(), optionalFileSchema]),
-  video_shot: z.union([z.string(), optionalFileSchema]),
-  trackId: z.string(),
-});
+export const trackUpdateFormSchema = trackInsertFormSchema
+  .omit({ releaseId: true })
+  .extend({
+    track: z.union([z.string(), fileSchema]),
+    text_sync: z.union([z.string(), optionalFileSchema]),
+    ringtone: z.union([z.string(), optionalFileSchema]),
+    video: z.union([z.string(), optionalFileSchema]),
+    video_shot: z.union([z.string(), optionalFileSchema]),
+    trackId: z.string(),
+  });
 
 export type TTrackUpdateForm = z.infer<typeof trackUpdateFormSchema>;
 

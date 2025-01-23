@@ -45,7 +45,7 @@ const SendRelease = () => {
     mode: "all",
   });
 
-  const { handleSubmit, watch, control } = formMethods;
+  const { handleSubmit, watch } = formMethods;
 
   const releaseData = watch();
 
@@ -78,124 +78,129 @@ const SendRelease = () => {
       <FormProvider {...formMethods}>
         <form
           className={style.form}
-          // onSubmit={handleSubmit(
-          //   async (data) => {
-          //     if (!isBlocked) {
-          //       enqueueSnackbar({
-          //         variant: "info",
-          //         message: "Загружаем релиз. Подождите.",
-          //       });
+          onSubmit={handleSubmit(
+            async (data) => {
+              if (!isBlocked) {
+                setIsBlocked(true);
 
-          //       setIsBlocked(true);
+                enqueueSnackbar({
+                  variant: "info",
+                  message: "Загружаем релиз. Подождите.",
+                });
 
-          //       const { tracks, ...release } = data;
+                enqueueSnackbar({
+                  variant: "info",
+                  message: "Скорость загрузки зависит от качества соединения.",
+                });
 
-          //       const releasePreview = new FormData();
+                const { tracks, ...release } = data;
 
-          //       releasePreview.set("preview", release.preview);
+                const releaseFiles = new FormData();
 
-          //       const tracksFiles: FormData[] = [];
+                releaseFiles.set("preview", release.preview);
 
-          //       const tracksData: TTrackInsert[] = [];
+                const tracksFiles: FormData[] = [];
 
-          //       tracks.forEach((track, index) => {
-          //         const trackFiles = new FormData();
-          //         trackFiles.set("track", track.track);
-          //         !!track.ringtone &&
-          //           trackFiles.set("ringtone", track.ringtone);
-          //         !!track.text_sync &&
-          //           trackFiles.set("text_sync", track.text_sync);
-          //         !!track.video && trackFiles.set("video", track.video);
-          //         !!track.video_shot &&
-          //           trackFiles.set("video_shot", track.video_shot);
-          //         const trackData: TTrackInsert = {
-          //           ...track,
-          //           track: track.trackFile?.type.split("/")[1],
-          //           instant_gratification: !!track.instant_gratification
-          //             ? new Date(track.instant_gratification)
-          //             : undefined,
-          //           text_sync: !!track.text_sync
-          //             ? track.text_syncFile?.type.split("/")[1]
-          //             : undefined,
-          //           video: !!track.video
-          //             ? track.videoFile?.type.split("/")[1]
-          //             : undefined,
-          //           video_shot: !!track.video_shot
-          //             ? track.video_shotFile?.type.split("/")[1]
-          //             : undefined,
-          //           ringtone: !!track.ringtone
-          //             ? track.ringtoneFile?.type.split("/")[1]
-          //             : undefined,
-          //           index,
-          //         };
-          //         tracksData.push(trackData);
-          //         tracksFiles.push(trackFiles);
-          //       });
+                const tracksData: TTrackInsert[] = [];
 
-          //       const releaseData: TReleaseInsert = {
-          //         ...release,
-          //         preview: release.previewFile?.type.split("/")[1]!,
-          //         area: JSON.stringify(release.area),
-          //         platforms: JSON.stringify(release.platforms),
-          //         releaseDate: new Date(release.releaseDate),
-          //         startDate: new Date(release.startDate),
-          //         preorderDate: new Date(release.preorderDate),
-          //       };
+                tracks.forEach((track, index) => {
+                  const trackFiles = new FormData();
+                  trackFiles.set("track", track.track);
+                  !!track.ringtone &&
+                    trackFiles.set("ringtone", track.ringtone);
+                  !!track.text_sync &&
+                    trackFiles.set("text_sync", track.text_sync);
+                  !!track.video && trackFiles.set("video", track.video);
+                  !!track.video_shot &&
+                    trackFiles.set("video_shot", track.video_shot);
+                  const trackData: TTrackInsert = {
+                    ...track,
+                    track: track.track?.type.split("/")[1],
+                    instant_gratification: !!track.instant_gratification
+                      ? new Date(track.instant_gratification)
+                      : undefined,
+                    text_sync: !!track.text_sync
+                      ? track.text_sync?.type.split("/")[1]
+                      : undefined,
+                    video: !!track.video
+                      ? track.video?.type.split("/")[1]
+                      : undefined,
+                    video_shot: !!track.video_shot
+                      ? track.video_shot?.type.split("/")[1]
+                      : undefined,
+                    ringtone: !!track.ringtone
+                      ? track.ringtone?.type.split("/")[1]
+                      : undefined,
+                    index,
+                  };
+                  tracksData.push(trackData);
+                  tracksFiles.push(trackFiles);
+                });
 
-          //       await uploadRelease(
-          //         releaseData,
-          //         releasePreview,
-          //         tracksData,
-          //         ...tracksFiles
-          //       ).then((res) => {
-          //         setIsBlocked(false);
-          //         if (res) {
-          //           return enqueueSnackbar({
-          //             variant: "error",
-          //             message: res.message,
-          //           });
-          //         }
-          //         return enqueueSnackbar({
-          //           variant: "success",
-          //           message: "Релиз успешно загружен",
-          //         });
-          //       });
-          //     }
-          //   },
-          //   (e) => {
-          //     console.log(e);
+                const releaseData: TReleaseInsert = {
+                  ...release,
+                  preview: release.preview?.type.split("/")[1]!,
+                  area: JSON.stringify(release.area),
+                  platforms: JSON.stringify(release.platforms),
+                  releaseDate: new Date(release.releaseDate),
+                  startDate: new Date(release.startDate),
+                  preorderDate: new Date(release.preorderDate),
+                };
 
-          //     const generalErrors = Object.keys(e).filter(
-          //       (i) => i !== "tracks"
-          //     ) as (keyof TReleaseFormTrimmed)[];
+                await uploadRelease(
+                  releaseData,
+                  releaseFiles,
+                  tracksData,
+                  ...tracksFiles
+                ).then((res) => {
+                  setIsBlocked(false);
+                  if (res) {
+                    return enqueueSnackbar({
+                      variant: "error",
+                      message: res.message,
+                    });
+                  }
+                  return enqueueSnackbar({
+                    variant: "success",
+                    message: "Релиз успешно загружен",
+                  });
+                });
+              }
+            },
+            (e) => {
+              console.log(e);
 
-          //     const tracksErrors = Array.isArray(e.tracks)
-          //       ? e.tracks
-          //           ?.map(
-          //             (t, i) =>
-          //               t &&
-          //               `Трек №${
-          //                 i + 1
-          //               } из формы неверно заполнено: ${trackRusificator(
-          //                 Object.keys(t) as (keyof TTrackFormTrimmed)[]
-          //               )}`
-          //           )
-          //           .filter(Boolean)
-          //           .join(";")
-          //       : "";
+              const generalErrors = Object.keys(e).filter(
+                (i) => i !== "tracks"
+              ) as (keyof TReleaseFormTrimmed)[];
 
-          //     enqueueSnackbar({
-          //       variant: "error",
-          //       message: (
-          //         <div>
-          //           {releaseRussificator(generalErrors)}
-          //           <br />
-          //           {tracksErrors}
-          //         </div>
-          //       ),
-          //     });
-          //   }
-          // )}
+              const tracksErrors = Array.isArray(e.tracks)
+                ? e.tracks
+                    ?.map(
+                      (t, i) =>
+                        t &&
+                        `Трек №${
+                          i + 1
+                        } из формы неверно заполнено: ${trackRusificator(
+                          Object.keys(t) as (keyof TTrackFormTrimmed)[]
+                        )}`
+                    )
+                    .filter(Boolean)
+                    .join(";")
+                : "";
+
+              enqueueSnackbar({
+                variant: "error",
+                message: (
+                  <div>
+                    {releaseRussificator(generalErrors)}
+                    <br />
+                    {tracksErrors}
+                  </div>
+                ),
+              });
+            }
+          )}
         >
           <>
             {tab == 1 && (

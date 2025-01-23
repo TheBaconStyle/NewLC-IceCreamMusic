@@ -19,8 +19,6 @@ export async function editUserTrack(
   trackData: TTrackUpdate,
   trackFiles: FormData
 ) {
-  const client = createS3Client();
-
   const session = await getAuthSession();
 
   if (!session) {
@@ -93,6 +91,8 @@ export async function editUserTrack(
 
   const transactionResult = await db
     .transaction(async (tx) => {
+      const client = createS3Client();
+
       const { id, ...otherTrackData } = validatedTrackData.data;
 
       const updatedTrack = (

@@ -50,7 +50,7 @@ export function ReleaseGeneralInfo() {
               preview &&
               (preview instanceof File
                 ? URL.createObjectURL(preview)
-                : `${process.env.NEXT_PUBLIC_S3_URL}/preview/${id}.${preview}`)
+                : `${process.env.NEXT_PUBLIC_S3_URL}/previews/${id}.${preview}`)
             }
           />
           <MyText className={style.desc}>

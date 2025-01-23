@@ -20,9 +20,13 @@ export default function FinalCheck({ release }: TFinalCheck) {
         <div className="row gap30 itemsStart">
           {release.preview ? (
             <Image
-              //TODO: Сделлать
-              src={""}
-              // URL.createObjectURL(release.preview)
+              src={
+                release.preview instanceof File
+                  ? URL.createObjectURL(release.preview)
+                  : `${process.env.NEXT_PUBLIC_S3_URL}/previews/${
+                      (release as TReleaseUpdateForm).id
+                    }.${release.preview}`
+              }
               alt={"Превью"}
               width={225}
               height={225}
