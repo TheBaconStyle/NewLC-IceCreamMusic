@@ -136,11 +136,11 @@ body {
 }
 
 .MuiBox-root {
-  background-color: red !important;
+  background-color: #dc4454 !important;
 }
 
 .warning {
-  color: red;
+  color: #dc4454;
 }
 
 .styleTitle {

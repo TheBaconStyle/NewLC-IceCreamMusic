@@ -1,3 +1,4 @@
+"use client";
 import { trackPossibleLanguages } from "@/helpers/allLanguages";
 import { TReleaseInsertForm } from "@/schema/release.schema";
 import MySelect from "@/shared/MySelect/MySelect";

@@ -37,6 +37,7 @@ import trackRusificator, {
 } from "../SendRelize/russificator";
 import { enqueueSnackbar } from "notistack";
 import { editUserRelease } from "@/actions/release/edit/user";
+import Link from "next/link";
 
 export type TUpdateRelease = {
   release: TRelease & { tracks: TTrack[] };
@@ -257,6 +258,13 @@ const UpdateRelease = ({ release }: TUpdateRelease) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
+                <Link
+                  href={`/dashboard/edit/${release.id}/new`}
+                  className="linkButton wfit"
+                >
+                  Добавить трек
+                </Link>
+
                 <ReleaseTracks update />
               </motion.div>
             )}
