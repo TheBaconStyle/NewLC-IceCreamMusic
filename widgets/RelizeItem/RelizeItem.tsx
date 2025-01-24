@@ -49,14 +49,21 @@ const ReleaseItem = ({ release, ...props }: TReleaseItem) => {
               [style.green]: release?.status === "approved",
               [style.red]: release?.status === "rejected",
               [style.blue]: release?.status === "moderating",
+              [style.red]: release.confirmed === false,
             })}
           ></div>
           <MyText className={style.statusTitle}>
-            {release?.status === "moderating"
-              ? "На модерации"
-              : release?.status === "approved"
-              ? "Одобрен"
-              : "Отказано"}
+            {release.confirmed ? (
+              <span className="accept">Оплачено</span>
+            ) : (
+              <span className="warning">Не оплачен</span>
+            )}{" "}
+            {release.confirmed &&
+              (release?.status === "moderating"
+                ? "/ На модерации"
+                : release?.status === "approved"
+                ? "/ Одобрен"
+                : "/ Отказано")}
           </MyText>
         </div>
       </div>
@@ -112,7 +119,9 @@ const ReleaseItem = ({ release, ...props }: TReleaseItem) => {
         </Link>
       )}
       <Link
-        className={classNames("linkButton", style.linkToEdit)}
+        className={classNames("linkButton", style.linkToEdit, {
+          [style.confirmedEdit]: release.confirmed,
+        })}
         href={`/dashboard/edit/${release.id}`}
       >
         Редактировать

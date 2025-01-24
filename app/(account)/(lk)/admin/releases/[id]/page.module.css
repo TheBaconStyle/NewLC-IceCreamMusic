@@ -12,6 +12,9 @@
 .warning {
   color: red;
 }
+.image {
+  object-fit: cover;
+}
 .fit {
   position: fixed;
   height: fit-content;

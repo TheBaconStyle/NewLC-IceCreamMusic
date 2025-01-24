@@ -11,7 +11,10 @@ import { TReleaseInsertForm } from "@/schema/release.schema";
 import style from "./TrackItem.module.css";
 
 export function TrackRoles({ trackIndex }: TTrackItem) {
-  const { control, register, setValue } = useFormContext<TReleaseInsertForm>();
+  const { control, register, setValue, watch } =
+    useFormContext<TReleaseInsertForm>();
+
+  const trackRoles = watch(`tracks.${trackIndex}.roles`);
 
   const {
     fields: roles,
@@ -42,8 +45,13 @@ export function TrackRoles({ trackIndex }: TTrackItem) {
           <div key={role.id} className={style.row}>
             <MyInput
               {...register(`tracks.${trackIndex}.roles.${roleIndex}.person`)}
-              label={`Персона ${roleIndex}`}
-              placeholder="ФИО персоны"
+              label={`Персона ${roleIndex + 1}`}
+              placeholder={
+                trackRoles[roleIndex].role === "Исполнитель" ||
+                trackRoles[roleIndex].role === "feat."
+                  ? "Nickname"
+                  : "ФИО персоны"
+              }
               inpLk
               type={"text"}
             />

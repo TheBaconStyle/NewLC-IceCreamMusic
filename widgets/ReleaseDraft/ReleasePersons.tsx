@@ -48,11 +48,7 @@ export function ReleasePersons() {
               <MyInput
                 {...register(`roles.${roleIndex}.person`)}
                 label={`Персона ${roleIndex + 1}`}
-                placeholder={
-                  rolesData[roleIndex].role === "Исполнитель"
-                    ? "ФИО исполнителя"
-                    : "Nickname персоны"
-                }
+                placeholder={"Nickname"}
                 inpLk
                 type={"text"}
                 className="mb0"

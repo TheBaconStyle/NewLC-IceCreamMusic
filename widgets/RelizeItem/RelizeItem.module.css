@@ -44,7 +44,7 @@
   border-radius: 50%;
 }
 .red {
-  background-color: red;
+  background-color: red !important;
 }
 .green {
   background-color: rgb(80, 200, 80);
@@ -94,4 +94,8 @@
 .trackTitle {
   min-width: fit-content;
   font-size: 14px;
+}
+
+.confirmedEdit {
+  top: 60px;
 }

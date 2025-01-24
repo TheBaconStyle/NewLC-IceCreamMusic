@@ -13,6 +13,9 @@ import {
   releaseAreaSchema,
   releasePlatformsSchema,
 } from "@/schema/release.schema";
+import { allLanguages } from "@/helpers/allLanguages";
+import { release } from "os";
+import { allGenres } from "@/helpers/allGenres";
 
 export default async function AdminReleaseDetailPage({
   params,
@@ -91,7 +94,11 @@ export default async function AdminReleaseDetailPage({
                 <div className="col">
                   <MyText className={style.title}>Язык метаданных</MyText>
                   <MyText className={style.value}>
-                    {releaseData.language}
+                    {releaseData.language
+                      ? allLanguages.filter(
+                          (e) => e.value == releaseData.language
+                        )[0].label
+                      : ""}
                   </MyText>
                 </div>
                 <div className="col">
@@ -107,18 +114,13 @@ export default async function AdminReleaseDetailPage({
                 <div className="col">
                   <MyText className={style.title}>Исполнитель</MyText>
                   <MyText className={style.value}>
-                    {releaseData.performer}
+                    {releaseData.roles.map((r) => (
+                      <>
+                        <span>{r.person}</span> - <span>{r.role}</span>
+                        <br />
+                      </>
+                    ))}
                   </MyText>
-                </div>
-                <div className="col">
-                  <MyText className={style.title}>Лица со статусом feat</MyText>
-                  <MyText className={style.value}>{releaseData.feat}</MyText>
-                </div>
-                <div className="col">
-                  <MyText className={style.title}>
-                    Лица со статусом Remixer
-                  </MyText>
-                  <MyText className={style.value}>{releaseData.remixer}</MyText>
                 </div>
               </div>
             </div>
@@ -128,7 +130,11 @@ export default async function AdminReleaseDetailPage({
               <div className="row gap50 mt10">
                 <div className="col">
                   <MyText className={style.title}>Жанр</MyText>
-                  <MyText className={style.value}>{releaseData.genre}</MyText>
+                  <MyText className={style.value}>
+                    {releaseData.genre &&
+                      allGenres.find((e) => e.value == releaseData.genre)
+                        ?.label}
+                  </MyText>
                 </div>
                 <div className="col">
                   <MyText className={style.title}>Идентификация UPC</MyText>
@@ -443,7 +449,7 @@ export default async function AdminReleaseDetailPage({
                               </MyText>
                               <MyText className={style.value}>
                                 {e.text ? (
-                                  e.text
+                                  <pre>{e.text}</pre>
                                 ) : (
                                   <span className={style.warning}>
                                     Информация отсутствует

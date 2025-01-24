@@ -20,7 +20,11 @@ export default async function ProfilePage() {
   const userData = await db.query.users.findFirst({
     where: (us, { eq }) => eq(us.id, session.id),
     with: {
-      releases: { limit: 3, orderBy: (rel, { desc }) => desc(rel.startDate) },
+      releases: {
+        limit: 3,
+        orderBy: (rel, { desc }) => desc(rel.startDate),
+        with: { tracks: true },
+      },
     },
   });
 
@@ -94,26 +98,7 @@ export default async function ProfilePage() {
         </MyTitle>
         <div className="col gap20">
           {userData?.releases.map((release) => {
-            return (
-              <ReleaseItem
-                key={release.id}
-                srcPreview={`${process.env.NEXT_PUBLIC_S3_URL}/previews/${release.id}.${release.preview}`}
-                relizeName={release.title}
-                upc={release.upc}
-                labelName={release.labelName}
-                genre={release.genre}
-                artistsName={release.performer}
-                typeRelize={release.type}
-                status={release.status}
-                moderatorComment={release.rejectReason}
-                dateCreate={release.preorderDate}
-                dateRelize={release.releaseDate}
-                dateStart={release.startDate}
-                id={release.id}
-                confirmed={release.confirmed}
-                showConfirmed={true}
-              />
-            );
+            return <ReleaseItem key={release.id} release={release} />;
           })}
         </div>
       </div>

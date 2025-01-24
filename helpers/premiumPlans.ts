@@ -15,7 +15,7 @@ export const premiumPlansArray = [
   },
   {
     src: "arrowsUp3",
-    name: "Лейбл",
+    name: "Энтерпрайз",
     desc: "Идеальное решение для настоящих артистов, настроеных на получение результатов.",
     price: 1490,
     markers: [

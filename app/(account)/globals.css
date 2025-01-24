@@ -142,6 +142,9 @@ body {
 .warning {
   color: #dc4454;
 }
+.accept {
+  color: #88e788;
+}
 
 .styleTitle {
   font-size: 14px;

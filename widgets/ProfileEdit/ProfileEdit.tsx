@@ -73,7 +73,7 @@ export function ProfileEdit({
       className={style.myProfile}
     >
       {}
-      <div className="row">
+      <div className="row wrap">
         <div className={classNames("wrap", "center")}>
           <MyInpFile
             className={style.avatar}
