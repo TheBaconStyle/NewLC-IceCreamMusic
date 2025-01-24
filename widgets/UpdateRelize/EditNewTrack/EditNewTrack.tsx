@@ -1,18 +1,182 @@
+"use client";
+
 import { trackPossibleLanguages } from "@/helpers/allLanguages";
 import { allRoles } from "@/helpers/allRoles";
+import {
+  trackInsertFormSchema,
+  TTrackInsert,
+  TTrackInsertForm,
+} from "@/schema/release.schema";
+import MyButton from "@/shared/MyButton/MyButton";
 import MyCheckbox from "@/shared/MyCheckbox/MyCheckbox";
 import MyFile from "@/shared/MyFile/MyFile";
 import MyInput from "@/shared/MyInput/MyInput";
 import MySelect from "@/shared/MySelect/MySelect";
+import IMySelectProps from "@/shared/MySelect/MySelect.props";
 import MyText from "@/shared/MyText/MyText";
 import MyTitle from "@/shared/MyTitle/MyTitle";
+import { inputDateFormat } from "@/utils/dateFormatter";
+import { zodResolver } from "@hookform/resolvers/zod";
 import classNames from "classnames";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { useIMask } from "react-imask";
+import { mergeRefs } from "react-merge-refs";
 import style from "../../ReleaseDraft/TrackDraft/TrackItem.module.css";
+import { uploadUserTrack } from "@/actions/track/upload/user";
+import { enqueueSnackbar } from "notistack";
+import trackRusificator, {
+  TTrackFormTrimmed,
+} from "@/widgets/SendRelize/russificator";
 
-export default function EditNewTrack() {
+export type TEditNewTrack = {
+  releaseId: string;
+};
+
+export default function EditNewTrack({ releaseId }: TEditNewTrack) {
+  const formMethods = useForm<TTrackInsertForm>({
+    resolver: zodResolver(trackInsertFormSchema),
+    defaultValues: { roles: [{ person: "", role: "" }], releaseId },
+    progressive: true,
+    mode: "all",
+  });
+
+  const { watch, setValue, register, control, handleSubmit } = formMethods;
+
+  const trackFile = watch("track");
+
+  const {
+    fields: trackRoles,
+    append: addRole,
+    remove: removeRole,
+  } = useFieldArray({ control, name: "roles" });
+
+  const [showInstantGratification, setShowInstantGratification] =
+    useState(false);
+
+  // const trackData = watch();
+
+  const [language, setLanguage] = useState<IMySelectProps["value"]>();
+
+  const ringtoneFile = watch("ringtone");
+
+  const { ref: maskedRef } = useIMask({
+    lazy: false,
+    mask: "00:00",
+    definitions: { "0": { mask: "0", placeholderChar: "0" } },
+    autofix: true,
+  });
+  const { ref: previewRef, ...otherPreviewRegister } =
+    register("preview_start");
+
+  const mergedPreviewRef = mergeRefs([maskedRef, previewRef]);
+
+  const { ref: authorRightsMaskedRef } = useIMask({
+    lazy: false,
+    mask: Number,
+    min: 1,
+    max: 100,
+    autofix: true,
+  });
+
+  const { ref: authorRightsRef, ...otherAuthorRightsRegister } =
+    register("author_rights");
+
+  const mergedAuthorRightsRef = mergeRefs([
+    authorRightsRef,
+    authorRightsMaskedRef,
+  ]);
+
+  const router = useRouter();
+
+  const [isBlocked, setIsBlocked] = useState(false);
+
   return (
     <div className="wrap">
-      <form action="#">
+      <form
+        onSubmit={handleSubmit(
+          async (data) => {
+            setIsBlocked(true);
+
+            enqueueSnackbar({
+              variant: "info",
+              message: "Загружаем трек. Подождите.",
+            });
+            enqueueSnackbar({
+              variant: "info",
+              message: "Скорость загрузки зависит от качества соединения",
+            });
+
+            const trackFiles = new FormData();
+
+            const {
+              track,
+              ringtone,
+              text_sync,
+              text,
+              video,
+              video_shot,
+              ...otherTrackData
+            } = data;
+
+            const trackFile = track;
+
+            const trackFileType = trackFile.type.split("/")[1];
+
+            trackFiles.set("track", trackFile);
+
+            const ringtoneFile = ringtone;
+
+            let ringtoneType: string | undefined;
+
+            if (ringtoneFile instanceof File) {
+              ringtoneType = ringtoneFile.type.split("/")[1];
+              trackFiles.set("ringtone", ringtoneFile);
+            }
+
+            const trackData: TTrackInsert = {
+              ...otherTrackData,
+              track: trackFileType,
+              ringtone: ringtoneType,
+              index: 1,
+            };
+
+            const result = await uploadUserTrack(
+              trackData,
+              trackFiles,
+              releaseId
+            );
+
+            if (result) {
+              return enqueueSnackbar({
+                message: result.message,
+                variant: "error",
+              });
+            }
+
+            enqueueSnackbar({
+              variant: "success",
+              message: "Трек успешно загружен",
+            });
+          },
+          (e) => {
+            enqueueSnackbar({
+              variant: "error",
+              message: `Неерно заполнены поля ${trackRusificator(
+                Object.keys(e) as (keyof TTrackFormTrimmed)[]
+              )}`,
+            });
+          }
+        )}
+      >
+        <div>
+          <MyButton
+            onClick={() => router.back()}
+            text="Назад"
+            view="secondary"
+          />
+        </div>
         {/* Track */}
         <div>
           <MyTitle className={style.mt10} Tag={"h3"}>
@@ -25,19 +189,15 @@ export default function EditNewTrack() {
             Максимальный размер файла: 30MB
           </MyText>
           <MyFile
-          // fileName={
-          //   !(ringtone instanceof File)
-          //     ? `${trackName}.${ringtone}`
-          //     : undefined
-          // }
-          // files={files}
-          // onChange={(e) =>
-          //   setValue(
-          //     `tracks.${trackIndex}.ringtone`,
-          //     Array.from(e.target.files ?? []).at(0)
-          //   )
-          // }
+            files={[trackFile]}
+            onChange={(e) => {
+              const file = Array.from(e.target.files ?? []).at(0);
+              file instanceof File && setValue(`track`, file);
+            }}
           />
+          {trackFile instanceof File && (
+            <audio src={URL.createObjectURL(trackFile)} controls></audio>
+          )}
         </div>
         {/* --- Track --- */}
         {/* Genetal Info */}
@@ -51,6 +211,7 @@ export default function EditNewTrack() {
           </div>
           <div className={style.row}>
             <MyInput
+              {...register("title")}
               label={"Название трека * "}
               inpLk
               placeholder="Введите название трека"
@@ -61,6 +222,7 @@ export default function EditNewTrack() {
               type={"text"}
             />
             <MyInput
+              {...register("subtitle")}
               label={"Подзаголовок"}
               inpLk
               tooltip={{
@@ -85,6 +247,7 @@ export default function EditNewTrack() {
           </div>
           <div className={style.row}>
             <MyInput
+              {...register("isrc")}
               label={"ISRC"}
               inpLk
               placeholder="Введите ISRC"
@@ -95,6 +258,7 @@ export default function EditNewTrack() {
               type={"text"}
             />
             <MyInput
+              {...register("partner_code")}
               label={"Код партнера"}
               inpLk
               tooltip={{
@@ -122,46 +286,40 @@ export default function EditNewTrack() {
               </span>
             </MyText>
           </div>
-          {/* {roles.map((role: any, roleIndex) => ( */}
-          <div className={"row mb10"}>
-            <MyInput
-              label={`Персона {1}`}
-              placeholder="ФИО персоны"
-              inpLk
-              type={"text"}
-              className="mb0"
-            />
-            <div className={"w30"}>
-              <MySelect
-                className={classNames(style.select, "mb0")}
-                label={"Выберите роль"}
-                options={allRoles}
-                // value={allRoles.find((r) => r.value === role.role)}
-                // onValueChange={({ value }) => {
-                //   // handleChangeRole(roleIndex, { role: value });
-                //   setValue(
-                //     `tracks.${trackIndex}.roles.${roleIndex}.role`,
-                //     value
-                //   );
-                // }}
+          {trackRoles.map((role, roleIndex) => (
+            <div className={"row mb10"} key={role.id}>
+              <MyInput
+                {...register(`roles.${roleIndex}.person`)}
+                label={`Персона ${roleIndex + 1}`}
+                placeholder="ФИО персоны"
+                inpLk
+                type={"text"}
+                className="mb0"
               />
+              <div className={"w30"}>
+                <MySelect
+                  className={classNames(style.select, "mb0")}
+                  label={"Выберите роль"}
+                  options={allRoles}
+                  value={allRoles.find((r) => r.value === role.role)}
+                  onValueChange={({ value }) =>
+                    setValue(`roles.${roleIndex}.role`, value)
+                  }
+                />
+              </div>
+              <div
+                className={style.delete}
+                onClick={() => removeRole(roleIndex)}
+              >
+                <div className={style.line1}></div>
+                <div className={style.line2}></div>
+              </div>
             </div>
-            <div
-              className={style.delete}
-              // onClick={() => removeRole(roleIndex)}
-            >
-              <div className={style.line1}></div>
-              <div className={style.line2}></div>
-            </div>
-          </div>
-          {/* ))} */}
+          ))}
           <div
             className={style.btn}
             onClick={() => {
-              // handleTrackChange({
-              //   roles: [...track.roles, { person: "", role: "" }],
-              // });
-              // appendRole({ person: "", role: "" });
+              addRole({ person: "", role: "" });
             }}
           >
             Добавить персону
@@ -182,8 +340,8 @@ export default function EditNewTrack() {
           </div>
           <div className={style.row}>
             <MyInput
-              // {...rightsRegister}
-              // ref={rightsRef}
+              {...otherAuthorRightsRegister}
+              ref={mergedAuthorRightsRef}
               label={"Авторские права"}
               inpLk
               tooltip={{
@@ -194,7 +352,8 @@ export default function EditNewTrack() {
             />
             <MyInput
               label={"Смежные права"}
-              value={100.0}
+              defaultValue={100}
+              readOnly
               inpLk
               tooltip={{
                 id: `avtorPrava`,
@@ -215,43 +374,39 @@ export default function EditNewTrack() {
           </div>
 
           <MyInput
-            // {...previewRegister}
-            // ref={previewRef}
+            {...otherPreviewRegister}
+            ref={mergedPreviewRef}
             label={"Начало предпрослушивания (секунды)"}
             inpLk
             tooltip={{
               id: `startProsl`,
               text: "С выбранной секунды начинается воспроизведение фрагмента: который будет использован на сервисе VK Клипы, в качестве сниппета на VK музыка, проигрываться до покупки на ITunes, использоваться как сниппет на Apple Music и использоваться как официальный звук на TikTik, Likee",
             }}
-            placeholder="20:00"
             type={"text"}
           />
           <MyCheckbox
             className={style.check}
-            // name={`InstantGratification-${trackIndex}`}
+            name={`InstantGratification`}
             label={"Instant Gratification"}
             tooltip={{
               id: "InstantGratification",
               text: "Дата, когда открывается возможность прослушать часть треков с альбома (до 50%). Указанная дата должна быть позже даты предзаказа, но не ранее даты старта на площадках. Поддерживают площадки: iTunes, Apple Music, Яндекс Музыка и YouTube Music",
             }}
-            // checked={showInstantGratification}
-            // onChange={() => {
-            //   if (showInstantGratification) {
-            //     setValue(
-            //       `tracks.${trackIndex}.instant_gratification`,
-            //       undefined
-            //     );
-            //   }
-            //   setShowInstantGratification(!showInstantGratification);
-            // }}
+            checked={showInstantGratification}
+            onChange={() => {
+              if (showInstantGratification) {
+                setValue(`instant_gratification`, undefined);
+              }
+              setShowInstantGratification(!showInstantGratification);
+            }}
           />
-          {/* {showInstantGratification && (
+          {showInstantGratification && (
             <Controller
               control={control}
-              // name={`tracks.${trackIndex}.instant_gratification`}
-              render={({ field: { value, onChange, ...otherFieldDAta } }) => (
+              name={`instant_gratification`}
+              render={({ field: { value, onChange, ...otherFieldData } }) => (
                 <MyInput
-                  {...otherFieldDAta}
+                  {...otherFieldData}
                   value={!!value ? inputDateFormat(value) : undefined}
                   onChange={(e) => onChange(new Date(e.target.value))}
                   className={style.mt30}
@@ -261,9 +416,9 @@ export default function EditNewTrack() {
                 />
               )}
             />
-          )} */}
+          )}
           <MyCheckbox
-            // {...register(`tracks.${trackIndex}.focus`)}
+            {...register(`focus`)}
             label={"Focus track"}
             tooltip={{
               id: "Focus track",
@@ -286,59 +441,40 @@ export default function EditNewTrack() {
             </MyText>
           </div>
           <MyCheckbox
-            // {...register(`tracks.${trackIndex}.explicit`)}
+            {...register(`explicit`)}
             label={"Explicit Content"}
-            name={`Explicit-Content`}
-            // checked={!!track.explicit}
-            // onChange={() =>
-            //   handleTrackChange({ explicit: !!!track.explicit })
-            // }
             tooltip={{
               id: "Explicit Content",
               text: "Версия трека, содержащая ненормативную и потенциально оскорбительную лексику",
             }}
           />
           <MyCheckbox
-            // {...register(`tracks.${trackIndex}.live`)}
+            {...register(`live`)}
             label={"Live"}
-            name={`Live`}
-            // checked={!!track.live}
-            // onChange={() => handleTrackChange({ live: !!!track.live })}
             tooltip={{
               id: "Live",
               text: "Запись живого выступления, если в названии трека вы уже указали Live, можете не выбирать этот параметр",
             }}
           />
           <MyCheckbox
-            // {...register(`tracks.${trackIndex}.cover`)}
+            {...register(`cover`)}
             label={"Cover"}
-            name={`Cover`}
-            // checked={!!track.cover}
-            // onChange={() => handleTrackChange({ cover: !!!track.cover })}
             tooltip={{
               id: "Cover",
               text: "Версия трека, исполненная другим артистом",
             }}
           />
           <MyCheckbox
-            // {...register(`tracks.${trackIndex}.remix`)}
+            {...register(`remix`)}
             label={"Remix"}
-            name={`Remix`}
-            // checked={!!track.remix}
-            // onChange={() => handleTrackChange({ remix: !!!track.remix })}
             tooltip={{
               id: "Remix",
               text: "Альтернативная версия выпущенного ранее трека",
             }}
           />
           <MyCheckbox
-            // {...register(`tracks.${trackIndex}.instrumental`)}
+            {...register(`instrumental`)}
             label={"Instrumental"}
-            name={`Instrumental`}
-            // checked={!!track.instrumental}
-            // onChange={() =>
-            //   handleTrackChange({ instrumental: !!!track.instrumental })
-            // }
             tooltip={{
               id: "Instrumental",
               text: "Версия трека без вокальной партии",
@@ -358,11 +494,11 @@ export default function EditNewTrack() {
             </MyText>
             <MySelect
               label={"Язык трека"}
-              // value={language}
-              // onValueChange={(newLang) => {
-              //   setValue(`tracks.${trackIndex}.language`, newLang.value);
-              //   setLanguage(newLang);
-              // }}
+              value={language}
+              onValueChange={(newLang) => {
+                setValue(`language`, newLang.value);
+                setLanguage(newLang);
+              }}
               options={trackPossibleLanguages}
             />
           </div>
@@ -378,22 +514,26 @@ export default function EditNewTrack() {
             Длина: от 5 до 29.99 сек.
           </MyText>
           <MyFile
-          // fileName={
-          //   !(ringtone instanceof File)
-          //     ? `${trackName}.${ringtone}`
-          //     : undefined
-          // }
-          // files={files}
-          // onChange={(e) =>
-          //   setValue(
-          //     `tracks.${trackIndex}.ringtone`,
-          //     Array.from(e.target.files ?? []).at(0)
-          //   )
-          // }
+            // fileName={
+            //   !(ringtone instanceof File)
+            //     ? `${trackName}.${ringtone}`
+            //     : undefined
+            // }
+            files={ringtoneFile && [ringtoneFile]}
+            onChange={(e) =>
+              setValue(`ringtone`, Array.from(e.target.files ?? []).at(0))
+            }
           />
         </div>
         {/* --- RingTone --- */}
+        <MyButton
+          text="Отправить трек"
+          view="secondary"
+          type="submit"
+          disabled={isBlocked}
+        />
       </form>
+      {/* <pre>{JSON.stringify(trackData, null, 4)}</pre> */}
     </div>
   );
 }

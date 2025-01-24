@@ -38,7 +38,7 @@ export function releaseRussificator(
 
 export type TTrackFormTrimmed = Pick<
   TTrackInsertForm,
-  "author_rights" | "language" | "title" | "roles"
+  "author_rights" | "language" | "title" | "roles" | "track"
 >;
 
 export const trackRusText: Record<keyof TTrackFormTrimmed, string> = {
@@ -46,6 +46,7 @@ export const trackRusText: Record<keyof TTrackFormTrimmed, string> = {
   language: "Язык",
   title: "Название трека",
   roles: "Персоны и роли",
+  track: "Файл трека",
 };
 
 export default function trackRusificator(

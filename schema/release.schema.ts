@@ -2,6 +2,7 @@ import { release, track } from "@/db/schema";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 import { fileSchema } from "./shared.schema";
+import { InferSelectModel } from "drizzle-orm";
 
 const authorRightsSchema = z.string().refine((value) => {
   const valNum = Number(value);
@@ -147,6 +148,6 @@ export type TReleaseUpdateForm = z.infer<typeof releaseUpdateFormSchema>;
 
 export type TReleaseInsertForm = z.infer<typeof releaseInsertFormSchema>;
 
-export type TRelease = z.infer<typeof releaseSelectSchema>;
+export type TRelease = InferSelectModel<typeof release>;
 
-export type TTrack = z.infer<typeof trackSelectBaseSchema>;
+export type TTrack = InferSelectModel<typeof track>;

@@ -1,20 +1,19 @@
 "use server";
-
+import { getAuthSession } from "@/actions/auth";
+import { revalidatePathAction } from "@/actions/revalidate";
 import { redirect } from "next/navigation";
 import {
   optionalFileSchema,
   trackInsertSchema,
   TTrackInsert,
 } from "@/schema/release.schema";
-import { getAuthSession } from "../auth";
 import { db } from "@/db";
 import { createS3Client } from "@/config/s3";
 import { track } from "@/db/schema";
 import { removeFile, uploadFile } from "@/utils/fuleUpload";
 import { fileSchema } from "@/schema/shared.schema";
-import { revalidatePathAction } from "../revalidate";
 
-export async function uploadTrack(
+export async function uploadUserTrack(
   trackData: TTrackInsert,
   trackFiles: FormData,
   releaseId: string
@@ -23,7 +22,7 @@ export async function uploadTrack(
 
   if (!session) {
     return {
-      success: false,
+      success: false as const,
       message: "Unauthorized",
     };
   }
@@ -35,7 +34,7 @@ export async function uploadTrack(
 
   if (!user) {
     return {
-      success: false,
+      success: false as const,
       message: "Unauthorized",
     };
   }
@@ -48,7 +47,7 @@ export async function uploadTrack(
 
   if (!release) {
     return {
-      success: false,
+      success: false as const,
       message: "Релиз не найден",
     };
   }
@@ -57,7 +56,7 @@ export async function uploadTrack(
 
   if (!validatedTrackData.success) {
     return {
-      success: false,
+      success: false as const,
       message: "Данные трека не прошли автоматическую проверку",
     };
   }
@@ -121,7 +120,7 @@ export async function uploadTrack(
         });
       }
 
-      return { success: true };
+      return { success: true as const };
     })
     .catch((e: Error) => {
       console.dir(
@@ -129,7 +128,7 @@ export async function uploadTrack(
         { depth: Infinity }
       );
       return {
-        success: false,
+        success: false as const,
         message: e.message,
       };
     });
@@ -138,9 +137,9 @@ export async function uploadTrack(
     return transactionResult;
   }
 
-  await revalidatePathAction(`/dashboard/release/${release.id}`);
+  await revalidatePathAction(`/dashboard/edit/${release.id}`);
 
-  redirect(`/dashboard/release/${release.id}`);
+  redirect(`/dashboard/edit/${release.id}`);
 }
 
 async function removeTrackAssets(trackData: {

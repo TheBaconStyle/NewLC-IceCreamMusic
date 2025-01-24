@@ -24,7 +24,9 @@ const MyFile = forwardRef<HTMLInputElement, TMyFileProps>(function FileInput(
         }}
         ref={ref}
       />
-      {!!files && Array.from(files).map((f) => <p key={f.name}>{f.name}</p>)}
+      {!!files &&
+        files.filter(Boolean).length > 0 &&
+        Array.from(files).map((f) => <p key={f.name}>{f.name}</p>)}
       {fileName && <p>{fileName}</p>}
     </label>
   );

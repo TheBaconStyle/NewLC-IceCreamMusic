@@ -1,15 +1,14 @@
+import EditNewTrack from "@/widgets/UpdateRelize/EditNewTrack/EditNewTrack";
+import { Error } from "@/entities/Error";
 import { getAuthSession } from "@/actions/auth";
 import { db } from "@/db";
-import { track } from "@/db/schema";
-import { Error } from "@/entities/Error";
-import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
-import UpdateRelease from "@/widgets/UpdateRelize/UpdateRelize";
 import { sql } from "drizzle-orm";
+import { track } from "@/db/schema";
 
-export default async function ReleaseDraftPage({
+export default async function NewTrack({
   params,
 }: {
-  params: { releaseId: string };
+  params: Promise<{ releaseId: string }>;
 }) {
   const session = await getAuthSession();
 
@@ -23,12 +22,14 @@ export default async function ReleaseDraftPage({
   });
 
   if (!user) {
-    return <Error statusCode={404} />;
+    return <Error statusCode={401} />;
   }
+
+  const pageParams = await params;
 
   const release = await db.query.release.findFirst({
     where: (rel, { eq, and }) =>
-      and(eq(rel.id, params.releaseId), eq(rel.authorId, user.id)),
+      and(eq(rel.id, pageParams.releaseId), eq(rel.authorId, user.id)),
     with: {
       tracks: {
         orderBy: sql`${track.index}`,
@@ -40,10 +41,5 @@ export default async function ReleaseDraftPage({
     return <Error statusCode={404} />;
   }
 
-  return (
-    <PageTransitionProvider>
-      <UpdateRelease release={release} />
-      {/* <pre>{JSON.stringify(release, null, 4)}</pre> */}
-    </PageTransitionProvider>
-  );
+  return <EditNewTrack releaseId={release.id} />;
 }

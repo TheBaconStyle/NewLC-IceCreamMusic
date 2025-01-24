@@ -259,7 +259,7 @@ const UpdateRelease = ({ release }: TUpdateRelease) => {
                 animate={{ opacity: 1, y: 0 }}
               >
                 <Link
-                  href={`/dashboard/edit/${release.id}/new`}
+                  href={`/dashboard/edit/${release.id}/new-track`}
                   className="linkButton wfit"
                 >
                   Добавить трек
