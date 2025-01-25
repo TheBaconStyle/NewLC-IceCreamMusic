@@ -77,7 +77,12 @@ export function ProfileEdit({
         <div className={classNames("wrap", "center")}>
           <MyInpFile
             className={style.avatar}
-            onFileChange={(files) => setValue("avatar", files?.item(0))}
+            onFileChange={(files) => {
+              const file = files?.item(0);
+              if (file instanceof File) {
+                setValue("avatar", file);
+              }
+            }}
           />
         </div>
         <div className={classNames("wrap", "w100")}>

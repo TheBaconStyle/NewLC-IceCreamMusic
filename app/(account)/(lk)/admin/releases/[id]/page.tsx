@@ -12,10 +12,12 @@ import { RejectButton } from "./RejectButton";
 import {
   releaseAreaSchema,
   releasePlatformsSchema,
+  TReleaseRoles,
 } from "@/schema/release.schema";
 import { allLanguages } from "@/helpers/allLanguages";
 import { release } from "os";
 import { allGenres } from "@/helpers/allGenres";
+import React from 'react';
 
 export default async function AdminReleaseDetailPage({
   params,
@@ -114,11 +116,11 @@ export default async function AdminReleaseDetailPage({
                 <div className="col">
                   <MyText className={style.title}>Исполнитель</MyText>
                   <MyText className={style.value}>
-                    {releaseData.roles.map((r) => (
-                      <>
+                    {(releaseData.roles as TReleaseRoles).map((r) => (
+                      <React.Fragment key={r.person}>
                         <span>{r.person}</span> - <span>{r.role}</span>
                         <br />
-                      </>
+                      </React.Fragment>
                     ))}
                   </MyText>
                 </div>
