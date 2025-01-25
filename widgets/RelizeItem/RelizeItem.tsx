@@ -53,11 +53,7 @@ const ReleaseItem = ({ release, ...props }: TReleaseItem) => {
             })}
           ></div>
           <MyText className={style.statusTitle}>
-            {release.confirmed ? (
-              <span className="accept">Оплачено</span>
-            ) : (
-              <span className="warning">Не оплачен</span>
-            )}{" "}
+            {release.confirmed ? <span className="accept">Оплачено</span> : <span className="warning">Не оплачен</span>}{" "}
             {release.confirmed &&
               (release?.status === "moderating"
                 ? "/ На модерации"
@@ -70,15 +66,11 @@ const ReleaseItem = ({ release, ...props }: TReleaseItem) => {
       <div className={style.body}>
         <div>
           <MyText className={style.title}>Дата релиза</MyText>
-          <MyText className={style.value}>
-            {dateFormatter(new Date(release.releaseDate))}
-          </MyText>
+          <MyText className={style.value}>{dateFormatter(new Date(release.releaseDate))}</MyText>
         </div>
         <div>
           <MyText className={style.title}>Дата старта</MyText>
-          <MyText className={style.value}>
-            {dateFormatter(new Date(release.startDate))}
-          </MyText>
+          <MyText className={style.value}>{dateFormatter(new Date(release.startDate))}</MyText>
         </div>
         <div>
           <MyText className={style.title}>Тип релиза</MyText>
@@ -97,9 +89,7 @@ const ReleaseItem = ({ release, ...props }: TReleaseItem) => {
 
         <div>
           <MyText className={style.title}>Статус оплаты</MyText>
-          <MyText className={style.value}>
-            {release.confirmed ? "Оплачено" : "Не оплачено"}
-          </MyText>
+          <MyText className={style.value}>{release.confirmed ? "Оплачено" : "Не оплачено"}</MyText>
         </div>
       </div>
       <div className={style.bottom}>
@@ -111,10 +101,7 @@ const ReleaseItem = ({ release, ...props }: TReleaseItem) => {
         )}
       </div>
       {!release.confirmed && (
-        <Link
-          className={classNames("linkButton", style.linkToPay)}
-          href={`/purchase/release/${release.id}`}
-        >
+        <Link className={classNames("linkButton", style.linkToPay)} href={`/purchase/release/${release.id}`}>
           Оплатить
         </Link>
       )}
@@ -129,7 +116,10 @@ const ReleaseItem = ({ release, ...props }: TReleaseItem) => {
 
       <div
         className="row gap10 pointer fs14 mt20 pb20"
-        onClick={() => setShowTracks(!showTracks)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setShowTracks(!showTracks);
+        }}
       >
         <IoIosArrowForward />
         <p>Список треков</p>

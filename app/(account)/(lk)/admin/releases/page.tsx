@@ -5,14 +5,11 @@ import ReleaseItem from "@/widgets/RelizeItem/RelizeItem";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import ModerationFilter from "../ModerationFilter";
+import classNames from "classnames";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminReleasesPage({
-  searchParams,
-}: {
-  searchParams: { status: string };
-}) {
+export default async function AdminReleasesPage({ searchParams }: { searchParams: { status: string } }) {
   const isAdmin = await isAdminUser();
 
   if (!isAdmin) {
@@ -29,13 +26,20 @@ export default async function AdminReleasesPage({
     <div>
       <ModerationFilter />
       {data.map((e) => (
-        <Link
-          className={style.link}
-          key={e.id}
-          href={`/admin/releases/${e.id}`}
-        >
-          <ReleaseItem release={e} />
-        </Link>
+        <div key={e.id} className="col gap10 relative">
+          <Link
+            className={classNames("linkButton wfit absolute", {
+              [style.position3]: isAdmin,
+              [style.position2]: e.confirmed,
+            })}
+            href={`/admin/releases/${e.id}`}
+          >
+            Подробнее
+          </Link>
+          <div>
+            <ReleaseItem release={e} />
+          </div>
+        </div>
       ))}
     </div>
   );

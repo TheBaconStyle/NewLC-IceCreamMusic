@@ -246,3 +246,9 @@
 .round15 {
   border-radius: 15px;
 }
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
