@@ -5,6 +5,7 @@ import {
   releaseAreaSchema,
   releasePlatformsSchema,
   releaseRolesSchema,
+  trackRolesSchema,
   TReleaseRoles,
 } from "@/schema/release.schema";
 import MyText from "@/shared/MyText/MyText";
@@ -49,6 +50,28 @@ export default async function AdminReleaseDetailPage({
   }
   if (areas.data.includes("sng")) {
     areaData = "В странах СНГ";
+  }
+
+  const releaseRoles: TReleaseRoles = [];
+
+  const releaseRolesResult = releaseRolesSchema.safeParse(releaseData?.roles);
+
+  if (releaseRolesResult.success) {
+    releaseRoles.push(...releaseRolesResult.data);
+  }
+
+  if (releaseData?.performer) {
+    releaseRoles.push({
+      role: "Исполнитель",
+      person: releaseData.performer,
+    });
+  }
+
+  if (releaseData?.feat) {
+    releaseRoles.push({
+      role: "feat.",
+      person: releaseData.feat,
+    });
   }
 
   return (
@@ -117,7 +140,7 @@ export default async function AdminReleaseDetailPage({
                 <div className="col">
                   <MyText className={style.title}>Исполнитель</MyText>
                   <MyText className={style.value}>
-                    {(releaseData.roles as TReleaseRoles).map((r) => (
+                    {releaseRoles.map((r) => (
                       <React.Fragment key={r.person}>
                         <span>{r.person}</span> - <span>{r.role}</span>
                         <br />
@@ -215,24 +238,10 @@ export default async function AdminReleaseDetailPage({
                   releaseData.tracks.map((e) => {
                     const roles: TReleaseRoles = [];
 
-                    const rolesResult = releaseRolesSchema.safeParse(e.roles);
+                    const rolesResult = trackRolesSchema.safeParse(e.roles);
 
                     if (rolesResult.success) {
                       roles.push(...rolesResult.data);
-                    }
-
-                    if (releaseData.performer && !rolesResult.data) {
-                      roles.push({
-                        role: "Исполнитель",
-                        person: releaseData.performer,
-                      });
-                    }
-
-                    if (releaseData.feat && !rolesResult.data) {
-                      roles.push({
-                        role: "Исполнитель",
-                        person: releaseData.feat,
-                      });
                     }
 
                     return (

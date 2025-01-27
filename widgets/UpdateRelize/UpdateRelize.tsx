@@ -1,5 +1,6 @@
 "use client";
 
+import { editUserRelease } from "@/actions/release/edit/user";
 import {
   releaseAreaSchema,
   releasePlatformsSchema,
@@ -8,7 +9,6 @@ import {
   trackRolesSchema,
   TRelease,
   TReleaseRoles,
-  TReleaseUpdate,
   TReleaseUpdateForm,
   TTrack,
   TTrackUpdate,
@@ -17,6 +17,8 @@ import MyButton from "@/shared/MyButton/MyButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import classNames from "classnames";
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { ReleaseArea } from "../ReleaseDraft/ReleaseArea";
@@ -29,15 +31,12 @@ import { ReleasePersons } from "../ReleaseDraft/ReleasePersons";
 import { ReleasePlatforms } from "../ReleaseDraft/ReleasePlatform";
 import { ReleaseTracks } from "../ReleaseDraft/ReleaseTracks";
 import FinalCheck from "../SendRelize/FinalCheck/FinalCheck";
-import style from "./UpdateRelize.module.css";
 import trackRusificator, {
   releaseRussificator,
   TReleaseFormTrimmed,
   TTrackFormTrimmed,
 } from "../SendRelize/russificator";
-import { enqueueSnackbar } from "notistack";
-import { editUserRelease } from "@/actions/release/edit/user";
-import Link from "next/link";
+import style from "./UpdateRelize.module.css";
 
 export type TUpdateRelease = {
   release: TRelease & { tracks: TTrack[] };
@@ -275,7 +274,10 @@ const UpdateRelease = ({ release }: TUpdateRelease) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <FinalCheck release={releaseData} />
+                <FinalCheck
+                  release={releaseData}
+                  s3_url={process.env.NEXT_PUBLIC_S3_URL!}
+                />
 
                 <ReleaseModeratorComment />
 

@@ -11,9 +11,10 @@ import style from "../TrackAccordion/TrackAccordion.module.css";
 
 export type TFinalCheckTrack = {
   track: TTrackInsertForm | TTrackUpdateForm;
+  s3_url: string;
 };
 
-export default function FinalCheckTrack({ track }: TFinalCheckTrack) {
+export default function FinalCheckTrack({ track, s3_url }: TFinalCheckTrack) {
   const [showDetail, setShowDetail] = useState(false);
 
   return (
@@ -46,9 +47,9 @@ export default function FinalCheckTrack({ track }: TFinalCheckTrack) {
         src={
           track.track instanceof File
             ? URL.createObjectURL(track.track)
-            : `${process.env.NEXT_PUBLIC_S3_URL}/tracks/${
-                (track as TTrackUpdateForm).trackId
-              }.${track.track}`
+            : `${s3_url}/tracks/${(track as TTrackUpdateForm).trackId}.${
+                track.track
+              }`
         }
         controls
         className="audio"
@@ -203,7 +204,7 @@ export default function FinalCheckTrack({ track }: TFinalCheckTrack) {
                   src={
                     track.text_sync instanceof File
                       ? URL.createObjectURL(track.text_sync)
-                      : `${process.env.NEXT_PUBLIC_S3_URL}/syncs/${
+                      : `${s3_url}/syncs/${
                           (track as TTrackUpdateForm).trackId
                         }.${track.text_sync}`
                   }
@@ -224,7 +225,7 @@ export default function FinalCheckTrack({ track }: TFinalCheckTrack) {
                   src={
                     track.ringtone instanceof File
                       ? URL.createObjectURL(track.ringtone)
-                      : `${process.env.NEXT_PUBLIC_S3_URL}/ringtones/${
+                      : `${s3_url}/ringtones/${
                           (track as TTrackUpdateForm).trackId
                         }.${track.ringtone}`
                   }
@@ -245,7 +246,7 @@ export default function FinalCheckTrack({ track }: TFinalCheckTrack) {
                   src={
                     track.video instanceof File
                       ? URL.createObjectURL(track.video)
-                      : `${process.env.NEXT_PUBLIC_S3_URL}/ringtones/${
+                      : `${s3_url}/ringtones/${
                           (track as TTrackUpdateForm).trackId
                         }.${track.video}`
                   }
@@ -264,7 +265,7 @@ export default function FinalCheckTrack({ track }: TFinalCheckTrack) {
                   src={
                     track.video_shot instanceof File
                       ? URL.createObjectURL(track.video_shot)
-                      : `${process.env.NEXT_PUBLIC_S3_URL}/ringtones/${
+                      : `${s3_url}/ringtones/${
                           (track as TTrackUpdateForm).trackId
                         }.${track.video_shot}`
                   }

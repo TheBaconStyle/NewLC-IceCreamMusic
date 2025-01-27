@@ -237,7 +237,10 @@ const SendRelease = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <FinalCheck release={releaseData} />
+                <FinalCheck
+                  release={releaseData}
+                  s3_url={process.env.NEXT_PUBLIC_S3_URL!}
+                />
 
                 <ReleaseModeratorComment />
 

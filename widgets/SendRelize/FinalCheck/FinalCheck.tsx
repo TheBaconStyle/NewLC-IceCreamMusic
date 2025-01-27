@@ -11,9 +11,10 @@ import FinalCheckTrack from "./FinalCheckTrack";
 
 export type TFinalCheck = {
   release: TReleaseUpdateForm | TReleaseInsertForm;
+  s3_url: string;
 };
 
-export default function FinalCheck({ release }: TFinalCheck) {
+export default function FinalCheck({ release, s3_url }: TFinalCheck) {
   return (
     <div className="col gap20 mb20">
       <div className="wrap col">
@@ -23,9 +24,9 @@ export default function FinalCheck({ release }: TFinalCheck) {
               src={
                 release.preview instanceof File
                   ? URL.createObjectURL(release.preview)
-                  : `${process.env.NEXT_PUBLIC_S3_URL}/previews/${
-                      (release as TReleaseUpdateForm).id
-                    }.${release.preview}`
+                  : `${s3_url}/previews/${(release as TReleaseUpdateForm).id}.${
+                      release.preview
+                    }`
               }
               alt={"Превью"}
               width={225}
@@ -278,7 +279,7 @@ export default function FinalCheck({ release }: TFinalCheck) {
       </div>
 
       {release.tracks.map((e, i) => (
-        <FinalCheckTrack track={e} key={i} />
+        <FinalCheckTrack track={e} key={i} s3_url={s3_url} />
       ))}
     </div>
   );

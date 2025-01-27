@@ -9,7 +9,11 @@ import classNames from "classnames";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminReleasesPage({ searchParams }: { searchParams: { status: string } }) {
+export default async function AdminReleasesPage({
+  searchParams,
+}: {
+  searchParams: { status: string };
+}) {
   const isAdmin = await isAdminUser();
 
   if (!isAdmin) {
@@ -25,22 +29,24 @@ export default async function AdminReleasesPage({ searchParams }: { searchParams
   return (
     <div>
       <ModerationFilter />
-      {data.map((e) => (
-        <div key={e.id} className="col gap10 relative">
-          <Link
-            className={classNames("linkButton wfit absolute", {
-              [style.position3]: isAdmin,
-              [style.position2]: e.confirmed,
-            })}
-            href={`/admin/releases/${e.id}`}
-          >
-            Подробнее
-          </Link>
-          <div>
-            <ReleaseItem release={e} />
+      <div className="col gap20">
+        {data.map((e) => (
+          <div key={e.id} className="col gap10 relative">
+            <Link
+              className={classNames("linkButton wfit absolute", {
+                [style.position3]: isAdmin,
+                [style.position2]: e.confirmed,
+              })}
+              href={`/admin/releases/${e.id}`}
+            >
+              Подробнее
+            </Link>
+            <div>
+              <ReleaseItem release={e} />
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
