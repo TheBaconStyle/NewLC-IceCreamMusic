@@ -61,7 +61,6 @@ const DragAndDropFile = ({ appendTrack }: TDragAndDropFile) => {
           title: "",
           track: track,
           author_rights: "",
-          releaseId: "",
           trackId: "",
         });
       });
