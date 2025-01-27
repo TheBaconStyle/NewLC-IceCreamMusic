@@ -56,7 +56,7 @@ export default function WalletEntitie({
           <div className="row gap50">
             <div className="col">
               <MyText className="styleTitle">Telegram</MyText>
-              {telegram ? (
+              {!!telegram ? (
                 telegram.includes("@") ? (
                   <Link
                     className="styleValue"
@@ -78,7 +78,7 @@ export default function WalletEntitie({
 
             <div className="col">
               <MyText className="styleTitle">WhatsApp</MyText>
-              {whatsapp ? (
+              {!!whatsapp ? (
                 <Link className="styleValue" href={whatsapp}>
                   Whatsapp
                 </Link>
@@ -90,7 +90,7 @@ export default function WalletEntitie({
             </div>
             <div className="col">
               <MyText className="styleTitle">VK</MyText>
-              {vk ? (
+              {!!vk ? (
                 <Link className="styleValue" href={vk}>
                   В контакте
                 </Link>
@@ -103,7 +103,7 @@ export default function WalletEntitie({
 
             <div className="col">
               <MyText className="styleTitle">Viber</MyText>
-              {viber ? (
+              {!!viber ? (
                 <Link className="styleValue" href={viber}>
                   Viber
                 </Link>
@@ -116,7 +116,7 @@ export default function WalletEntitie({
 
             <div className="col">
               <MyText className="styleTitle">Почта</MyText>
-              {viber ? (
+              {!!email ? (
                 <a className="styleValue" href={`mailto:${email}`}>
                   {email}
                 </a>

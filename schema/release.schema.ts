@@ -63,6 +63,7 @@ const trackSelectBaseSchema = createSelectSchema(track);
 
 export const trackInsertSchema = trackInsertBaseSchema.omit({
   id: true,
+  releaseId: true,
 });
 
 export type TTrackInsert = z.infer<typeof trackInsertSchema>;
@@ -91,16 +92,14 @@ export const trackUpdateSchema = trackInsertSchema
 
 export type TTrackUpdate = z.infer<typeof trackUpdateSchema>;
 
-export const trackUpdateFormSchema = trackInsertFormSchema
-  .omit({ releaseId: true })
-  .extend({
-    track: z.union([z.string(), fileSchema]),
-    text_sync: z.union([z.string(), optionalFileSchema]),
-    ringtone: z.union([z.string(), optionalFileSchema]),
-    video: z.union([z.string(), optionalFileSchema]),
-    video_shot: z.union([z.string(), optionalFileSchema]),
-    trackId: z.string(),
-  });
+export const trackUpdateFormSchema = trackInsertFormSchema.extend({
+  track: z.union([z.string(), fileSchema]),
+  text_sync: z.union([z.string(), optionalFileSchema]),
+  ringtone: z.union([z.string(), optionalFileSchema]),
+  video: z.union([z.string(), optionalFileSchema]),
+  video_shot: z.union([z.string(), optionalFileSchema]),
+  trackId: z.string(),
+});
 
 export type TTrackUpdateForm = z.infer<typeof trackUpdateFormSchema>;
 

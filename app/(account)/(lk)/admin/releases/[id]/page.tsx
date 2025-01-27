@@ -1,23 +1,22 @@
 import { db } from "@/db";
-import MyText from "@/shared/MyText/MyText";
-import MyTitle from "@/shared/MyTitle/MyTitle";
-import dateFormatter from "@/utils/dateFormatter";
-import classNames from "classnames";
-import Image from "next/image";
-import { z } from "zod";
-import { DownloadButton } from "@/widgets/DownloadButton/DownloadButton";
-import { ConfirmButton } from "./ConfirmButton";
-import style from "./page.module.css";
-import { RejectButton } from "./RejectButton";
+import { allGenres } from "@/helpers/allGenres";
+import { allLanguages } from "@/helpers/allLanguages";
 import {
   releaseAreaSchema,
   releasePlatformsSchema,
+  releaseRolesSchema,
   TReleaseRoles,
 } from "@/schema/release.schema";
-import { allLanguages } from "@/helpers/allLanguages";
-import { release } from "os";
-import { allGenres } from "@/helpers/allGenres";
-import React from 'react';
+import MyText from "@/shared/MyText/MyText";
+import MyTitle from "@/shared/MyTitle/MyTitle";
+import dateFormatter from "@/utils/dateFormatter";
+import { DownloadButton } from "@/widgets/DownloadButton/DownloadButton";
+import classNames from "classnames";
+import Image from "next/image";
+import React from "react";
+import { ConfirmButton } from "./ConfirmButton";
+import style from "./page.module.css";
+import { RejectButton } from "./RejectButton";
 
 export default async function AdminReleaseDetailPage({
   params,
@@ -40,14 +39,16 @@ export default async function AdminReleaseDetailPage({
   // территории
   let areas = releaseAreaSchema.parse(releaseData?.area);
 
+  let areaData = "";
+
   if (areas.negate) {
-    areas.data = ["Во всех кроме: ", areas.data.join(", ")];
+    areaData = "Во всех кроме: " + areas.data.join(", ");
   }
   if (areas.data.includes("all")) {
-    areas.data = ["Во всех странах"];
+    areaData = "Во всех странах";
   }
   if (areas.data.includes("sng")) {
-    areas.data = ["В странах СНГ"];
+    areaData = "В странах СНГ";
   }
 
   return (
@@ -200,9 +201,7 @@ export default async function AdminReleaseDetailPage({
                   <MyText className={style.title}>
                     Территории распространения для релиза
                   </MyText>
-                  <MyText className={style.value}>
-                    {areas.data.join(" ")}
-                  </MyText>
+                  <MyText className={style.value}>{areaData}</MyText>
                 </div>
               </div>
             </div>
@@ -214,13 +213,27 @@ export default async function AdminReleaseDetailPage({
               <div className="col gap20 mt20">
                 {releaseData.tracks &&
                   releaseData.tracks.map((e) => {
-                    let roles = z
-                      .object({
-                        person: z.string(),
-                        role: z.string(),
-                      })
-                      .array()
-                      .parse(e.roles ?? []);
+                    const roles: TReleaseRoles = [];
+
+                    const rolesResult = releaseRolesSchema.safeParse(e.roles);
+
+                    if (rolesResult.success) {
+                      roles.push(...rolesResult.data);
+                    }
+
+                    if (releaseData.performer && !rolesResult.data) {
+                      roles.push({
+                        role: "Исполнитель",
+                        person: releaseData.performer,
+                      });
+                    }
+
+                    if (releaseData.feat && !rolesResult.data) {
+                      roles.push({
+                        role: "Исполнитель",
+                        person: releaseData.feat,
+                      });
+                    }
 
                     return (
                       <div key={e.id} className="wrap col gap30">

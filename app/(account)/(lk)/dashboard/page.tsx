@@ -2,11 +2,6 @@ import { getAuthSession } from "@/actions/auth";
 import { db } from "@/db";
 import { Error } from "@/entities/Error";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
-import {
-  releaseAreaSchema,
-  releasePlatformsSchema,
-  trackRolesSchema,
-} from "@/schema/release.schema";
 import MyText from "@/shared/MyText/MyText";
 import ReleaseItem from "@/widgets/RelizeItem/RelizeItem";
 
@@ -25,24 +20,9 @@ export default async function MainPage() {
   return (
     <PageTransitionProvider>
       <div className="col gap20">
-        {releasesData.map((release) => {
-          const releaseTracks = release.tracks.map((t) => {
-            return { ...t, roles: [] };
-          });
-
-          return (
-            <ReleaseItem
-              release={{
-                ...release,
-                tracks: releaseTracks,
-                platforms: releasePlatformsSchema.parse(release.platforms),
-                area: releaseAreaSchema.parse(release.area),
-                roles: [],
-              }}
-              key={release.id}
-            />
-          );
-        })}
+        {releasesData.map((release) => (
+          <ReleaseItem release={release} key={release.id} />
+        ))}
       </div>
 
       {releasesData.length === 0 && (

@@ -18,7 +18,7 @@ export default function FinalCheck({ release }: TFinalCheck) {
     <div className="col gap20 mb20">
       <div className="wrap col">
         <div className="row gap30 itemsStart">
-          {release.preview ? (
+          {!!release.preview ? (
             <Image
               src={
                 release.preview instanceof File
