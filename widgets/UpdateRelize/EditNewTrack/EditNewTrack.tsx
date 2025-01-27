@@ -37,7 +37,7 @@ export type TEditNewTrack = {
 export default function EditNewTrack({ releaseId }: TEditNewTrack) {
   const formMethods = useForm<TTrackInsertForm>({
     resolver: zodResolver(trackInsertFormSchema),
-    defaultValues: { roles: [{ person: "", role: "" }], releaseId },
+    defaultValues: { roles: [{ person: "", role: "" }] },
     progressive: true,
     mode: "all",
   });
