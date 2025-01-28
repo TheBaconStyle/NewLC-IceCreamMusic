@@ -22,6 +22,8 @@ export const trackRolesSchema = roleSchema.array().refine((value) => {
   return hasMelodyAuthor && hasTextAuthor && hasPerformer;
 });
 
+export type TTrackRoles = z.infer<typeof trackRolesSchema>;
+
 export const releaseRolesSchema = roleSchema.array().refine((value) => {
   const roles = value.map((v) => v.role);
   const hasPerformer = roles.includes("Исполнитель");

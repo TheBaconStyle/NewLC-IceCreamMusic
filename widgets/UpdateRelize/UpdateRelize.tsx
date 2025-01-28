@@ -13,6 +13,7 @@ import {
   TReleaseRoles,
   TReleaseUpdateForm,
   TTrack,
+  TTrackRoles,
   TTrackUpdate,
 } from "@/schema/release.schema";
 import MyButton from "@/shared/MyButton/MyButton";
@@ -93,16 +94,26 @@ const UpdateRelease = ({ release, s3_url }: TUpdateRelease) => {
       roles: releaseRoles,
       area: releaseArea,
       platforms: releasePlatforms,
-      tracks: tracks.map((track) => ({
-        ...track,
-        roles: trackRolesSchema.parse(track.roles),
-        language: track.language ?? undefined,
-        trackId: track.id,
-        text_sync: track.text_sync ?? undefined,
-        ringtone: track.ringtone ?? undefined,
-        video: track.video ?? undefined,
-        video_shot: track.video_shot ?? undefined,
-      })),
+      tracks: tracks.map((track) => {
+        const trackRolesResult = trackRolesSchema.safeParse(track.roles);
+
+        const trackRoles: TTrackRoles = [];
+
+        if (trackRolesResult.success) {
+          trackRoles.push(...trackRolesResult.data);
+        }
+
+        return {
+          ...track,
+          roles: trackRoles,
+          language: track.language ?? undefined,
+          trackId: track.id,
+          text_sync: track.text_sync ?? undefined,
+          ringtone: track.ringtone ?? undefined,
+          video: track.video ?? undefined,
+          video_shot: track.video_shot ?? undefined,
+        };
+      }),
     },
     progressive: true,
     mode: "all",
