@@ -41,7 +41,11 @@ export const releaseAreaSchema = z.object({
   data: z.string().array(),
 });
 
+export type TReleaseArea = z.infer<typeof releaseAreaSchema>;
+
 export const releasePlatformsSchema = z.string().array();
+
+export type TReleasePlatforms = z.infer<typeof releasePlatformsSchema>;
 
 export type TValidatedTrackFiles = Record<
   keyof Pick<TTrackInsert, "track">,

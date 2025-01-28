@@ -42,7 +42,10 @@ export default async function AdminReleasesPage({
               Подробнее
             </Link>
             <div>
-              <ReleaseItem release={e} />
+              <ReleaseItem
+                release={e}
+                s3_url={process.env.NEXT_PUBLIC_S3_URL!}
+              />
             </div>
           </div>
         ))}

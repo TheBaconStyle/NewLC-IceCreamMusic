@@ -12,9 +12,10 @@ import style from "./RelizeItem.module.css";
 
 export type TReleaseItem = {
   release: TRelease & { tracks: TTrack[] };
+  s3_url: string;
 };
 
-const ReleaseItem = ({ release, ...props }: TReleaseItem) => {
+const ReleaseItem = ({ release, s3_url, ...props }: TReleaseItem) => {
   const [showTracks, setShowTracks] = useState<boolean>(false);
 
   return (
@@ -23,7 +24,7 @@ const ReleaseItem = ({ release, ...props }: TReleaseItem) => {
         <Image
           className={style.preview}
           alt="Превью"
-          src={`${process.env.NEXT_PUBLIC_S3_URL}/previews/${release?.id}.${release?.preview}`}
+          src={`${s3_url}/previews/${release?.id}.${release?.preview}`}
           height={90}
           width={90}
           unoptimized
@@ -53,7 +54,11 @@ const ReleaseItem = ({ release, ...props }: TReleaseItem) => {
             })}
           ></div>
           <MyText className={style.statusTitle}>
-            {release.confirmed ? <span className="accept">Оплачено</span> : <span className="warning">Не оплачен</span>}{" "}
+            {release.confirmed ? (
+              <span className="accept">Оплачено</span>
+            ) : (
+              <span className="warning">Не оплачен</span>
+            )}{" "}
             {release.confirmed &&
               (release?.status === "moderating"
                 ? "/ На модерации"
@@ -66,11 +71,15 @@ const ReleaseItem = ({ release, ...props }: TReleaseItem) => {
       <div className={style.body}>
         <div>
           <MyText className={style.title}>Дата релиза</MyText>
-          <MyText className={style.value}>{dateFormatter(new Date(release.releaseDate))}</MyText>
+          <MyText className={style.value}>
+            {dateFormatter(new Date(release.releaseDate))}
+          </MyText>
         </div>
         <div>
           <MyText className={style.title}>Дата старта</MyText>
-          <MyText className={style.value}>{dateFormatter(new Date(release.startDate))}</MyText>
+          <MyText className={style.value}>
+            {dateFormatter(new Date(release.startDate))}
+          </MyText>
         </div>
         <div>
           <MyText className={style.title}>Тип релиза</MyText>
@@ -89,7 +98,9 @@ const ReleaseItem = ({ release, ...props }: TReleaseItem) => {
 
         <div>
           <MyText className={style.title}>Статус оплаты</MyText>
-          <MyText className={style.value}>{release.confirmed ? "Оплачено" : "Не оплачено"}</MyText>
+          <MyText className={style.value}>
+            {release.confirmed ? "Оплачено" : "Не оплачено"}
+          </MyText>
         </div>
       </div>
       <div className={style.bottom}>
@@ -101,7 +112,10 @@ const ReleaseItem = ({ release, ...props }: TReleaseItem) => {
         )}
       </div>
       {!release.confirmed && (
-        <Link className={classNames("linkButton", style.linkToPay)} href={`/purchase/release/${release.id}`}>
+        <Link
+          className={classNames("linkButton", style.linkToPay)}
+          href={`/purchase/release/${release.id}`}
+        >
           Оплатить
         </Link>
       )}
@@ -132,7 +146,7 @@ const ReleaseItem = ({ release, ...props }: TReleaseItem) => {
                 <MyText className={style.trackTitle}>{track.title}</MyText>
                 <audio
                   className="audio"
-                  src={`${process.env.NEXT_PUBLIC_S3_URL}/tracks/${track.id}.${track.track}`}
+                  src={`${s3_url}/tracks/${track.id}.${track.track}`}
                   controls
                 ></audio>
               </div>

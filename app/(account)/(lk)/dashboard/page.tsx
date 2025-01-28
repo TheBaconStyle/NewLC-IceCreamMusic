@@ -21,7 +21,11 @@ export default async function MainPage() {
     <PageTransitionProvider>
       <div className="col gap20">
         {releasesData.map((release) => (
-          <ReleaseItem release={release} key={release.id} />
+          <ReleaseItem
+            release={release}
+            key={release.id}
+            s3_url={process.env.NEXT_PUBLIC_S3_URL!}
+          />
         ))}
       </div>
 

@@ -3,6 +3,8 @@ import { db } from "@/db";
 import { ProfileEdit } from "@/widgets/ProfileEdit/ProfileEdit";
 import { Error } from "@/entities/Error";
 
+export const dynamic = "force-dynamic";
+
 export default async function EditProfilePage() {
   const session = await getAuthSession();
 

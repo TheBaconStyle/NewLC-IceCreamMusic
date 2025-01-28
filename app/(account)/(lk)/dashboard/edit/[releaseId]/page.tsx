@@ -6,6 +6,8 @@ import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
 import UpdateRelease from "@/widgets/UpdateRelize/UpdateRelize";
 import { sql } from "drizzle-orm";
 
+export const dynamic = "force-dynamic";
+
 export default async function ReleaseDraftPage({
   params,
 }: {
@@ -42,7 +44,10 @@ export default async function ReleaseDraftPage({
 
   return (
     <PageTransitionProvider>
-      <UpdateRelease release={release} />
+      <UpdateRelease
+        release={release}
+        s3_url={process.env.NEXT_PUBLIC_S3_URL!}
+      />
       {/* <pre>{JSON.stringify(release, null, 4)}</pre> */}
     </PageTransitionProvider>
   );

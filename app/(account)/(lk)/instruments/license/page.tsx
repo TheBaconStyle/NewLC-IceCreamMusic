@@ -10,6 +10,8 @@ import classNames from "classnames";
 import PassportIcon from "../../../../../public/License/Passport.svg";
 import style from "./page.module.css";
 
+export const dynamic = "force-dynamic";
+
 export default async function VerificationPage() {
   const session = await getAuthSession();
 

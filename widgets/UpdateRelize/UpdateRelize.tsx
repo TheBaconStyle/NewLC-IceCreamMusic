@@ -8,6 +8,8 @@ import {
   releaseUpdateFormSchema,
   trackRolesSchema,
   TRelease,
+  TReleaseArea,
+  TReleasePlatforms,
   TReleaseRoles,
   TReleaseUpdateForm,
   TTrack,
@@ -40,9 +42,10 @@ import style from "./UpdateRelize.module.css";
 
 export type TUpdateRelease = {
   release: TRelease & { tracks: TTrack[] };
+  s3_url: string;
 };
 
-const UpdateRelease = ({ release }: TUpdateRelease) => {
+const UpdateRelease = ({ release, s3_url }: TUpdateRelease) => {
   const { tracks, platforms, area, roles, ...otherReleaseData } = release;
 
   const releaseRolesResult = releaseRolesSchema.safeParse(roles);
@@ -67,13 +70,29 @@ const UpdateRelease = ({ release }: TUpdateRelease) => {
     });
   }
 
+  const releaseAreaResult = releaseAreaSchema.safeParse(area);
+
+  let releaseArea: TReleaseArea = { data: [], negate: false };
+
+  if (releaseAreaResult.success) {
+    releaseArea = releaseAreaResult.data;
+  }
+
+  const releasePlatformsResult = releasePlatformsSchema.safeParse(platforms);
+
+  let releasePlatforms: TReleasePlatforms = [];
+
+  if (releasePlatformsResult.success) {
+    releasePlatforms = releasePlatformsResult.data;
+  }
+
   const formMethods = useForm<TReleaseUpdateForm>({
     resolver: zodResolver(releaseUpdateFormSchema),
     defaultValues: {
       ...otherReleaseData,
       roles: releaseRoles,
-      area: releaseAreaSchema.parse(area),
-      platforms: releasePlatformsSchema.parse(platforms),
+      area: releaseArea,
+      platforms: releasePlatforms,
       tracks: tracks.map((track) => ({
         ...track,
         roles: trackRolesSchema.parse(track.roles),
@@ -274,10 +293,7 @@ const UpdateRelease = ({ release }: TUpdateRelease) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <FinalCheck
-                  release={releaseData}
-                  s3_url={process.env.NEXT_PUBLIC_S3_URL!}
-                />
+                <FinalCheck release={releaseData} s3_url={s3_url} />
 
                 <ReleaseModeratorComment />
 

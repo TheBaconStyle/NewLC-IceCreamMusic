@@ -10,6 +10,8 @@ import Link from "next/link";
 import style from "./page.module.css";
 import dateFormatter from "@/utils/dateFormatter";
 
+export const dynamic = "force-dynamic";
+
 export default async function ProfilePage() {
   const session = await getAuthSession();
 
@@ -98,7 +100,13 @@ export default async function ProfilePage() {
         </MyTitle>
         <div className="col gap20">
           {userData?.releases.map((release) => {
-            return <ReleaseItem key={release.id} release={release} />;
+            return (
+              <ReleaseItem
+                key={release.id}
+                release={release}
+                s3_url={process.env.NEXT_PUBLIC_S3_URL!}
+              />
+            );
           })}
         </div>
       </div>
