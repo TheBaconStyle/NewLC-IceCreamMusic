@@ -26,9 +26,10 @@ import { TrackVideoShot } from "./TrackDraft/TrackVideoShot";
 
 export type TReleaseTracks = {
   update?: boolean;
+  s3_url: string;
 };
 
-export function ReleaseTracks({ update }: TReleaseTracks) {
+export function ReleaseTracks({ update, s3_url }: TReleaseTracks) {
   const { control } = useFormContext<TReleaseInsertForm | TReleaseUpdateForm>();
 
   const constraintsRef = useRef(null);
@@ -79,7 +80,7 @@ export function ReleaseTracks({ update }: TReleaseTracks) {
             dragConstraints={constraintsRef}
           >
             <div className={style.wrap_track}>
-              <TrackAccordion trackIndex={trackIndex}>
+              <TrackAccordion trackIndex={trackIndex} s3_url={s3_url}>
                 <TrackGeneralInfo trackIndex={trackIndex} />
                 <TrackIdentification trackIndex={trackIndex} />
                 <TrackRoles trackIndex={trackIndex} />

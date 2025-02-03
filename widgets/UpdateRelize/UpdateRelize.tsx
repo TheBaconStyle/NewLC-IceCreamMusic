@@ -294,7 +294,7 @@ const UpdateRelease = ({ release, s3_url }: TUpdateRelease) => {
                   Добавить трек
                 </Link>
 
-                <ReleaseTracks update />
+                <ReleaseTracks update s3_url={s3_url} />
               </motion.div>
             )}
 

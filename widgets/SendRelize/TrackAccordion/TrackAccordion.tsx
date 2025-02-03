@@ -13,11 +13,13 @@ import { useFormContext } from "react-hook-form";
 
 export type TTrackAccordion = {
   trackIndex: number;
+  s3_url: string;
 };
 
 export function TrackAccordion({
   trackIndex,
   children,
+  s3_url,
 }: PropsWithChildren<TTrackAccordion>) {
   const [showDetails, setShowDetails] = useState(false);
 
@@ -29,7 +31,7 @@ export function TrackAccordion({
     () =>
       trackData.track instanceof File
         ? URL.createObjectURL(trackData.track)
-        : `${process.env.NEXT_PUBLIC_S3_URL}/tracks/${
+        : `${s3_url}/tracks/${
             (trackData as TReleaseUpdateForm["tracks"][number]).trackId
           }.${trackData.track}`,
     [trackData]
