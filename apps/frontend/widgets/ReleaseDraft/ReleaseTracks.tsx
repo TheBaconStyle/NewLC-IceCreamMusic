@@ -26,7 +26,7 @@ import { TrackVideoShot } from "./TrackDraft/TrackVideoShot";
 
 export type TReleaseTracks = {
   update?: boolean;
-  s3_url: string;
+  s3_url?: string;
 };
 
 export function ReleaseTracks({ update, s3_url }: TReleaseTracks) {

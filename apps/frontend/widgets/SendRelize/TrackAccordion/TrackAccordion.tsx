@@ -13,7 +13,7 @@ import { useFormContext } from "react-hook-form";
 
 export type TTrackAccordion = {
   trackIndex: number;
-  s3_url: string;
+  s3_url?: string;
 };
 
 export function TrackAccordion({
@@ -34,7 +34,7 @@ export function TrackAccordion({
         : `${s3_url}/tracks/${
             (trackData as TReleaseUpdateForm["tracks"][number]).trackId
           }.${trackData.track}`,
-    [trackData]
+    [trackData, s3_url]
   );
 
   return (

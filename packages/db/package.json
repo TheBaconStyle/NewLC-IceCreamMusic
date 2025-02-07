@@ -1,0 +1,27 @@
+{
+  "name": "db",
+  "version": "1.0.0",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "generate": "dotenvx run -- drizzle-kit generate",
+    "migrate": "dotenvx run -- drizzle-kit migrate",
+    "drop": "dotenvx run -- drizzle-kit drop",
+    "push": "dotenvx run -- drizzle-kit push",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "drizzle-orm": "^0.36.4",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@dotenvx/dotenvx": "^1.24.5",
+    "@types/pg": "^8.11.10",
+    "drizzle-kit": "^0.28.1",
+    "typescript": "^5.7.2"
+  }
+}
