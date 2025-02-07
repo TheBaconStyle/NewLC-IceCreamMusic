@@ -1,9 +1,9 @@
 import { getAuthSession } from "@/actions/auth";
 import { db } from "@/db";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
-import SendRelease from "@/widgets/SendRelize/SendRelease";
+import SendRelease from "@/widgets/ui/SendRelize/SendRelease";
 import Link from "next/link";
-import { Error } from "@/entities/Error";
+import { Error } from "@/entities/ui/Error";
 
 export default async function CatalogPage() {
   const session = await getAuthSession();

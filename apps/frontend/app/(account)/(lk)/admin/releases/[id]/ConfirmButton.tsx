@@ -1,8 +1,8 @@
 "use client";
 import { approveRelease } from "@/actions/release/moderate";
-import MyButton from "@/shared/MyButton/MyButton";
-import MyInput from "@/shared/MyInput/MyInput";
-import ModalPopup from "@/widgets/ModalPopup/ModalPopup";
+import MyButton from "@/shared/ui/MyButton/MyButton";
+import MyInput from "@/shared/ui/MyInput/MyInput";
+import ModalPopup from "@/widgets/ui/ModalPopup/ModalPopup";
 import { useParams } from "next/navigation";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useState } from "react";

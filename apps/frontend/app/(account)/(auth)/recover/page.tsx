@@ -2,8 +2,8 @@
 
 import { recoverPassword } from "@/actions/auth";
 import style from "./page.module.css";
-import MyButton from "@/shared/MyButton/MyButton";
-import MyInput from "@/shared/MyInput/MyInput";
+import MyButton from "@/shared/ui/MyButton/MyButton";
+import MyInput from "@/shared/ui/MyInput/MyInput";
 import { useState } from "react";
 
 export default function RecoverPage() {

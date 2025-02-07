@@ -1,11 +1,11 @@
 import { getAuthSession } from "@/actions/auth";
 import { db } from "@/db";
-import { Error } from "@/entities/Error";
-import LicenseeCard from "@/entities/LicenseeCard/LicenseeCard";
+import { Error } from "@/entities/ui/Error";
+import LicenseeCard from "@/entities/ui/LicenseeCard/LicenseeCard";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
-import MyText from "@/shared/MyText/MyText";
-import MyTitle from "@/shared/MyTitle/MyTitle";
-import VerificationForm from "@/widgets/VerificationForm/VerificationForm";
+import MyText from "@/shared/ui/MyText/MyText";
+import MyTitle from "@/shared/ui/MyTitle/MyTitle";
+import VerificationForm from "@/widgets/ui/VerificationForm/VerificationForm";
 import classNames from "classnames";
 import PassportIcon from "../../../../../public/License/Passport.svg";
 import style from "./page.module.css";

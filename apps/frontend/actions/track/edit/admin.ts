@@ -9,8 +9,8 @@ import {
   optionalFileSchema,
   trackUpdateSchema,
   TTrackUpdate,
-} from "@/schema/release.schema";
-import { fileSchema } from "@/schema/shared.schema";
+} from "@/shared/model/schema/release.schema";
+import { fileSchema } from "@/shared/model/schema/shared.schema";
 import { uploadFile } from "@/utils/fuleUpload";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";

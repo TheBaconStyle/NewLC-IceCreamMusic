@@ -3,8 +3,8 @@ import style from "./CardStore.module.css";
 
 import { motion } from "framer-motion";
 import { useContext } from "react";
-import { ThemeContextSite } from "../../../context/ThemeContextSite";
-import IStore from "@/helpers/site/Stores/Stores.interface";
+import { ThemeContextSite } from "../../../providers/ThemeContextSite";
+import IStore from "@/shared/model/helpers/site/Stores/Stores.interface";
 export const CardStore = ({ image, alt, alternativeImage }: IStore) => {
   const { theme } = useContext(ThemeContextSite);
 

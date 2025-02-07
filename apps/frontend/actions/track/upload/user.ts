@@ -6,12 +6,12 @@ import {
   optionalFileSchema,
   trackInsertSchema,
   TTrackInsert,
-} from "@/schema/release.schema";
+} from "@/shared/model/schema/release.schema";
 import { db } from "@/db";
 import { createS3Client } from "@/config/s3";
 import { track } from "@/db/schema";
 import { removeFile, uploadFile } from "@/utils/fuleUpload";
-import { fileSchema } from "@/schema/shared.schema";
+import { fileSchema } from "@/shared/model/schema/shared.schema";
 
 export async function uploadUserTrack(
   trackData: TTrackInsert,

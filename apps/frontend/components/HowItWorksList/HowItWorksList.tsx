@@ -1,6 +1,6 @@
 "use client";
 
-import { HowItWorks } from "@/helpers/site/HowItWorks/HowItWorks";
+import { HowItWorks } from "@/shared/model/helpers/site/HowItWorks/HowItWorks";
 import { Subtitle } from "../Subtitle/Subtitle";
 import { Title } from "../Title/Title";
 import { HowItWorksItem } from "./HowItWorksItem/HowItWorksItem";

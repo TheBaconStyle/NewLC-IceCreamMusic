@@ -5,8 +5,8 @@ import { ListStores } from "../../../../components/ListStores/ListStores";
 import { ReviewList } from "../../../../components/ReviewList/ReviewList";
 
 import style from "./page.module.css";
-import { FAQ_data } from "@/helpers/site/FAQ/FAQ";
-import { BannerIntresting } from "@/helpers/site/BannerIntresting/BannerIntresting";
+import { FAQ_data } from "@/shared/model/helpers/site/FAQ/FAQ";
+import { BannerIntresting } from "@/shared/model/helpers/site/BannerIntresting/BannerIntresting";
 
 export const metadata: Metadata = {
   title: "ICECREAMMUSIC | Вопросы",

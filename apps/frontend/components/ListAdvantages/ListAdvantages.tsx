@@ -4,7 +4,7 @@ import { СardAdvantage } from "./СardAdvantage/СardAdvantage";
 import style from "./ListAdvantages.module.css";
 import { Title } from "../Title/Title";
 import { motion } from "framer-motion";
-import { Advantages } from "@/helpers/site/Advantages/Advantages";
+import { Advantages } from "@/shared/model/helpers/site/Advantages/Advantages";
 export const ListAdvantages = () => {
   return (
     <motion.div

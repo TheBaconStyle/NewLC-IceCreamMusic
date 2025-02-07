@@ -3,7 +3,7 @@ import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { unsealData } from "iron-session";
 import { redirect } from "next/navigation";
-import { ResetPasswordForm } from "@/widgets/ResetPassword/ResetPassword";
+import { ResetPasswordForm } from "@/widgets/ui/ResetPassword/ResetPassword";
 import style from "./page.module.css";
 const wrongUrl = "/reset/wrong";
 

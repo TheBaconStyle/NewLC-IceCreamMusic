@@ -1,6 +1,6 @@
 "use client";
 
-import { Services } from "@/helpers/site/Services/Services";
+import { Services } from "@/shared/model/helpers/site/Services/Services";
 import { Subtitle } from "../Subtitle/Subtitle";
 import { Title } from "../Title/Title";
 import { ServiceItem } from "./ServiceItem/ServiceItem";

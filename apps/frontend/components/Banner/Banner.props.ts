@@ -1,4 +1,4 @@
-import IBannerIntresting from "@/helpers/site/BannerIntresting/BannerIntresting.interface";
+import IBannerIntresting from "@/shared/model/helpers/site/BannerIntresting/BannerIntresting.interface";
 import { DetailedHTMLProps, HTMLAttributes } from "react";
 
 export default interface IBannerProps

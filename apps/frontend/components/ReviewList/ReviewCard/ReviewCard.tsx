@@ -1,4 +1,4 @@
-import IReviews from "@/helpers/site/Reviews/Reviews.interface";
+import IReviews from "@/shared/model/helpers/site/Reviews/Reviews.interface";
 import getFirstSymbol from "../../../utils/getFirstSymbol";
 import style from "./ReviewCard.module.css";
 

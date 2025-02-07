@@ -1,9 +1,9 @@
 import { getAuthSession } from "@/actions/auth";
 import { db } from "@/db";
 import { track } from "@/db/schema";
-import { Error } from "@/entities/Error";
+import { Error } from "@/entities/ui/Error";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
-import UpdateRelease from "@/widgets/UpdateRelize/UpdateRelize";
+import UpdateRelease from "@/widgets/ui/UpdateRelize/UpdateRelize";
 import { sql } from "drizzle-orm";
 
 export const dynamic = "force-dynamic";

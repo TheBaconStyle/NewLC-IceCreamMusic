@@ -1,9 +1,9 @@
 import { getAuthSession } from "@/actions/auth";
 import { db } from "@/db";
-import { Error } from "@/entities/Error";
-import MyText from "@/shared/MyText/MyText";
-import MyTitle from "@/shared/MyTitle/MyTitle";
-import ReleaseItem from "@/widgets/RelizeItem/RelizeItem";
+import { Error } from "@/entities/ui/Error";
+import MyText from "@/shared/ui/MyText/MyText";
+import MyTitle from "@/shared/ui/MyTitle/MyTitle";
+import ReleaseItem from "@/widgets/ui/RelizeItem/RelizeItem";
 import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";

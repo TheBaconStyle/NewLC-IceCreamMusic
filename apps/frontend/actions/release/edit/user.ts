@@ -5,15 +5,15 @@ import { revalidatePathAction } from "@/actions/revalidate";
 import { createS3Client } from "@/config/s3";
 import { db } from "@/db";
 import { release, track } from "@/db/schema";
-import { standardLabelName } from "@/helpers/priceList";
+import { standardLabelName } from "@/shared/model/helpers/priceList";
 import {
   releasePreviewSchema,
   releaseUpdateSchema,
   trackUpdateSchema,
   TReleaseUpdate,
   TTrackUpdate,
-} from "@/schema/release.schema";
-import { fileSchema } from "@/schema/shared.schema";
+} from "@/shared/model/schema/release.schema";
+import { fileSchema } from "@/shared/model/schema/shared.schema";
 import { uploadFile } from "@/utils/fuleUpload";
 import { and, eq } from "drizzle-orm";
 import { redirect } from "next/navigation";

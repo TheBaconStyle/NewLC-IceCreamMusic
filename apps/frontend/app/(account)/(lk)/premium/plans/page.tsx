@@ -1,16 +1,16 @@
 "use client";
-import MusicServices from "@/entities/MusicServices/MusicServices";
-import TarifCard from "@/entities/TarifCard/TarifCard";
-import TarifTable from "@/entities/TarifTable/TarifTable";
+import MusicServices from "@/entities/ui/MusicServices/MusicServices";
+import TarifCard from "@/entities/ui/TarifCard/TarifCard";
+import TarifTable from "@/entities/ui/TarifTable/TarifTable";
 import ITarifTable, {
   ArrayTarifTable,
-} from "@/entities/TarifTable/TarifTable.props";
-import { premiumPlansArray } from "@/helpers/premiumPlans";
+} from "@/entities/ui/TarifTable/TarifTable.props";
+import { premiumPlansArray } from "@/shared/model/helpers/premiumPlans";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
 import TopMine from "@/public/assets/TopMine.svg";
-import { DynamicSvg } from "@/shared/DynamicSvg/DynamicSvg";
-import MyText from "@/shared/MyText/MyText";
-import MyTitle from "@/shared/MyTitle/MyTitle";
+import { DynamicSvg } from "@/shared/ui/DynamicSvg/DynamicSvg";
+import MyText from "@/shared/ui/MyText/MyText";
+import MyTitle from "@/shared/ui/MyTitle/MyTitle";
 import classNames from "classnames";
 import style from "./page.module.css";
 

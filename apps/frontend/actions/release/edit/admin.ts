@@ -9,7 +9,7 @@ import {
   releasePreviewSchema,
   releaseUpdateSchema,
   TReleaseUpdate,
-} from "@/schema/release.schema";
+} from "@/shared/model/schema/release.schema";
 import { uploadFile } from "@/utils/fuleUpload";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";

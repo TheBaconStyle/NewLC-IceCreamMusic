@@ -1,4 +1,4 @@
-import IHowItWorks from "@/helpers/site/HowItWorks/HowItWorks.interface";
+import IHowItWorks from "@/shared/model/helpers/site/HowItWorks/HowItWorks.interface";
 import style from "./HowItWorksItem.module.css";
 
 export const HowItWorksItem = ({

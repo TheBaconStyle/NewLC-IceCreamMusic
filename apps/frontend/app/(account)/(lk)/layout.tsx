@@ -1,9 +1,9 @@
 import { getAuthSession } from "@/actions/auth";
 import { isAdminUser } from "@/actions/users";
-import BreadCrumbs from "@/entities/BreadCrumbs/BreadCrumbs";
-import { Error } from "@/entities/Error";
-import Header from "@/entities/Header/Header";
-import Sidebar from "@/entities/Sidebar/Sidebar";
+import BreadCrumbs from "@/entities/ui/BreadCrumbs/BreadCrumbs";
+import { Error } from "@/entities/ui/Error";
+import Header from "@/entities/ui/Header/Header";
+import Sidebar from "@/entities/ui/Sidebar/Sidebar";
 import { open } from "@/fonts";
 import { SidebarContextProvider } from "@/providers/SidebarContext";
 import AppThemeProvider from "@/providers/ThemeContext";
@@ -12,7 +12,7 @@ import { cookies } from "next/headers";
 import { PropsWithChildren } from "react";
 import style from "./layout.module.css";
 import { AudioPlayerProvider } from "@/providers/AudioPlayerContext";
-import { AudioPlayer } from "@/widgets/AudioPlayer/AudioPlayer";
+import { AudioPlayer } from "@/widgets/ui/AudioPlayer/AudioPlayer";
 
 export default async function CabinetLayout({ children }: PropsWithChildren) {
   const theme = cookies().get("__theme__")?.value || "system";

@@ -1,4 +1,4 @@
-import { BannerIntresting } from "@/helpers/site/BannerIntresting/BannerIntresting";
+import { BannerIntresting } from "@/shared/model/helpers/site/BannerIntresting/BannerIntresting";
 import { Banner } from "../../../../components/Banner/Banner";
 import { HowItWorksList } from "../../../../components/HowItWorksList/HowItWorksList";
 import { ListStores } from "../../../../components/ListStores/ListStores";

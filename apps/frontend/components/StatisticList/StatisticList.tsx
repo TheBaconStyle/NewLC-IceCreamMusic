@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Title } from "../Title/Title";
 import { StatisticItem } from "./StatisticItem/StatisticItem";
 import style from "./StatisticList.module.css";
-import { Statistic } from "@/helpers/site/Statistics/Statistics";
+import { Statistic } from "@/shared/model/helpers/site/Statistics/Statistics";
 
 export const StatisticList = () => {
   return (

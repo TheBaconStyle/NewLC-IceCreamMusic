@@ -12,8 +12,8 @@ import { users } from "@/db/schema";
 import {
   signInClientSchema,
   TSignInClientSchema,
-} from "@/schema/signin.schema";
-import { authUserSchema } from "@/schema/user.schema";
+} from "@/shared/model/schema/signin.schema";
+import { authUserSchema } from "@/shared/model/schema/user.schema";
 import { createSMTPClient } from "@/utils/createSMTPClient";
 import { hashPassword } from "@/utils/hashPassword";
 import { signJWT, verifyJWT } from "@/utils/token";

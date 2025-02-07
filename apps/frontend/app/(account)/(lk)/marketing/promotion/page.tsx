@@ -1,6 +1,6 @@
 "use client";
 
-import PromotionCard from "@/entities/PromotionCard/PromotionCard";
+import PromotionCard from "@/entities/ui/PromotionCard/PromotionCard";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
 import style from "./page.module.css";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Stores } from "@/helpers/site/Stores/Stores";
+import { Stores } from "@/shared/model/helpers/site/Stores/Stores";
 import { Subtitle } from "../Subtitle/Subtitle";
 import { Title } from "../Title/Title";
 import { CardStore } from "./CardStore/CardStore";

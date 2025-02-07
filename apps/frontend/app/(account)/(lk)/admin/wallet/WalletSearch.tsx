@@ -1,7 +1,7 @@
 "use client";
 
-import MyButton from "@/shared/MyButton/MyButton";
-import MyInput from "@/shared/MyInput/MyInput";
+import MyButton from "@/shared/ui/MyButton/MyButton";
+import MyInput from "@/shared/ui/MyInput/MyInput";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

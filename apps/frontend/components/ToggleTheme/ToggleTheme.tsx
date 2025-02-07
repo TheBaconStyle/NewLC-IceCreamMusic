@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ThemeContextSite } from "../../context/ThemeContextSite";
+import { ThemeContextSite } from "../../providers/ThemeContextSite";
 import style from "./ToggleTheme.module.css";
 
 export const ToggleTheme = () => {

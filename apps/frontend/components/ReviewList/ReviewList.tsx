@@ -1,6 +1,6 @@
 "use client";
 
-import { Reviews } from "@/helpers/site/Reviews/Reviews";
+import { Reviews } from "@/shared/model/helpers/site/Reviews/Reviews";
 import { Subtitle } from "../Subtitle/Subtitle";
 import { Title } from "../Title/Title";
 import { ReviewCard } from "./ReviewCard/ReviewCard";

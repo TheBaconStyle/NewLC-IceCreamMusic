@@ -1,6 +1,6 @@
 "use client";
 
-import IFAQ from "@/helpers/site/FAQ/FAQ.interface";
+import IFAQ from "@/shared/model/helpers/site/FAQ/FAQ.interface";
 import { Title } from "../Title/Title";
 import style from "./FAQ.module.css";
 import { FAQ__item } from "./FAQ__item/FAQ__item";

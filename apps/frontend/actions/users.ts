@@ -3,8 +3,14 @@
 import { createS3Client } from "@/config/s3";
 import { db } from "@/db";
 import { users } from "@/db/schema";
-import { profileFormSchema, TProfileSchema } from "@/schema/profile.schema";
-import { signUpSchema, TSignUpClientSchema } from "@/schema/signup.schema";
+import {
+  profileFormSchema,
+  TProfileSchema,
+} from "@/shared/model/schema/profile.schema";
+import {
+  signUpSchema,
+  TSignUpClientSchema,
+} from "@/shared/model/schema/signup.schema";
 import { hashPassword } from "@/utils/hashPassword";
 import { eq, sql } from "drizzle-orm";
 import { redirect } from "next/navigation";

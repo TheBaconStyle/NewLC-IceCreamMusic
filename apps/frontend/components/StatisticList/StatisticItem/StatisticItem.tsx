@@ -1,6 +1,6 @@
 "use client";
 
-import IStatistic from "@/helpers/site/Statistics/Statistics.interface";
+import IStatistic from "@/shared/model/helpers/site/Statistics/Statistics.interface";
 import style from "./StatistiicItem.module.css";
 import { motion } from "framer-motion";
 export const StatisticItem = ({ count, label }: IStatistic) => {

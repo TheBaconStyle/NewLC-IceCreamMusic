@@ -1,4 +1,4 @@
-import IFAQ from "@/helpers/site/FAQ/FAQ.interface";
+import IFAQ from "@/shared/model/helpers/site/FAQ/FAQ.interface";
 import style from "./FAQ__item.module.css";
 export const FAQ__item = ({ answer, question }: IFAQ) => {
   return (

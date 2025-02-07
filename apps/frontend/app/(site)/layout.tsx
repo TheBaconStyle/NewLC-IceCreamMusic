@@ -2,7 +2,7 @@
 
 import "./globals.css";
 
-import { ThemeContextSiteProvider } from "../../context/ThemeContextSite";
+import { ThemeContextSiteProvider } from "../../providers/ThemeContextSite";
 
 export default function RootLayout({
   children,

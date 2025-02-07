@@ -1,5 +1,5 @@
 import { isAdminUser } from "@/actions/users";
-import StatisticBlock from "@/entities/AdminEntities/StatisticBlock/StatisticBlock";
+import StatisticBlock from "@/entities/ui/AdminEntities/StatisticBlock/StatisticBlock";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
 import { redirect } from "next/navigation";
 import style from "./page.module.css";

@@ -1,8 +1,8 @@
 import { isAdminUser } from "@/actions/users";
 import { db } from "@/db";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
-import Admin_Verification_Card from "@/widgets/Admin_Verification_Card/Admin_Verification_Card";
-import MultiTable from "@/widgets/MultiTable/MultiTable";
+import Admin_Verification_Card from "@/widgets/ui/Admin_Verification_Card/Admin_Verification_Card";
+import MultiTable from "@/widgets/ui/MultiTable/MultiTable";
 import { redirect } from "next/navigation";
 import ModerationFilter from "../ModerationFilter";
 

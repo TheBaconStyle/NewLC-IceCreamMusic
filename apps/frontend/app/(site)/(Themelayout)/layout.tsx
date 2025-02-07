@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { Footer } from "../../../components/Footer/Footer";
 import { Header } from "../../../components/Header/Header";
 import { Rubik } from "next/font/google";
-import { ThemeContextSite } from "../../../context/ThemeContextSite";
+import { ThemeContextSite } from "../../../providers/ThemeContextSite";
 
 const rubik = Rubik({ subsets: ["latin"] });
 

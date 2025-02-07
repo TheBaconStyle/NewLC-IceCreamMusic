@@ -9,8 +9,8 @@ import { HowItWorksList } from "../../../components/HowItWorksList/HowItWorksLis
 
 import { Metadata } from "next";
 import { Preview } from "./components/Preview.tsx/Preview";
-import { FAQ_data } from "@/helpers/site/FAQ/FAQ";
-import { BannerIntresting } from "@/helpers/site/BannerIntresting/BannerIntresting";
+import { FAQ_data } from "@/shared/model/helpers/site/FAQ/FAQ";
+import { BannerIntresting } from "@/shared/model/helpers/site/BannerIntresting/BannerIntresting";
 export const metadata: Metadata = {
   title: "ICECREAMMUSIC | Главная",
   description:

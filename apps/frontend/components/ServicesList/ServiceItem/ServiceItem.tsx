@@ -1,7 +1,7 @@
 import style from "./ServiceItem.module.css";
 import Link from "next/link";
 import classNames from "classnames";
-import IService from "@/helpers/site/Services/Service.interface";
+import IService from "@/shared/model/helpers/site/Services/Service.interface";
 
 export const ServiceItem = ({
   countBuy,

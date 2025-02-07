@@ -3,7 +3,7 @@
 import { checkout } from "@/config/aquiring";
 import { db } from "@/db";
 import { orders, payouts, users } from "@/db/schema";
-import { premiumPlans } from "@/helpers/premiumPlans";
+import { premiumPlans } from "@/shared/model/helpers/premiumPlans";
 import {
   calculateReleaseEstimate,
   calculateSubscriptionEstimate,

@@ -1,9 +1,9 @@
 import { getAuthSession } from "@/actions/auth";
 import { db } from "@/db";
-import { Error } from "@/entities/Error";
+import { Error } from "@/entities/ui/Error";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
-import MyText from "@/shared/MyText/MyText";
-import ReleaseItem from "@/widgets/RelizeItem/RelizeItem";
+import MyText from "@/shared/ui/MyText/MyText";
+import ReleaseItem from "@/widgets/ui/RelizeItem/RelizeItem";
 
 export default async function MainPage() {
   const session = await getAuthSession();

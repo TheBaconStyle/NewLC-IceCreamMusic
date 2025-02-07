@@ -1,6 +1,6 @@
 import { isAdminUser } from "@/actions/users";
 import { db } from "@/db";
-import WalletEntitie from "@/entities/WalletEntitie/WalletEntitie";
+import WalletEntitie from "@/entities/ui/WalletEntitie/WalletEntitie";
 import { redirect } from "next/navigation";
 import { WalletSearch } from "./WalletSearch";
 import { release, users } from "@/db/schema";

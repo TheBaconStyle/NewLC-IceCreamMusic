@@ -1,5 +1,5 @@
 "use client";
-import MySelect from "@/shared/MySelect/MySelect";
+import MySelect from "@/shared/ui/MySelect/MySelect";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const values = [

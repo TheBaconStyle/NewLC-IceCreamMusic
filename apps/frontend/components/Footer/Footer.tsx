@@ -1,4 +1,4 @@
-import { FooterData } from "@/helpers/site/FooterLinks/FooterLinks";
+import { FooterData } from "@/shared/model/helpers/site/FooterLinks/FooterLinks";
 import { Logo } from "../Logo/Logo";
 import style from "./Footer.module.css";
 import Link from "next/link";

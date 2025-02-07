@@ -5,7 +5,7 @@ import { users, verification } from "@/db/schema";
 import {
   TVerificationFormSchema,
   serverVerificationSchema,
-} from "@/schema/verification.schema";
+} from "@/shared/model/schema/verification.schema";
 import { getAuthSession } from "./auth";
 import { isAdminUser } from "./users";
 import { eq } from "drizzle-orm";
