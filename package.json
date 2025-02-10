@@ -11,6 +11,7 @@
     "packages/*",
     "apps/*"
   ],
+  "dependencies": {},
   "devDependencies": {
     "concurrently": "^9.0.1"
   }

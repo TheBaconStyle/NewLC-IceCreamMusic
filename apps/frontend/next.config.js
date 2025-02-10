@@ -13,8 +13,8 @@ const nextConfig = {
         "https://www.icecreammusic.net/",
       ],
     },
+    serverComponentsExternalPackages: ["pino"],
   },
-  serverComponentsExternalPackages: ["pino", "pino-pretty"],
   images: {
     remotePatterns: [
       {
