@@ -1,4 +1,4 @@
-import { startCronTasks } from "./config/cron";
+import { startCronTasks } from "./src/shared/model/config/cron";
 
 function bootstrap() {
   startCronTasks();
