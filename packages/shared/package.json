@@ -5,17 +5,9 @@
     "build": "rimraf lib && tsc"
   },
   "exports": {
-    "./premiumPlans": {
-      "import": "./lib/premiumPlans.js",
-      "types": "./lib/premiumPlans.d.ts"
-    },
-    "./schema/*": {
-      "import": "./lib/schema/*.js",
-      "types": "./lib/schema/*.d.ts"
-    },
-    "./calculateServices": {
-      "import": "./lib/calculateServices.js",
-      "types": "./lib/calculateServices.d.ts"
+    "./*": {
+      "import": "./lib/*.js",
+      "types": "./lib/*.d.ts"
     }
   },
   "keywords": [],
@@ -25,7 +17,9 @@
   "dependencies": {
     "drizzle-zod": "^0.5.1",
     "drizzle-orm": "0.36.4",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "minio": "^8.0.1",
+    "@a2seven/yoo-checkout": "^1.1.4"
   },
   "devDependencies": {
     "rimraf": "^6.0.1",

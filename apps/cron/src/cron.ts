@@ -1,10 +1,11 @@
-import { calculateSubscriptionEstimate } from "@/shared/utils/calculateServices";
+import { calculateSubscriptionEstimate } from "shared/calculateServices";
 import { premiumPlans } from "shared/premiumPlans";
 import { db } from "db";
 import { users, orders } from "db/schema";
 import { inArray } from "drizzle-orm";
 import schedule from "node-schedule";
-import { checkout } from "../../frontend/src/shared/config/aquiring";
+import { checkout } from "shared/config/aquiring";
+import { TSubscriptionMetadata } from "shared/schema/order.schema";
 async function checkUsers() {
   console.log("updating subscriptions");
 
@@ -82,11 +83,9 @@ async function checkUsers() {
   );
 }
 
-let allTasks: schedule.Job[] = [];
-
 export function startCronTasks() {
   const updateSubscriptionStatusTask = schedule.scheduleJob(
-    "checkSubscriptions",
+    "Проверить подписки",
     "0 0 0 * * *",
     checkUsers
   );
@@ -94,12 +93,8 @@ export function startCronTasks() {
   const allTasks = [updateSubscriptionStatusTask];
 
   allTasks.forEach((t) =>
-    console.log(`task ${t.name} will be executed at ${t.nextInvocation()}`)
+    console.log(
+      `Время следующего запуска задачи "${t.name}": ${t.nextInvocation()}`
+    )
   );
-}
-
-export function stopCronTasks() {
-  allTasks.forEach((t) => {
-    t.cancel();
-  });
 }

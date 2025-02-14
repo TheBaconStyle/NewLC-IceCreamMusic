@@ -2,7 +2,7 @@
 
 import { revalidatePathAction } from "@/actions/revalidate";
 import { isAdminUser } from "@/actions/users";
-import { createS3Client } from "@/shared/config/s3";
+import { createS3Client } from "shared/config/s3";
 import { db } from "db";
 import { track } from "db/schema";
 import {

@@ -1,6 +1,6 @@
 "use server";
 
-import { createS3Client } from "@/shared/config/s3";
+import { createS3Client } from "shared/config/s3";
 import { db } from "db";
 import { release, track, users } from "db/schema";
 import {

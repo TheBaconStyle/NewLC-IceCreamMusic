@@ -1,4 +1,4 @@
-import { checkout } from "@/shared/config/aquiring";
+import { checkout } from "../../../../../../../packages/shared/src/config/aquiring";
 import { db } from "db";
 import { orders, payment_method, payouts, release, users } from "db/schema";
 import { premiumPlans } from "shared/premiumPlans";

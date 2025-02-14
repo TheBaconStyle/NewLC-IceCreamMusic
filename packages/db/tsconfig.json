@@ -108,5 +108,5 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
-  "exclude": ["./drizzle.config.ts", "./node_modules"]
+  "exclude": ["./drizzle.config.ts", "./node_modules", "lib", "dist"]
 }

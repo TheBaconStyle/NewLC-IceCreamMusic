@@ -1,6 +1,6 @@
 "use server";
 
-import { checkout } from "@/shared/config/aquiring";
+import { checkout } from "../../../../packages/shared/src/config/aquiring";
 import { premiumPlans } from "shared/premiumPlans";
 import {
   calculateReleaseEstimate,

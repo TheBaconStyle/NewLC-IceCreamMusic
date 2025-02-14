@@ -5,12 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "dev:cron": "dotenvx run -- nodemon",
-    "build:cron": "webpack --config webpack.config.js",
-    "build:migration": "webpack --config webpack.config.migration.js",
     "build": "next build && cpy .next/static .next/standalone/apps/frontend && cpy public .next/standalone/apps/frontend",
-    "start": "dotenvx run -- .next/standalone/apps/frontend/server.js",
     "lint": "next lint",
-    "dev:email": "email dev --dir src/emails --port 3001"
+    "email": "email dev --dir src/emails --port 3001"
   },
   "dependencies": {
     "@a2seven/yoo-checkout": "^1.1.4",

@@ -8,7 +8,7 @@ import {
   TTrackInsert,
 } from "shared/schema/release.schema";
 import { db } from "db";
-import { createS3Client } from "@/shared/config/s3";
+import { createS3Client } from "shared/config/s3";
 import { track } from "db/schema";
 import { removeFile, uploadFile } from "@/shared/utils/fuleUpload";
 import { fileSchema } from "shared/schema/shared.schema";
