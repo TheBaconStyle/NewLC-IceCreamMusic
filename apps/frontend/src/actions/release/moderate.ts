@@ -4,7 +4,7 @@ import { db } from "db";
 import { isAdminUser } from "../users";
 import { release } from "db/schema";
 import { eq } from "drizzle-orm";
-import { createSMTPClient } from "@/shared/model/utils/createSMTPClient";
+import { createSMTPClient } from "@/shared/utils/createSMTPClient";
 import { sendModerationNotification } from "../email";
 import { revalidateCurrentPath } from "../revalidate";
 

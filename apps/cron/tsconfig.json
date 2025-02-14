@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "module": "commonjs",
+    "moduleResolution": "Node",
+    "outDir": "dist"
+  },
+  "include": ["server.ts"]
+}

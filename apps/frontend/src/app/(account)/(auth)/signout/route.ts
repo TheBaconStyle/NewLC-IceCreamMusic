@@ -1,4 +1,4 @@
-import { sessionCookieName } from "@/shared/model/config/auth";
+import { sessionCookieName } from "@/shared/config/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 const handler = async (req: NextRequest) => {

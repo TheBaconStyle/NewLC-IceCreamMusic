@@ -1,4 +1,4 @@
-import CanvasThree from "@/entities/ui/CanvasThree/CanvasThree";
+import CanvasThree from "@/entities/CanvasThree/CanvasThree";
 import style from "./layout.module.css";
 
 export default async function AuthLayout({

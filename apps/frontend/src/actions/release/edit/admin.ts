@@ -2,15 +2,15 @@
 
 import { revalidatePathAction } from "@/actions/revalidate";
 import { isAdminUser } from "@/actions/users";
-import { createS3Client } from "@/shared/model/config/s3";
+import { createS3Client } from "@/shared/config/s3";
 import { db } from "db";
 import { release } from "db/schema";
 import {
   releasePreviewSchema,
   releaseUpdateSchema,
   TReleaseUpdate,
-} from "@/shared/model/schema/release.schema";
-import { uploadFile } from "@/shared/model/utils/fuleUpload";
+} from "shared/schema/release.schema";
+import { uploadFile } from "@/shared/utils/fuleUpload";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 

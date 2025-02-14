@@ -1,7 +1,7 @@
 import { isAdminUser } from "@/actions/users";
 import { db } from "db";
 import style from "./page.module.css";
-import ReleaseItem from "@/widgets/ui/RelizeItem/RelizeItem";
+import ReleaseItem from "@/widgets/RelizeItem/RelizeItem";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import ModerationFilter from "../ModerationFilter";

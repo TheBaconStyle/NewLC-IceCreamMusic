@@ -6,17 +6,17 @@ import {
   defaultAdminRedirect,
   sessionCookieName,
   sessionCookieOptions,
-} from "@/shared/model/config/auth";
+} from "@/shared/config/auth";
 import { db } from "db";
 import { users } from "db/schema";
 import {
   signInClientSchema,
   TSignInClientSchema,
-} from "@/shared/model/schema/signin.schema";
-import { authUserSchema } from "@/shared/model/schema/user.schema";
-import { createSMTPClient } from "@/shared/model/utils/createSMTPClient";
-import { hashPassword } from "@/shared/model/utils/hashPassword";
-import { signJWT, verifyJWT } from "@/shared/model/utils/token";
+} from "shared/schema/signin.schema";
+import { authUserSchema } from "shared/schema/user.schema";
+import { createSMTPClient } from "@/shared/utils/createSMTPClient";
+import { hashPassword } from "@/shared/utils/hashPassword";
+import { signJWT, verifyJWT } from "@/shared/utils/token";
 import { compare } from "bcrypt-ts";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";

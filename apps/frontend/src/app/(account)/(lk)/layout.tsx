@@ -1,9 +1,9 @@
 import { getAuthSession } from "@/actions/auth";
 import { isAdminUser } from "@/actions/users";
-import BreadCrumbs from "@/entities/ui/BreadCrumbs/BreadCrumbs";
-import { Error } from "@/entities/ui/Error";
-import Header from "@/entities/ui/Header/Header";
-import Sidebar from "@/entities/ui/Sidebar/Sidebar";
+import BreadCrumbs from "@/entities/BreadCrumbs/BreadCrumbs";
+import { Error } from "@/entities/Error";
+import Header from "@/entities/Header/Header";
+import Sidebar from "@/entities/Sidebar/Sidebar";
 import { open } from "@/fonts";
 import { AudioPlayerProvider } from "@/providers/AudioPlayerContext";
 import { SidebarContextProvider } from "@/providers/SidebarContext";

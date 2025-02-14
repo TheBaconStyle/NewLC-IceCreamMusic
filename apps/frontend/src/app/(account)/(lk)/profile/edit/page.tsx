@@ -1,7 +1,7 @@
 import { getAuthSession } from "@/actions/auth";
 import { db } from "db";
-import { ProfileEdit } from "@/widgets/ui/ProfileEdit/ProfileEdit";
-import { Error } from "@/entities/ui/Error";
+import { ProfileEdit } from "@/widgets/ProfileEdit/ProfileEdit";
+import { Error } from "@/entities/Error";
 
 export const dynamic = "force-dynamic";
 

@@ -6,20 +6,17 @@
     "migrate": "dotenvx run -- drizzle-kit migrate",
     "drop": "dotenvx run -- drizzle-kit drop",
     "push": "dotenvx run -- drizzle-kit push",
-    "build": "tsc"
+    "build": "rimraf lib && tsc",
+    "build:migration": "rimraf dist && ncc build src/migration.ts -o dist && cpy ./migrations ./dist"
   },
   "exports": {
-    "./schema": "./lib/schema.js",
-    ".": "./lib/index.js"
-  },
-  "typesVersions": {
-    "*": {
-      "schema": [
-        "./lib/schema.d.ts"
-      ],
-      ".": [
-        "./lib/index.d.ts"
-      ]
+    "./schema": {
+      "import": "./lib/schema.js",
+      "types": "./lib/schema.d.ts"
+    },
+    ".": {
+      "import": "./lib/index.js",
+      "types": "./lib/index.d.ts"
     }
   },
   "keywords": [],
@@ -27,13 +24,16 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "pg": "^8.13.1",
-    "drizzle-orm": "^0.36.4"
+    "drizzle-orm": "0.36.4",
+    "pg": "^8.13.1"
   },
   "devDependencies": {
     "@dotenvx/dotenvx": "^1.24.5",
     "@types/pg": "^8.11.10",
+    "@vercel/ncc": "^0.38.3",
+    "cpy-cli": "^5.0.0",
     "drizzle-kit": "^0.28.1",
+    "rimraf": "^6.0.1",
     "typescript": "^5.7.2"
   }
 }

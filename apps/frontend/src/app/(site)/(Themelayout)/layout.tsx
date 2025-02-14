@@ -1,8 +1,8 @@
 "use client";
 
 import { useContext } from "react";
-import { Footer } from "@/components/ui/Footer/Footer";
-import { Header } from "@/components/ui/Header/Header";
+import { Footer } from "@/components/Footer/Footer";
+import { Header } from "@/components/Header/Header";
 import { Rubik } from "next/font/google";
 import { ThemeContextSite } from "@/providers/ThemeContextSite";
 

@@ -4,8 +4,8 @@ import {
   defaultAuthRedirect,
   routes,
   sessionCookieName,
-} from "@/shared/model/config/auth";
-import { verifyJWT } from "@/shared/model/utils/token";
+} from "@/shared/config/auth";
+import { verifyJWT } from "@/shared/utils/token";
 
 export const middleware = async function (request: NextRequest) {
   const { nextUrl } = request;

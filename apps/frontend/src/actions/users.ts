@@ -1,30 +1,24 @@
 "use server";
 
-import { createS3Client } from "@/shared/model/config/s3";
+import { createS3Client } from "@/shared/config/s3";
 import { db } from "db";
 import { users } from "db/schema";
 import {
   profileFormSchema,
   TProfileSchema,
-} from "@/shared/model/schema/profile.schema";
-import {
-  signUpSchema,
-  TSignUpClientSchema,
-} from "@/shared/model/schema/signup.schema";
-import { hashPassword } from "@/shared/model/utils/hashPassword";
+} from "shared/schema/profile.schema";
+import { signUpSchema, TSignUpClientSchema } from "shared/schema/signup.schema";
+import { hashPassword } from "@/shared/utils/hashPassword";
 import { eq, sql } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { getAuthSession } from "./auth";
 import { sendSignUpConfirmEmail } from "@/actions/email";
-import { createSMTPClient } from "@/shared/model/utils/createSMTPClient";
-import { signJWT } from "@/shared/model/utils/token";
+import { createSMTPClient } from "@/shared/utils/createSMTPClient";
+import { signJWT } from "@/shared/utils/token";
 import { cookies } from "next/headers";
-import {
-  sessionCookieName,
-  sessionCookieOptions,
-} from "@/shared/model/config/auth";
+import { sessionCookieName, sessionCookieOptions } from "@/shared/config/auth";
 import { revalidateCurrentPath } from "./revalidate";
-import { uploadFile } from "@/shared/model/utils/fuleUpload";
+import { uploadFile } from "@/shared/utils/fuleUpload";
 
 export async function registerUser(userData: TSignUpClientSchema) {
   const { email, name, password } = signUpSchema.parse(userData);

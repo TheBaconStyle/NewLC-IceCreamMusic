@@ -1,8 +1,8 @@
-import { BannerIntresting } from "@/shared/model/helpers/site/BannerIntresting/BannerIntresting";
-import { Banner } from "@/components/ui/Banner/Banner";
-import { HowItWorksList } from "@/components/ui/HowItWorksList/HowItWorksList";
-import { ListStores } from "@/components/ui/ListStores/ListStores";
-import { ReviewList } from "@/components/ui/ReviewList/ReviewList";
+import { BannerIntresting } from "@/shared/helpers/site/BannerIntresting/BannerIntresting";
+import { Banner } from "@/components/Banner/Banner";
+import { HowItWorksList } from "@/components/HowItWorksList/HowItWorksList";
+import { ListStores } from "@/components/ListStores/ListStores";
+import { ReviewList } from "@/components/ReviewList/ReviewList";
 import style from "./page.module.css";
 
 import classNames from "classnames";

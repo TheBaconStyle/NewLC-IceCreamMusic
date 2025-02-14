@@ -1,7 +1,7 @@
 import { oswald } from "@/fonts";
-import MyText from "@/shared/ui/MyText/MyText";
-import MyTitle from "@/shared/ui/MyTitle/MyTitle";
-import RegistrationWidget from "@/widgets/ui/Registration/Registration";
+import MyText from "@/shared/MyText/MyText";
+import MyTitle from "@/shared/MyTitle/MyTitle";
+import RegistrationWidget from "@/widgets/Registration/Registration";
 import classNames from "classnames";
 import Link from "next/link";
 import style from "./page.module.css";

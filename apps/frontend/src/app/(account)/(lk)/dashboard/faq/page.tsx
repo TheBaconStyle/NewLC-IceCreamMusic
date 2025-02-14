@@ -1,5 +1,5 @@
-import FAQItem from "@/entities/ui/FAQItem/FAQItem";
-import { allFAQ } from "@/shared/model/helpers/allFAQ";
+import FAQItem from "@/entities/FAQItem/FAQItem";
+import { allFAQ } from "@/shared/helpers/allFAQ";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
 
 export default function FAQPage() {

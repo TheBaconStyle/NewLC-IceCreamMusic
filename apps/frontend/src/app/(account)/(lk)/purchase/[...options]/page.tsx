@@ -1,13 +1,13 @@
 import { getAuthSession } from "@/actions/auth";
 import { db } from "db";
-import { Error } from "@/entities/ui/Error";
-import MyText from "@/shared/ui/MyText/MyText";
-import MyTitle from "@/shared/ui/MyTitle/MyTitle";
+import { Error } from "@/entities/Error";
+import MyText from "@/shared/MyText/MyText";
+import MyTitle from "@/shared/MyTitle/MyTitle";
 import {
   calculateReleaseEstimate,
   calculateSubscriptionEstimate,
-} from "@/shared/model/utils/calculateServices";
-import { PurchaseConfirm } from "@/widgets/ui/PurchaseConfirm/PurchaseConfirm";
+} from "shared/calculateServices";
+import { PurchaseConfirm } from "@/widgets/PurchaseConfirm/PurchaseConfirm";
 import { Payment } from "@a2seven/yoo-checkout";
 import React from "react";
 import style from "./page.module.css";

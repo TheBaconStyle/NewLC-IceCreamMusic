@@ -23,7 +23,7 @@
     "@types/pg": "^8.11.6",
     "bcrypt-ts": "^5.0.2",
     "classnames": "^2.5.1",
-    "drizzle-orm": "^0.36.4",
+    "drizzle-orm": "0.36.4",
     "drizzle-zod": "^0.5.1",
     "framer-motion": "^11.3.8",
     "ipull": "^3.9.2",

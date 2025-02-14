@@ -1,16 +1,16 @@
-import { Banner } from "@/components/ui/Banner/Banner";
+import { Banner } from "@/components/Banner/Banner";
 
-import { ListAdvantages } from "@/components/ui/ListAdvantages/ListAdvantages";
-import { ListStores } from "@/components/ui/ListStores/ListStores";
-import { ServicesList } from "@/components/ui/ServicesList/ServicesList";
-import { FAQ } from "@/components/ui/FAQ/FAQ";
-import { StatisticList } from "@/components/ui/StatisticList/StatisticList";
-import { HowItWorksList } from "@/components/ui/HowItWorksList/HowItWorksList";
+import { ListAdvantages } from "@/components/ListAdvantages/ListAdvantages";
+import { ListStores } from "@/components/ListStores/ListStores";
+import { ServicesList } from "@/components/ServicesList/ServicesList";
+import { FAQ } from "@/components/FAQ/FAQ";
+import { StatisticList } from "@/components/StatisticList/StatisticList";
+import { HowItWorksList } from "@/components/HowItWorksList/HowItWorksList";
 
 import { Metadata } from "next";
 import { Preview } from "./components/Preview.tsx/Preview";
-import { FAQ_data } from "@/shared/model/helpers/site/FAQ/FAQ";
-import { BannerIntresting } from "@/shared/model/helpers/site/BannerIntresting/BannerIntresting";
+import { FAQ_data } from "@/shared/helpers/site/FAQ/FAQ";
+import { BannerIntresting } from "@/shared/helpers/site/BannerIntresting/BannerIntresting";
 export const metadata: Metadata = {
   title: "ICECREAMMUSIC | Главная",
   description:

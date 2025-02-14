@@ -2,16 +2,16 @@
 
 import { getAuthSession } from "@/actions/auth";
 import { revalidatePathAction } from "@/actions/revalidate";
-import { createS3Client } from "@/shared/model/config/s3";
+import { createS3Client } from "@/shared/config/s3";
 import { db } from "db";
 import { track } from "db/schema";
 import {
   optionalFileSchema,
   trackUpdateSchema,
   TTrackUpdate,
-} from "@/shared/model/schema/release.schema";
-import { fileSchema } from "@/shared/model/schema/shared.schema";
-import { uploadFile } from "@/shared/model/utils/fuleUpload";
+} from "shared/schema/release.schema";
+import { fileSchema } from "shared/schema/shared.schema";
+import { uploadFile } from "@/shared/utils/fuleUpload";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 

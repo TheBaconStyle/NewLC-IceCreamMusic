@@ -2,12 +2,12 @@
 import { useParams } from "next/navigation";
 import style from "./page.module.css";
 import classNames from "classnames";
-import MyButton from "@/shared/ui/MyButton/MyButton";
+import MyButton from "@/shared/MyButton/MyButton";
 import { rejectRelease } from "@/actions/release/moderate";
 import { enqueueSnackbar } from "notistack";
-import ModalPopup from "@/widgets/ui/ModalPopup/ModalPopup";
+import ModalPopup from "@/widgets/ModalPopup/ModalPopup";
 import { useEffect, useState } from "react";
-import MyTextArea from "@/shared/ui/MyTextArea/MyTextArea";
+import MyTextArea from "@/shared/MyTextArea/MyTextArea";
 
 export function RejectButton() {
   const [show, setShow] = useState(false);

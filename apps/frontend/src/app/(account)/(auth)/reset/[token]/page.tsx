@@ -1,4 +1,4 @@
-import { ResetPasswordForm } from "@/widgets/ui/ResetPassword/ResetPassword";
+import { ResetPasswordForm } from "@/widgets/ResetPassword/ResetPassword";
 import { db } from "db";
 import { unsealData } from "iron-session";
 import { redirect } from "next/navigation";

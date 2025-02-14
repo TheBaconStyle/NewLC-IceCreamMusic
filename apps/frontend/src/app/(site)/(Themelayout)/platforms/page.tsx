@@ -1,14 +1,12 @@
-import { Banner } from "@/components/ui/Banner/Banner";
+import { Banner } from "@/components/Banner/Banner";
 
-import { ListStores } from "@/components/ui/ListStores/ListStores";
-import { ReviewList } from "@/components/ui/ReviewList/ReviewList";
+import { ListStores } from "@/components/ListStores/ListStores";
+import { ReviewList } from "@/components/ReviewList/ReviewList";
 import style from "./page.module.css";
-
-import { FAQ } from "@/components/ui/FAQ/FAQ";
-
+import { FAQ } from "@/components/FAQ/FAQ";
 import { Metadata } from "next";
-import { FAQ_data } from "@/shared/model/helpers/site/FAQ/FAQ";
-import { BannerIntresting } from "@/shared/model/helpers/site/BannerIntresting/BannerIntresting";
+import { FAQ_data } from "@/shared/helpers/site/FAQ/FAQ";
+import { BannerIntresting } from "@/shared/helpers/site/BannerIntresting/BannerIntresting";
 
 export const metadata: Metadata = {
   title: "ICECREAMMUSIC | Платформы",

@@ -1,5 +1,5 @@
-import EditNewTrack from "@/widgets/ui/UpdateRelize/EditNewTrack/EditNewTrack";
-import { Error } from "@/entities/ui/Error";
+import EditNewTrack from "@/widgets/UpdateRelize/EditNewTrack/EditNewTrack";
+import { Error } from "@/entities/Error";
 import { getAuthSession } from "@/actions/auth";
 import { db } from "db";
 import { sql } from "drizzle-orm";

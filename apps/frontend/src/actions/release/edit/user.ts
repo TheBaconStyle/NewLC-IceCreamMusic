@@ -2,19 +2,19 @@
 
 import { getAuthSession } from "@/actions/auth";
 import { revalidatePathAction } from "@/actions/revalidate";
-import { createS3Client } from "@/shared/model/config/s3";
+import { createS3Client } from "@/shared/config/s3";
 import { db } from "db";
 import { release, track } from "db/schema";
-import { standardLabelName } from "@/shared/model/helpers/priceList";
+import { standardLabelName } from "@/shared/helpers/priceList";
 import {
   releasePreviewSchema,
   releaseUpdateSchema,
   trackUpdateSchema,
   TReleaseUpdate,
   TTrackUpdate,
-} from "@/shared/model/schema/release.schema";
-import { fileSchema } from "@/shared/model/schema/shared.schema";
-import { uploadFile } from "@/shared/model/utils/fuleUpload";
+} from "shared/schema/release.schema";
+import { fileSchema } from "shared/schema/shared.schema";
+import { uploadFile } from "@/shared/utils/fuleUpload";
 import { and, eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 

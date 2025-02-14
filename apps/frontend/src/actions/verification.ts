@@ -5,12 +5,12 @@ import { users, verification } from "db/schema";
 import {
   TVerificationFormSchema,
   serverVerificationSchema,
-} from "@/shared/model/schema/verification.schema";
+} from "shared/schema/verification.schema";
 import { getAuthSession } from "./auth";
 import { isAdminUser } from "./users";
 import { eq } from "drizzle-orm";
 import { sendVerificationNotification } from "./email";
-import { createSMTPClient } from "@/shared/model/utils/createSMTPClient";
+import { createSMTPClient } from "@/shared/utils/createSMTPClient";
 
 export async function verifyData(data: TVerificationFormSchema) {
   const session = await getAuthSession();

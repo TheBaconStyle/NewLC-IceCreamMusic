@@ -1,13 +1,13 @@
 "use server";
 
-import { checkout } from "@/shared/model/config/aquiring";
-import { premiumPlans } from "@/shared/model/helpers/premiumPlans";
+import { checkout } from "@/shared/config/aquiring";
+import { premiumPlans } from "shared/premiumPlans";
 import {
   calculateReleaseEstimate,
   calculateSubscriptionEstimate,
   currency,
-} from "@/shared/model/utils/calculateServices";
-import dateFormatter from "@/shared/model/utils/dateFormatter";
+} from "shared/calculateServices";
+import dateFormatter from "@/shared/utils/dateFormatter";
 import { Payment } from "@a2seven/yoo-checkout";
 import { db } from "db";
 import { orders, payouts } from "db/schema";

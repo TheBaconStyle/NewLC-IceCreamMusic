@@ -1,17 +1,17 @@
 import { db } from "db";
-import { allGenres } from "@/shared/model/helpers/allGenres";
-import { allLanguages } from "@/shared/model/helpers/allLanguages";
+import { allGenres } from "@/shared/helpers/allGenres";
+import { allLanguages } from "@/shared/helpers/allLanguages";
 import {
   releaseAreaSchema,
   releasePlatformsSchema,
   releaseRolesSchema,
   trackRolesSchema,
   TReleaseRoles,
-} from "@/shared/model/schema/release.schema";
-import MyText from "@/shared/ui/MyText/MyText";
-import MyTitle from "@/shared/ui/MyTitle/MyTitle";
-import dateFormatter from "@/shared/model/utils/dateFormatter";
-import { DownloadButton } from "@/widgets/ui/DownloadButton/DownloadButton";
+} from "shared/schema/release.schema";
+import MyText from "@/shared/MyText/MyText";
+import MyTitle from "@/shared/MyTitle/MyTitle";
+import dateFormatter from "@/shared/utils/dateFormatter";
+import { DownloadButton } from "@/widgets/DownloadButton/DownloadButton";
 import classNames from "classnames";
 import Image from "next/image";
 import React from "react";

@@ -3,7 +3,7 @@
 import { Logger, Module, OnModuleInit } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import * as schema from 'db/lib/schema';
+import * as schema from 'db/schema';
 import { DrizzlePGModule } from '@knaadh/nestjs-drizzle-pg';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
