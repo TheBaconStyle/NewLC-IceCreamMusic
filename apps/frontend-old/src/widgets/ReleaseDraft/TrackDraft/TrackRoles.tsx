@@ -7,7 +7,7 @@ import MyText from "@/shared/MyText/MyText";
 import MyInput from "@/shared/MyInput/MyInput";
 import MySelect from "@/shared/MySelect/MySelect";
 import { allRoles } from "@/shared/helpers/allRoles";
-import { TReleaseInsertForm } from "shared/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import style from "./TrackItem.module.css";
 
 export function TrackRoles({ trackIndex }: TTrackItem) {

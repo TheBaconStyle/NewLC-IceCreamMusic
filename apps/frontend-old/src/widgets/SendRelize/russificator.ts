@@ -1,7 +1,4 @@
-import {
-  TReleaseInsertForm,
-  TTrackInsertForm,
-} from "shared/schema/release.schema";
+import { TReleaseInsertForm, TTrackInsertForm } from "@/schema/release.schema";
 
 export type TReleaseFormTrimmed = Omit<
   TReleaseInsertForm,

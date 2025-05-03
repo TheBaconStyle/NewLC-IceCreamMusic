@@ -2,7 +2,7 @@
 
 import { useFormContext } from "react-hook-form";
 import { TTrackItem } from "./TrackItem.props";
-import { TReleaseInsertForm } from "shared/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import MyText from "@/shared/MyText/MyText";
 import MyInput from "@/shared/MyInput/MyInput";

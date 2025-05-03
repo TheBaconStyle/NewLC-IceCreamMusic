@@ -6,7 +6,7 @@ import MyText from "@/shared/MyText/MyText";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import { TTrackItem } from "./TrackItem.props";
 import { useFormContext } from "react-hook-form";
-import { TReleaseInsertForm } from "shared/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import classNames from "classnames";
 import { useState } from "react";
 import style from "./TrackItem.module.css";

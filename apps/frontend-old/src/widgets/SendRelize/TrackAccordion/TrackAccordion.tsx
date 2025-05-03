@@ -4,7 +4,7 @@ import {
   TReleaseInsertForm,
   TReleaseUpdateForm,
   TTrackInsertForm,
-} from "shared/schema/release.schema";
+} from "@/schema/release.schema";
 import classNames from "classnames";
 import { motion } from "framer-motion";
 import { PropsWithChildren, useMemo, useState } from "react";

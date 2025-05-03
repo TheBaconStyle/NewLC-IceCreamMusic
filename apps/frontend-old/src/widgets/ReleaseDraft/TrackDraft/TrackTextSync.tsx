@@ -1,6 +1,6 @@
 "use client";
 
-import { TReleaseInsertForm } from "shared/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { TTrackItem } from "./TrackItem.props";

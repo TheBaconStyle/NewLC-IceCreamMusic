@@ -1,6 +1,6 @@
 "use server";
 
-import { createS3Client } from "shared/config/s3";
+import { createS3Client } from "@/shared/config/s3";
 import { db } from "db";
 import { release, track, users } from "db/schema";
 import {
@@ -11,8 +11,8 @@ import {
   TReleaseInsert,
   TTrackInsert,
   TValidatedTrackFiles,
-} from "shared/schema/release.schema";
-import { fileSchema } from "shared/schema/shared.schema";
+} from "@/schema/release.schema";
+import { fileSchema } from "@/schema/shared.schema";
 import { removeFile, uploadFile } from "@/shared/utils/fuleUpload";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";

@@ -1,11 +1,11 @@
-import { checkout } from "../../../../../../../packages/shared/src/config/aquiring";
+import { checkout } from "@/shared/config/aquiring";
 import { db } from "db";
 import { orders, payment_method, payouts, release, users } from "db/schema";
-import { premiumPlans } from "shared/premiumPlans";
+import { premiumPlans } from "@/shared/helpers/premiumPlans";
 import {
   releaseMetadataSchema,
   subscriptionMetadataSchema,
-} from "shared/schema/order.schema";
+} from "@/schema/order.schema";
 import { WebHookEvents } from "@a2seven/yoo-checkout";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";

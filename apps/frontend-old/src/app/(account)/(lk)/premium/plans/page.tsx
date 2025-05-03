@@ -5,7 +5,7 @@ import TarifTable from "@/entities/TarifTable/TarifTable";
 import ITarifTable, {
   ArrayTarifTable,
 } from "@/entities/TarifTable/TarifTable.props";
-import { premiumPlansArray } from "shared/premiumPlans";
+import { premiumPlansArray } from "@/shared/helpers/premiumPlans";
 import { PageTransitionProvider } from "@/providers/PageTransitionProvider";
 import TopMine from "../../../../../../public/assets/TopMine.svg";
 import { DynamicSvg } from "@/shared/DynamicSvg/DynamicSvg";

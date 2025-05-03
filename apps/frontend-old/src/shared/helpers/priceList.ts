@@ -1,4 +1,4 @@
-import { premiumPlans } from "../../../../../packages/shared/src/premiumPlans";
+import { premiumPlans } from "./premiumPlans";
 
 export type PriceList = Record<keyof typeof premiumPlans | "none", number>;
 

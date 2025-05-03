@@ -60,7 +60,7 @@ interface WorldProps {
 	data: Position[];
 }
 
-let numbersOfRings = [0];
+// const numbersOfRings = [0];
 
 export function Globe({ globeConfig, data }: WorldProps) {
 	const globeRef = useRef<ThreeGlobe | null>(null);
@@ -294,7 +294,7 @@ export function hexToRgb(hex: string) {
 				r: parseInt(result[1], 16),
 				g: parseInt(result[2], 16),
 				b: parseInt(result[3], 16),
-		  }
+			}
 		: null;
 }
 

@@ -7,7 +7,7 @@ import {
   releaseRolesSchema,
   trackRolesSchema,
   TReleaseRoles,
-} from "shared/schema/release.schema";
+} from "@/schema/release.schema";
 import MyText from "@/shared/MyText/MyText";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import dateFormatter from "@/shared/utils/dateFormatter";

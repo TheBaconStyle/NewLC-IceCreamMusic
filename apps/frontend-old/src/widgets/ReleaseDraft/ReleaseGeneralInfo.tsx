@@ -4,7 +4,7 @@ import { allLanguages } from "@/shared/helpers/allLanguages";
 import {
   TReleaseInsertForm,
   TReleaseUpdateForm,
-} from "shared/schema/release.schema";
+} from "@/schema/release.schema";
 import MyInpFile from "@/shared/MyInpFile/MyInpFile";
 import MyInput from "@/shared/MyInput/MyInput";
 import MyRadio from "@/shared/MyRadio/MyRadio";

@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "rimraf dist && ncc build src/main.ts -o dist",
+    "build": "rimraf dist && ncc build src/main.ts -o dist -m -s -e trpc-panel",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "dotenvx run -- node dist/index.js",
     "dev": "nest start --watch",

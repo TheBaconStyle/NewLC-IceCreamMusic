@@ -6,7 +6,7 @@ import MyTitle from "@/shared/MyTitle/MyTitle";
 import {
   calculateReleaseEstimate,
   calculateSubscriptionEstimate,
-} from "shared/calculateServices";
+} from "@/shared/helpers/calculateServices";
 import { PurchaseConfirm } from "@/widgets/PurchaseConfirm/PurchaseConfirm";
 import { Payment } from "@a2seven/yoo-checkout";
 import React from "react";

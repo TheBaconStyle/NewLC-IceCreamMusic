@@ -1,5 +1,5 @@
 "use client";
-import { TRelease, TTrack } from "shared/schema/release.schema";
+import { TRelease, TTrack } from "@/schema/release.schema";
 import MyText from "@/shared/MyText/MyText";
 import dateFormatter from "@/shared/utils/dateFormatter";
 import classNames from "classnames";

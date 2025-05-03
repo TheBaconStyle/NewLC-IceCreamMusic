@@ -4,7 +4,7 @@ import CloseIcon from "@public/InfoIcon/close.svg";
 import {
   TReleaseInsertForm,
   TReleaseUpdateForm,
-} from "shared/schema/release.schema";
+} from "@/schema/release.schema";
 import DragAndDropFile from "@/widgets/SendRelize/DragAndDropFile/DragAndDropFile";
 import { TrackAccordion } from "@/widgets/SendRelize/TrackAccordion/TrackAccordion";
 import { Reorder } from "framer-motion";

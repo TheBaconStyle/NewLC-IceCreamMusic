@@ -5,7 +5,7 @@ import { TTrackItem } from "./TrackItem.props";
 import MyText from "@/shared/MyText/MyText";
 import MyInput from "@/shared/MyInput/MyInput";
 import { useFormContext } from "react-hook-form";
-import { TReleaseInsertForm } from "shared/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import style from "./TrackItem.module.css";
 import { mergeRefs } from "react-merge-refs";
 import { useIMask } from "react-imask";

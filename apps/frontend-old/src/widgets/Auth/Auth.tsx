@@ -1,7 +1,7 @@
 "use client";
 
 import { credentialsSignIn } from "@/actions/auth";
-import { TSignInClientSchema } from "shared/schema/signin.schema";
+import { TSignInClientSchema } from "@/schema/signin.schema";
 import MyButton from "@/shared/MyButton/MyButton";
 import MyCheckbox from "@/shared/MyCheckbox/MyCheckbox";
 import MyInput from "@/shared/MyInput/MyInput";

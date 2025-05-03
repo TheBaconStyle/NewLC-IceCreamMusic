@@ -1,6 +1,17 @@
 {
   "name": "db",
   "version": "1.0.0",
+  "private": true,
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./schema": {
+      "types": "./lib/schema.d.ts",
+      "default": "./lib/schema.js"
+    }
+  },
   "scripts": {
     "generate": "dotenvx run -- drizzle-kit generate",
     "migrate": "dotenvx run -- drizzle-kit migrate",
@@ -8,16 +19,6 @@
     "push": "dotenvx run -- drizzle-kit push",
     "build": "rimraf lib && tsc",
     "build:migration": "rimraf dist && ncc build src/migration.ts -o dist && cpy ./migrations ./dist"
-  },
-  "exports": {
-    "./schema": {
-      "import": "./lib/schema.js",
-      "types": "./lib/schema.d.ts"
-    },
-    ".": {
-      "import": "./lib/index.js",
-      "types": "./lib/index.d.ts"
-    }
   },
   "keywords": [],
   "author": "",

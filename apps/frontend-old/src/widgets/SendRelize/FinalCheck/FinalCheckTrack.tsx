@@ -1,10 +1,7 @@
 "use client";
 
 import { trackPossibleLanguages } from "@/shared/helpers/allLanguages";
-import {
-  TTrackInsertForm,
-  TTrackUpdateForm,
-} from "shared/schema/release.schema";
+import { TTrackInsertForm, TTrackUpdateForm } from "@/schema/release.schema";
 import dateFormatter from "@/shared/utils/dateFormatter";
 import classNames from "classnames";
 import { motion } from "framer-motion";

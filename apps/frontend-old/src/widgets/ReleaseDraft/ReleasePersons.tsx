@@ -5,7 +5,7 @@ import MyText from "@/shared/MyText/MyText";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import style from "./Release.module.css";
-import { TReleaseInsertForm } from "shared/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import MySelect from "@/shared/MySelect/MySelect";
 import { allRolesAlbum } from "@/shared/helpers/allRolesAlbum";
 

@@ -3,7 +3,7 @@ import { allLanguages } from "@/shared/helpers/allLanguages";
 import {
   TReleaseInsertForm,
   TReleaseUpdateForm,
-} from "shared/schema/release.schema";
+} from "@/schema/release.schema";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import dateFormatter from "@/shared/utils/dateFormatter";
 import Image from "next/image";

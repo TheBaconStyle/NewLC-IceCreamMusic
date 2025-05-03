@@ -6,14 +6,12 @@ const nextConfig = {
   cleanDistDir: true,
   output: "standalone",
   experimental: {
-    instrumentationHook: true,
     serverActions: {
       allowedOrigins: [
         "http://localhost:3000",
         "https://www.icecreammusic.net/",
       ],
     },
-    serverComponentsExternalPackages: ["pino"],
   },
   images: {
     remotePatterns: [

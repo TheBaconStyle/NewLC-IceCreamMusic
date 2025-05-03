@@ -1,8 +1,7 @@
 {
   "name": "cron",
   "version": "1.0.0",
-  "main": "webpack.config.js",
-  "type": "module",
+  "private": true,
   "scripts": {
     "build": "rimraf dist && ncc build src/index.ts -o dist",
     "dev": "dotenvx run -- nodemon"

@@ -6,7 +6,7 @@ import {
   trackInsertFormSchema,
   TTrackInsert,
   TTrackInsertForm,
-} from "shared/schema/release.schema";
+} from "@/schema/release.schema";
 import MyButton from "@/shared/MyButton/MyButton";
 import MyCheckbox from "@/shared/MyCheckbox/MyCheckbox";
 import MyFile from "@/shared/MyFile/MyFile";

@@ -1,7 +1,7 @@
 "use client";
 
 import { allCountry } from "@/shared/helpers/allCountry";
-import { TReleaseInsertForm } from "shared/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import MyCheckbox from "@/shared/MyCheckbox/MyCheckbox";
 import MyRadio from "@/shared/MyRadio/MyRadio";
 import MyText from "@/shared/MyText/MyText";

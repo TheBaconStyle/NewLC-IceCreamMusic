@@ -1,6 +1,6 @@
 "use client";
 import { trackPossibleLanguages } from "@/shared/helpers/allLanguages";
-import { TReleaseInsertForm } from "shared/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import MySelect from "@/shared/MySelect/MySelect";
 import IMySelectProps from "@/shared/MySelect/MySelect.props";
 import MyText from "@/shared/MyText/MyText";

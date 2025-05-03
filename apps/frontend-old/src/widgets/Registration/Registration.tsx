@@ -4,7 +4,7 @@ import { registerUser } from "@/actions/users";
 import {
   signUpClientSchema,
   TSignUpClientSchema,
-} from "shared/schema/signup.schema";
+} from "@/schema/signup.schema";
 import MyButton from "@/shared/MyButton/MyButton";
 import MyInput from "@/shared/MyInput/MyInput";
 import { zodResolver } from "@hookform/resolvers/zod";

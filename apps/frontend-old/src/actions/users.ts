@@ -1,13 +1,10 @@
 "use server";
 
-import { createS3Client } from "shared/config/s3";
+import { createS3Client } from "@/shared/config/s3";
 import { db } from "db";
 import { users } from "db/schema";
-import {
-  profileFormSchema,
-  TProfileSchema,
-} from "shared/schema/profile.schema";
-import { signUpSchema, TSignUpClientSchema } from "shared/schema/signup.schema";
+import { profileFormSchema, TProfileSchema } from "@/schema/profile.schema";
+import { signUpSchema, TSignUpClientSchema } from "@/schema/signup.schema";
 import { hashPassword } from "@/shared/utils/hashPassword";
 import { eq, sql } from "drizzle-orm";
 import { redirect } from "next/navigation";

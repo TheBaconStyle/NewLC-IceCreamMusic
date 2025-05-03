@@ -1,8 +1,5 @@
 "use client";
-import {
-  resetPasswordSchema,
-  TResetPassword,
-} from "shared/schema/reset.schema";
+import { resetPasswordSchema, TResetPassword } from "@/schema/reset.schema";
 import MyButton from "@/shared/MyButton/MyButton";
 import MyInput from "@/shared/MyInput/MyInput";
 import { zodResolver } from "@hookform/resolvers/zod";

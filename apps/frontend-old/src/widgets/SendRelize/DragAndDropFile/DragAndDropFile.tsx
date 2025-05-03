@@ -3,7 +3,7 @@
 import {
   TReleaseInsertForm,
   TReleaseUpdateForm,
-} from "shared/schema/release.schema";
+} from "@/schema/release.schema";
 import classNames from "classnames";
 import { ChangeEvent, DragEvent, useState } from "react";
 import { UseFieldArrayAppend, useFormContext } from "react-hook-form";

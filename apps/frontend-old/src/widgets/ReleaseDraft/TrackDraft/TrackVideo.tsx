@@ -1,6 +1,6 @@
 "use client";
 
-import { TReleaseInsertForm } from "shared/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import MyCheckbox from "@/shared/MyCheckbox/MyCheckbox";
 import MyFile from "@/shared/MyFile/MyFile";
 import MyText from "@/shared/MyText/MyText";

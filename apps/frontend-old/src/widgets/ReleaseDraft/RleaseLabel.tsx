@@ -9,7 +9,7 @@ import classNames from "classnames";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import style from "./Release.module.css";
-import { TReleaseInsertForm } from "shared/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 
 export function ReleaseLabel() {
   const { register, setValue, getValues } =

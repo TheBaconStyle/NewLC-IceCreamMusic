@@ -7,7 +7,7 @@ import {
   TReleaseInsertForm,
   TReleaseInsert,
   TTrackInsert,
-} from "shared/schema/release.schema";
+} from "@/schema/release.schema";
 import MyButton from "@/shared/MyButton/MyButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import classNames from "classnames";

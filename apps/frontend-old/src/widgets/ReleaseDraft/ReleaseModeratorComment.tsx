@@ -1,4 +1,4 @@
-import { TReleaseInsertForm } from "shared/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import MyTextArea from "@/shared/MyTextArea/MyTextArea";
 import { useFormContext } from "react-hook-form";
 

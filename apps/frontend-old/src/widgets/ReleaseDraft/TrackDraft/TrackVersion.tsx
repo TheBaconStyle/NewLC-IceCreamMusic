@@ -4,7 +4,7 @@ import MyCheckbox from "@/shared/MyCheckbox/MyCheckbox";
 import MyText from "@/shared/MyText/MyText";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import { TTrackItem } from "./TrackItem.props";
-import { TReleaseInsertForm } from "shared/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import { useFormContext } from "react-hook-form";
 import style from "./TrackItem.module.css";
 import classNames from "classnames";

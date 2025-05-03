@@ -3,7 +3,7 @@
 import {
   TReleaseInsertForm,
   TReleaseUpdateForm,
-} from "shared/schema/release.schema";
+} from "@/schema/release.schema";
 import MyFile from "@/shared/MyFile/MyFile";
 import MyText from "@/shared/MyText/MyText";
 import MyTitle from "@/shared/MyTitle/MyTitle";

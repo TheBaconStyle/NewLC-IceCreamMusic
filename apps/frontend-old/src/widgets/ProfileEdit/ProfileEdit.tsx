@@ -4,7 +4,7 @@ import style from "./ProfileEdit.module.css";
 import MyInpFile from "@/shared/MyInpFile/MyInpFile";
 import MyTitle from "@/shared/MyTitle/MyTitle";
 import MyInput from "@/shared/MyInput/MyInput";
-import { TProfileFormSchema } from "shared/schema/profile.schema";
+import { TProfileFormSchema } from "@/schema/profile.schema";
 import { inputDateFormat } from "@/shared/utils/dateFormatter";
 import MyButton from "@/shared/MyButton/MyButton";
 import { useForm } from "react-hook-form";

@@ -12,7 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   TVerificationFormSchema,
   verificationFormSchema,
-} from "shared/schema/verification.schema";
+} from "@/schema/verification.schema";
 import { verifyData } from "@/actions/verification";
 import { enqueueSnackbar } from "notistack";
 import { useRouter } from "next/navigation";

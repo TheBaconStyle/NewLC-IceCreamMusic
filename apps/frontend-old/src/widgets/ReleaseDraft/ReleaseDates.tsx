@@ -6,7 +6,7 @@ import MyTitle from "@/shared/MyTitle/MyTitle";
 import classNames from "classnames";
 import { Controller, useFormContext } from "react-hook-form";
 import style from "./Release.module.css";
-import { TReleaseInsertForm } from "shared/schema/release.schema";
+import { TReleaseInsertForm } from "@/schema/release.schema";
 import { inputDateFormat } from "@/shared/utils/dateFormatter";
 
 export function ReleaseDates() {

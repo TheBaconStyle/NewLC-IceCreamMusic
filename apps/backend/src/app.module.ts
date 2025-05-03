@@ -1,9 +1,7 @@
 /* eslint-disable prettier/prettier */
 
 import { Logger, Module, OnModuleInit } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import * as schema from 'db/schema';
+import * as dbSchema from 'db/schema';
 import { DrizzlePGModule } from '@knaadh/nestjs-drizzle-pg';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
@@ -28,14 +26,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             },
           },
           config: {
-            schema: { ...schema },
+            schema: { ...dbSchema },
           },
         };
       },
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule implements OnModuleInit {
   logger = new Logger(AppModule.name);
