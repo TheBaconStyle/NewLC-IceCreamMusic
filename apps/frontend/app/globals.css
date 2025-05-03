@@ -1,0 +1,244 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+	scroll-behavior: smooth;
+}
+
+:root {
+	--background: #ffffff;
+	--foreground: #171717;
+	--transition: 0.75s cubic-bezier(0.2, 0.6, 0, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background: #0a0a0a;
+		--foreground: #ededed;
+	}
+}
+
+body {
+	color: var(--foreground);
+	background: var(--background);
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+	/* Chrome, Safari and Opera */
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+
+	.no-scrollbar {
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
+	}
+	.border1 {
+		border: 1px solid #ffffff1b;
+	}
+	.tableTarif > div:last-child > p:first-child {
+		border-bottom-left-radius: 0.75rem;
+	}
+	.tableTarif > div:last-child > p:last-child {
+		border-bottom-right-radius: 0.75rem;
+	}
+}
+.btn {
+	@apply rounded-xl bg-zinc-700 cursor-pointer py-3 px-6 hover:bg-zinc-800 inline-block mobile:block mobile:text-center;
+}
+
+.my-text {
+	color: transparent; /* Цвет текста */
+	-webkit-text-stroke: 1px #ffffff51; /* Толщина и цвет обводки */
+	text-stroke: 1px #ffffff1b; /* Толщина и цвет обводки (стандартное свойство) */
+}
+label {
+	width: fit-content;
+	position: relative;
+}
+
+label::after {
+	content: '';
+	position: absolute;
+
+	top: 0;
+	right: 0;
+}
+label > span {
+	display: flex;
+}
+
+.icepath > path {
+	stroke-dasharray: 10;
+	stroke-dashoffset: 5;
+	animation: draw 10s infinite ease;
+	stroke-width: 2;
+}
+
+@keyframes draw {
+	0% {
+		stroke-dashoffset: 0;
+	}
+	50% {
+		stroke-dashoffset: 30;
+	}
+	100% {
+		stroke-dashoffset: 0;
+	}
+}
+
+@keyframes marquee {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(calc(-100% - var(--gap)));
+	}
+}
+
+@keyframes marquee-vertical {
+	from {
+		transform: translateY(0);
+	}
+	to {
+		transform: translateY(calc(-100% - var(--gap)));
+	}
+}
+
+.animate-marquee {
+	animation: marquee var(--duration) linear infinite;
+}
+
+.animate-marquee-vertical {
+	animation: marquee-vertical var(--duration) linear infinite;
+}
+
+.terms > p,
+ol,
+li {
+	margin-top: 15px;
+}
+
+.successIcon > path {
+	stroke-dasharray: 80;
+	stroke-dashoffset: 24;
+	animation: draw 2s normal linear;
+	stroke-width: 2;
+}
+
+@keyframes draw {
+	0% {
+		stroke-dasharray: 25;
+	}
+
+	100% {
+		stroke-dasharray: 100;
+	}
+}
+
+.record-fill {
+	fill: hsl(0, 0%, 0%);
+}
+.groove {
+	stroke-width: 0.25;
+	stroke: hsl(0, 0%, 5%);
+}
+.gap {
+	stroke-width: 0.5;
+	stroke: hsl(0, 0%, 0%);
+}
+.gap:last-of-type {
+	stroke-width: 3;
+}
+.label {
+	stroke-width: 1;
+	stroke: hsl(0, 0%, 0%);
+	fill: #2f3d75;
+}
+.label-border {
+	stroke-width: 2;
+	stroke: #faead6;
+	fill: none;
+}
+rect.label-split {
+	fill: #faead6;
+}
+text.outer-text {
+	fill: #faead6;
+}
+text.inner-text {
+	fill: #2f3d75;
+}
+.warble {
+	transform-origin: 50% 50%;
+	transform: rotate(45deg);
+	fill: url(#lighting-gradient);
+}
+.spinningv {
+	transform-origin: 50.1% 49.9%;
+	animation: rotate 10.8s infinite linear;
+}
+.warble.warbling {
+	animation: warble 1.8s infinite linear;
+}
+
+@keyframes rotate {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+@keyframes warble {
+	0% {
+		transform: rotate(45deg);
+	}
+	50% {
+		transform: rotate(43deg);
+	}
+	100% {
+		transform: rotate(45deg);
+	}
+}
+
+.load1 {
+	animation: load1Animate 4s linear infinite;
+}
+
+@keyframes load1Animate {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.load2 {
+	animation: load2Animate 8s linear infinite;
+}
+
+@keyframes load2Animate {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(-360deg);
+	}
+}
+
+.load3 {
+	animation: load2Animate 12s linear infinite;
+}
+
+@keyframes load2Animate {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
