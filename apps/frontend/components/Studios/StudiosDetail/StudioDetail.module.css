@@ -1,0 +1,13 @@
+.slider__item {
+	max-height: 75vh;
+	overflow: hidden;
+
+	transition: var(--transition);
+}
+.slider__wrapper {
+	height: auto;
+}
+.swiper,
+.swiper-wrapper {
+	height: auto !important;
+}

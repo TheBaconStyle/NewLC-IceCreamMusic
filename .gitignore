@@ -41,6 +41,7 @@ dist
 *.tar
 letsencrypt
 data
+!apps/frontend/data
 
 **/.next
 **/lib
