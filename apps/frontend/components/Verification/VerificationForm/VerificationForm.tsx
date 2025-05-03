@@ -4,11 +4,12 @@ import { DatePicker } from '@heroui/date-picker';
 import { BsFillTelephoneFill } from 'react-icons/bs';
 import { Checkbox } from '@heroui/checkbox';
 import { Button } from '@heroui/button';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Form } from '@heroui/form';
 import { getLocalTimeZone, today } from '@internationalized/date';
 
 export default function VerificationForm() {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const [submitted, setSubmitted] = useState<any>(null);
 
 	const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -19,7 +20,7 @@ export default function VerificationForm() {
 
 	const [phone, setPhone] = useState('');
 
-	const handleChange = (e: any) => {
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		let value = e.target.value.replace(/\D/g, '');
 		value = value.replace(
 			/(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})/,
@@ -118,7 +119,7 @@ export default function VerificationForm() {
 						type='text'
 						maxLength={11}
 						value={phone}
-						onChange={handleChange}
+						onChange={(e) => handleChange(e)}
 						isRequired
 						radius='sm'
 					/>

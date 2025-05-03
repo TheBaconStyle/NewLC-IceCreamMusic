@@ -1,4 +1,3 @@
-import PromoForm from '@/components/PromoLink/PromoForm/PromoForm';
 import PromoLinkCartLong from '@/components/PromoLink/PromoLinkCartLong/PromoLinkCartLong';
 
 export default function newPromo() {

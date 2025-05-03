@@ -1,6 +1,5 @@
 import FAQList from '@/components/FAQ/FAQList/FAQ';
 import { agdasima } from '@/fonts/fonts';
-import LogoStroke from '@/public/StrokeLogo.svg';
 import { FaTelegramPlane } from 'react-icons/fa';
 import { FaVk } from 'react-icons/fa';
 import { RiWhatsappFill } from 'react-icons/ri';
@@ -26,7 +25,7 @@ export default function FAQPage() {
 					</p>
 					<p>
 						Вы можете задать интересующий Вас вопрос, прямо на нашей площадке в
-						разделе "Поддержка" или в социальных сетях:
+						разделе - Поддержка или в социальных сетях:
 					</p>
 					<ul className='mt-3 flex flex-col gap-2'>
 						<li className='flex gap-3 items-center'>

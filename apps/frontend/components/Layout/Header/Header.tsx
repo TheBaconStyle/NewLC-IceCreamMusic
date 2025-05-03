@@ -4,6 +4,7 @@ import { Bars3Icon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import Notification from '../Notification/Notification';
 import SideBarMobile from '../SideBar/SideBarMobile/SideBarMobile';
+import Image from 'next/image';
 
 export default function Header() {
 	const userNavigation = [
@@ -44,7 +45,9 @@ export default function Header() {
 						<Menu as='div' className='relative'>
 							<MenuButton className='-m-1.5 flex items-center p-1.5'>
 								<span className='sr-only'>Open user menu</span>
-								<img
+								<Image
+									width={32}
+									height={32}
 									alt=''
 									src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
 									className='size-8 rounded-full bg-zinc-900'

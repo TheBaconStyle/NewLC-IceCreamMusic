@@ -2,7 +2,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import clsx from 'clsx';
-import { advent, agdasima } from '@/fonts/fonts';
+import { advent } from '@/fonts/fonts';
 import Link from 'next/link';
 import { Button } from '@heroui/button';
 import { FaTelegram } from 'react-icons/fa6';

@@ -1,12 +1,13 @@
 import { News } from '@/components/News/list';
 import NewsDetail from '@/components/News/NewsDetail/NewsDetail';
+import { use } from 'react';
 
-export default async function NewsDetailPage({
+export default function NewsDetailPage({
 	params,
 }: {
-	params: { detail: string };
+	params: Promise<{ detail: string }>;
 }) {
-	const { detail } = await params;
+	const { detail } = use(params);
 	const detailItem = News.filter((e) => e.id === detail)[0];
 
 	return (

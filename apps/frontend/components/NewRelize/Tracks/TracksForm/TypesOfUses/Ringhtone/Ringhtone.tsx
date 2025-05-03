@@ -1,6 +1,9 @@
 import InputFile from '@/components/Files/InputFile/InputFile';
+import { TReleaseInsertForm } from '@/schema/release.schema';
+import { useFormContext } from 'react-hook-form';
 
 export default function Ringhtone({ trackIndex }: { trackIndex: number }) {
+	const { register } = useFormContext<TReleaseInsertForm>();
 	return (
 		<div>
 			<p className='font-bold'>Добавление рингтона</p>
@@ -11,10 +14,10 @@ export default function Ringhtone({ trackIndex }: { trackIndex: number }) {
 			</p>
 			<div className='mt-4'>
 				<InputFile
-					name={'Ringhtone'}
 					id={'Ringhtone'}
 					textContent='Загрузить файл в формате .wav .flac'
 					formats={['wav', 'flac']}
+					{...register(`tracks.${trackIndex}.ringtone`)}
 				/>
 			</div>
 		</div>

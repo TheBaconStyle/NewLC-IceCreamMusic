@@ -1,17 +1,13 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, Reorder, useDragControls } from 'motion/react';
+import { motion } from 'motion/react';
 import { IconUpload } from '@tabler/icons-react';
 import { useDropzone } from 'react-dropzone';
 import { cn } from '@/utils/cn';
 import Image from 'next/image';
 import clsx from 'clsx';
-import { FaUpload } from 'react-icons/fa6';
-import TracksForm from '@/components/NewRelize/Tracks/TracksForm/TracksForm';
-import { IoIosArrowDown } from 'react-icons/io';
-import { TbGridDots } from 'react-icons/tb';
+
 import { Controller, useFormContext } from 'react-hook-form';
-import { Input } from '@heroui/input';
 
 const mainVariant = {
 	initial: {

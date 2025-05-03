@@ -32,7 +32,7 @@ export default function SideBarBody({ menu }: { menu: TMenu[] }) {
 											setSubMenu([...subMenu, item.name]);
 										}
 									} else {
-										item.href && router.push(item.href);
+										router.push(item.href ?? '/');
 									}
 								}
 							}}

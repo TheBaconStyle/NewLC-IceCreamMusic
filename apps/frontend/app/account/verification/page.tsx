@@ -1,7 +1,4 @@
-import VerificationError from '@/components/Verification/VerificationError/VerificationError';
-import VerificationExpectation from '@/components/Verification/VerificationExpectation/VerificationExpectation';
 import VerificationForm from '@/components/Verification/VerificationForm/VerificationForm';
-import VerificationSuccess from '@/components/Verification/VerificationSuccess/VerificationSuccess';
 
 export default function VerificationPage() {
 	return (

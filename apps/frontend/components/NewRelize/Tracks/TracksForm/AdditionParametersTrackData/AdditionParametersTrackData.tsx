@@ -37,7 +37,7 @@ export default function AdditionParametersTrackData({
 	useEffect(() => {
 		if (!showDateInstantGratification)
 			setValue(`tracks.${trackIndex}.instant_gratification`, null);
-	}, [showDateInstantGratification]);
+	}, [setValue, showDateInstantGratification, trackIndex]);
 
 	return (
 		<div>

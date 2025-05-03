@@ -8,7 +8,6 @@ export default function NewsDetail({
 	description,
 	date,
 	tags,
-	id,
 }: TNewsDetail) {
 	return (
 		<div className='flex flex-col gap-5'>

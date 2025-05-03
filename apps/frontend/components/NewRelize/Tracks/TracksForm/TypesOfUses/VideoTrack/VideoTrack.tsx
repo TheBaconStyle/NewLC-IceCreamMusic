@@ -1,6 +1,9 @@
 import InputFile from '@/components/Files/InputFile/InputFile';
+import { TReleaseInsertForm } from '@/schema/release.schema';
+import { useFormContext } from 'react-hook-form';
 
 export default function VideoTrack({ trackIndex }: { trackIndex: number }) {
+	const { register } = useFormContext<TReleaseInsertForm>();
 	return (
 		<div>
 			<p className='font-bold'>Загрузка видео</p>
@@ -10,10 +13,10 @@ export default function VideoTrack({ trackIndex }: { trackIndex: number }) {
 			</p>
 			<div className='mt-4'>
 				<InputFile
-					name={'videoTrack'}
 					id={'videoTrack'}
 					textContent='Загрузить файл в формате .mov, .mp4, .avi'
 					formats={['mov', 'mp4', 'avi']}
+					{...register(`tracks.${trackIndex}.video`)}
 				/>
 			</div>
 		</div>

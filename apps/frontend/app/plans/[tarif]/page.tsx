@@ -1,13 +1,13 @@
 import { TarifList } from '@/components/TarifCard/Tarif.list';
 import TarifCardDetail from '@/components/TarifCard/TarifCardDetail/TarifCardDetail';
-import TarifTable from '@/components/TarifCard/TarifTable/TarifTable';
+import { use } from 'react';
 
-export default async function DetailPlans({
+export default function DetailPlans({
 	params,
 }: {
-	params: { tarif: string };
+	params: Promise<{ tarif: string }>;
 }) {
-	const { tarif } = await params;
+	const { tarif } = use(params);
 	const indxDetail = TarifList.findIndex((e) => e.linkDetail.includes(tarif));
 
 	return (

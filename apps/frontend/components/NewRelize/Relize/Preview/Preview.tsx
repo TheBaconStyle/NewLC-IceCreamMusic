@@ -1,5 +1,4 @@
 import { FileUpload } from '@/components/Files/FileUpload/FileUpload';
-import { useState } from 'react';
 
 export default function Preview() {
 	return (

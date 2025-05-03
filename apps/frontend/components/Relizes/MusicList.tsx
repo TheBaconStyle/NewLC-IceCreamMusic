@@ -1,5 +1,4 @@
 import { CiPlay1 } from 'react-icons/ci';
-import { RiFileDownloadLine } from 'react-icons/ri';
 
 import { Button } from '@heroui/button';
 

@@ -1,4 +1,4 @@
-import type { NextConfig } from 'next';
+import { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
 	output: 'standalone',
@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
 		serverActions: {
 			allowedOrigins: ['localhost'],
 		},
+	},
+	images: {
+		unoptimized: true,
 	},
 };
 

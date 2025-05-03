@@ -1,7 +1,3 @@
-import { agdasima } from '@/fonts/fonts';
-import Image from 'next/image';
-import clsx from 'clsx';
-
 export default function TermsPage() {
 	return (
 		<div className='terms'>

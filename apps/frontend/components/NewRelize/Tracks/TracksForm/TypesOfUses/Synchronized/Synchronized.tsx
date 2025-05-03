@@ -12,10 +12,10 @@ export default function Synchronized({ trackIndex }: { trackIndex: number }) {
 			</p>
 			<div className='mt-4'>
 				<InputFile
-					name={'synchronized'}
 					id={'synchronized'}
 					textContent='Загрузить файл в формате .ttml'
 					formats={['ttml']}
+					{...register(`tracks.${trackIndex}.text_sync`)}
 				/>
 			</div>
 		</div>

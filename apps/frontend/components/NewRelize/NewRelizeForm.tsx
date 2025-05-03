@@ -27,18 +27,7 @@ export default function NewRelizeForm() {
 			platforms: ['all'],
 		},
 	});
-	const {
-		register,
-		handleSubmit,
-		reset,
-		control,
-		watch,
-		setError,
-		formState,
-		getValues,
-		setValue,
-		getFieldState,
-	} = methods;
+	const {} = methods;
 
 	const onSubmit: SubmitHandler<TReleaseInsertForm> = (data) => {
 		console.log(data);

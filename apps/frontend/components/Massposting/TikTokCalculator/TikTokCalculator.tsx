@@ -56,7 +56,7 @@ export default function TikTokCalculator() {
 			<Slider
 				className='mt-10'
 				defaultValue={50}
-				onChange={setVideoCount}
+				onChange={() => setVideoCount}
 				marks={[
 					{
 						value: 250,
