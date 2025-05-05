@@ -1,9 +1,7 @@
-import type { IconProps } from '@iconify/react';
-
 export type TMenu = {
 	name: string;
 	href?: string;
-	icon: IconProps['icon'];
+	icon: HTMLSpanElement;
 	subMenu?: TMenu[];
 	comming?: boolean;
 };
@@ -12,8 +10,7 @@ export const navigation: TMenu[] = [
 	{
 		name: 'Новости',
 		href: '/main/news/',
-		// icon: 'heroicons:newspaper'
-		icon: 'heroicons--newspaper',
+		icon: 'heroicons:newspaper',
 	},
 	{
 		name: 'Ваша музыка',

@@ -4,7 +4,6 @@ import './globals.css';
 import SideBarProvider from '@/providers/SideBar.provider';
 import SideBar from '@/components/Layout/SideBar/SideBar';
 import { Suspense } from 'react';
-import { HeroUIProvider } from '@heroui/react';
 import GlobalProvider from '@/providers/Global.provider';
 
 export const metadata: Metadata = {

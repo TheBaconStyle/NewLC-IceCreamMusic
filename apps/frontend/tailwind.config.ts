@@ -7,7 +7,7 @@ export default {
 		'./pages/**/*.{js,ts,jsx,tsx,mdx}',
 		'./components/**/*.{js,ts,jsx,tsx,mdx}',
 		'./app/**/*.{js,ts,jsx,tsx,mdx}',
-		'./node_modules/@heroui/theme/dist/components/(badge|button|checkbox|chip|date-input|date-picker|form|input|link|modal|radio|select|slider|popover|ripple|spinner|calendar|listbox|divider|scroll-shadow).js',
+		'../../node_modules/@heroui/theme/dist/components/(badge|button|checkbox|chip|date-input|date-picker|form|input|link|modal|radio|select|slider|popover|ripple|spinner|calendar|listbox|divider|scroll-shadow).js',
 	],
 	theme: {
 		screens: {

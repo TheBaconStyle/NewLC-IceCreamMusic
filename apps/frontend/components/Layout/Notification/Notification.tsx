@@ -1,19 +1,17 @@
-import { Link } from '@heroui/link';
-import { AvatarGroup, Avatar } from '@heroui/avatar';
+import { Avatar, AvatarGroup } from '@heroui/avatar';
+import { Badge } from '@heroui/badge';
 import { Button } from '@heroui/button';
-import { Tooltip } from '@heroui/tooltip';
-import { useDisclosure } from '@heroui/use-disclosure';
-import { Image } from '@heroui/image';
 import {
 	Drawer,
-	DrawerContent,
-	DrawerHeader,
 	DrawerBody,
+	DrawerContent,
 	DrawerFooter,
+	DrawerHeader,
 } from '@heroui/drawer';
-import { BellIcon } from '@heroicons/react/24/outline';
-import { Badge } from '@heroui/badge';
-import { Icon } from '@iconify/react';
+import { Image } from '@heroui/image';
+import { Link } from '@heroui/link';
+import { Tooltip } from '@heroui/tooltip';
+import { useDisclosure } from '@heroui/use-disclosure';
 
 export default function Notification() {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -22,8 +20,7 @@ export default function Notification() {
 		<>
 			<Badge color='danger' content='99+' shape='circle'>
 				<Button onPress={onOpen} isIconOnly variant='light'>
-					{/* <BellIcon width={20} /> */}
-					<span className='icon-[heroicons--bell]'></span>
+					<span className='icon-[heroicons--bell] size-6'></span>
 				</Button>
 			</Badge>
 			<Drawer
