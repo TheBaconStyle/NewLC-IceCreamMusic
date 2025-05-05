@@ -1,11 +1,12 @@
 'use client';
 import { useDisclosure } from '@heroui/modal';
 import { TMenu } from '../SideBar.links';
-import clsx from 'clsx';
+import { cn } from '@/utils/cn';
 import ChatModal from '../../ModalChat/ModalChat';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Chip } from '@heroui/chip';
+import { Icon } from '@iconify/react';
 
 export default function SideBarBody({ menu }: { menu: TMenu[] }) {
 	const [subMenu, setSubMenu] = useState<string[]>([]);
@@ -36,21 +37,33 @@ export default function SideBarBody({ menu }: { menu: TMenu[] }) {
 									}
 								}
 							}}
-							className={clsx(
+							className={cn(
 								item.href && item.href.includes(path.split('/')[2])
 									? 'bg-indigo-700 text-white'
 									: 'text-indigo-200 hover:bg-indigo-700 hover:text-white',
 								'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold w-full',
 							)}>
-							<item.icon
+							{/* <Icon
+								icon={item.icon}
+								width={24}
+								height={24}
 								aria-hidden='true'
-								className={clsx(
+								className={cn(
 									item.href
 										? 'text-white'
 										: 'text-indigo-200 group-hover:text-white',
-									'size-6 shrink-0',
+									'shrink-0',
 								)}
-							/>
+							/> */}
+							<span
+								className={cn(
+									item.href
+										? 'text-white'
+										: 'text-indigo-200 group-hover:text-white',
+									'shrink-0',
+									'size-6',
+									`icon-[${item.icon}]`,
+								)}></span>
 							{item.name}
 							{item.comming && (
 								<Chip

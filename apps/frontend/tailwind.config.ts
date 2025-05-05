@@ -1,13 +1,14 @@
 import { heroui } from '@heroui/theme';
 import type { Config } from 'tailwindcss';
+import { addDynamicIconSelectors } from '@iconify/tailwind';
 
 export default {
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@heroui/theme/dist/components/(badge|button|checkbox|chip|date-input|date-picker|form|input|link|modal|radio|select|slider|popover|ripple|spinner|calendar|listbox|divider|scroll-shadow).js"
-  ],
+	content: [
+		'./pages/**/*.{js,ts,jsx,tsx,mdx}',
+		'./components/**/*.{js,ts,jsx,tsx,mdx}',
+		'./app/**/*.{js,ts,jsx,tsx,mdx}',
+		'./node_modules/@heroui/theme/dist/components/(badge|button|checkbox|chip|date-input|date-picker|form|input|link|modal|radio|select|slider|popover|ripple|spinner|calendar|listbox|divider|scroll-shadow).js',
+	],
 	theme: {
 		screens: {
 			sm: { min: '640px' },
@@ -30,5 +31,5 @@ export default {
 		},
 	},
 	darkMode: 'class',
-	plugins: [heroui()],
+	plugins: [heroui(), addDynamicIconSelectors()],
 } satisfies Config;

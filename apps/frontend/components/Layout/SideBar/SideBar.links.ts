@@ -1,107 +1,88 @@
-import {
-	FolderIcon,
-	ChartPieIcon,
-	NewspaperIcon,
-	ChatBubbleLeftRightIcon,
-	ChartBarSquareIcon,
-	WalletIcon,
-	QuestionMarkCircleIcon,
-	CheckCircleIcon,
-	MusicalNoteIcon,
-	UserIcon,
-	StarIcon,
-	BuildingStorefrontIcon,
-	ArrowTrendingUpIcon,
-	ShieldExclamationIcon,
-	LinkIcon,
-	SparklesIcon,
-	MapIcon,
-	ArrowRightStartOnRectangleIcon,
-} from '@heroicons/react/24/outline';
+import type { IconProps } from '@iconify/react';
 
 export type TMenu = {
 	name: string;
 	href?: string;
-	icon: React.ForwardRefExoticComponent<
-		React.PropsWithoutRef<React.SVGProps<SVGSVGElement>>
-	>;
+	icon: IconProps['icon'];
 	subMenu?: TMenu[];
 	comming?: boolean;
 };
 
 export const navigation: TMenu[] = [
-	{ name: 'Новости', href: '/main/news/', icon: NewspaperIcon },
+	{
+		name: 'Новости',
+		href: '/main/news/',
+		// icon: 'heroicons:newspaper'
+		icon: 'heroicons--newspaper',
+	},
 	{
 		name: 'Ваша музыка',
-		icon: MusicalNoteIcon,
-
+		icon: 'heroicons:musical-note',
 		subMenu: [
 			{
 				name: 'Мои релизы',
 				href: '/relizes/my-relizes',
-				icon: WalletIcon,
+				icon: 'heroicons:wallet',
 			},
 			{
 				name: 'Новый релиз',
 				href: '/relizes/new-relize',
-				icon: FolderIcon,
+				icon: 'heroicons:folder',
 			},
 		],
 	},
 	{
 		name: 'Маркетинг',
-		icon: SparklesIcon,
+		icon: 'heroicons:sparkles',
 		subMenu: [
 			{
 				name: 'Промо ссылки',
 				href: '/marketing/promo-links/',
-				icon: LinkIcon,
+				icon: 'heroicons:link',
 			},
 			{
 				name: 'Приоритетный релиз',
 				href: '/marketing/priority-release/',
-				icon: ArrowRightStartOnRectangleIcon,
+				icon: 'heroicons:arrow-right-start-on-rectangle',
 			},
 			{
 				name: 'Масспостинг',
 				href: '/marketing/massposting',
-				icon: ChartBarSquareIcon,
+				icon: 'heroicons:chart-bar-square',
 			},
 			{
 				name: 'Продвижение',
 				href: '/marketing/promotion',
-				icon: ArrowTrendingUpIcon,
+				icon: 'heroicons:arrow-trending-up',
 			},
 		],
 	},
-	{ name: 'Студии', href: '/studios/', icon: MapIcon },
-	{ name: 'Аналитика', href: '#', icon: ChartPieIcon, comming: true },
+	{ name: 'Студии', href: '/studios/', icon: 'heroicons:map' },
+	{ name: 'Аналитика', href: '#', icon: 'heroicons:chart-pie', comming: true },
 	{
 		name: 'FAQ',
 		href: '/main/faq/',
-		icon: QuestionMarkCircleIcon,
+		icon: 'heroicons:question-mark-circle',
 	},
-
 	{
 		name: 'Маркет битов',
 		href: '#',
-		icon: BuildingStorefrontIcon,
+		icon: 'heroicons:building-storefront',
 		comming: true,
 	},
 	{
 		name: 'Аккаунт',
-
-		icon: ShieldExclamationIcon,
+		icon: 'heroicons:shield-exclamation',
 		subMenu: [
 			{
 				name: 'Профиль',
 				href: '/account/profile/',
-				icon: UserIcon,
+				icon: 'heroicons:user',
 			},
 			{
 				name: 'Верификация',
 				href: '/account/verification',
-				icon: CheckCircleIcon,
+				icon: 'heroicons:check-circle',
 			},
 		],
 	},
@@ -109,11 +90,11 @@ export const navigation: TMenu[] = [
 	{
 		name: 'Поддержка',
 		href: '#',
-		icon: ChatBubbleLeftRightIcon,
+		icon: 'heroicons:chat-bubble-left-right',
 	},
 	{
 		name: 'Тарифы',
 		href: '/plans/',
-		icon: StarIcon,
+		icon: 'heroicons:star',
 	},
 ];
