@@ -12,7 +12,9 @@
       "default": "./lib/schema.js"
     }
   },
+  "type": "commonjs",
   "scripts": {
+    "dev": "rimraf lib && tsc --watch",
     "generate": "dotenvx run -- drizzle-kit generate",
     "migrate": "dotenvx run -- drizzle-kit migrate",
     "drop": "dotenvx run -- drizzle-kit drop",

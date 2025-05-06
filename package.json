@@ -1,18 +1,13 @@
 {
-  "name": "my-app",
+  "name": "icecreammusic",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev:backend": "npm run dev --workspace=backend",
-    "dev:frontend": "npm run dev --workspace=frontend",
-    "dev": "concurrently --names \"BACKEND,FRONTEND\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run dev:backend\" \"npm run dev:frontend\""
-  },
+  "packageManager": "npm@11.3.0",
   "workspaces": [
     "packages/*",
     "apps/*"
   ],
-  "dependencies": {},
   "devDependencies": {
-    "concurrently": "^9.0.1"
+    "turbo": "^2.5.2"
   }
 }

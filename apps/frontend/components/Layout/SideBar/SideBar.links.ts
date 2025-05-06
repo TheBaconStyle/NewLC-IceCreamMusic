@@ -1,7 +1,7 @@
 export type TMenu = {
 	name: string;
 	href?: string;
-	icon: HTMLSpanElement;
+	icon: string;
 	subMenu?: TMenu[];
 	comming?: boolean;
 };

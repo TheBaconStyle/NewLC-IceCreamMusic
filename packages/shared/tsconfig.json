@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "CommonJS",
+    "module": "Node16",
+    "moduleResolution": "node16",
     "declaration": true,
     "declarationMap": true,
-    "outDir": "./lib",
+    "outDir": "lib",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true
   },
-  "exclude": ["./drizzle.config.ts", "./node_modules", "lib", "dist"]
+  "exclude": ["node_modules", "lib"]
 }

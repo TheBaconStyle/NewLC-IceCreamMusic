@@ -1,0 +1,28 @@
+{
+  "name": "shared",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "exports": {
+    "./schema/*": {
+      "types": "./lib/schema/*.d.ts",
+      "default": "./lib/schema/*.js"
+    },
+    "./api/*": {
+      "types": "./lib/api/*.d.ts",
+      "default": "./lib/api/*.js"
+    }
+  },
+  "scripts": {
+    "dev": "rimraf lib && tsc --watch",
+    "build": "rimraf lib && tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.3"
+  }
+}

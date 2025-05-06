@@ -1,0 +1,23 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "db#build": {
+      "outputs": ["lib"]
+    },
+    "shared#build": {
+      "dependsOn": ["db#build"],
+      "outputs": ["lib"]
+    },
+    "build": {
+      "with": ["db#build"],
+      "outputs": [".next/**", "!.next/cache/**", "dist", "lib"]
+    },
+
+    "dev": {
+      "with": ["db#dev", "shared#dev"],
+      "cache": false,
+      "persistent": true
+    }
+  }
+}
