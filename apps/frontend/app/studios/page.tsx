@@ -1,9 +1,9 @@
-import StudioDetail from '@/components/Studios/StudiosDetail/StudioDetail';
+import StudiosList from '@/components/Studios/StudiosList/StudiosList';
 
-export default function StudiosPage() {
+export default function Page() {
 	return (
 		<div>
-			<StudioDetail />
+			<StudiosList />
 		</div>
 	);
 }
