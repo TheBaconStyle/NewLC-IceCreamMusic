@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev --turbopack",
-		"build": "next build",
+		"build": "next build && cpy .next/static .next/standalone/apps/frontend && cpy public .next/standalone/apps/frontend",
 		"start": "next start",
 		"lint": "next lint"
 	},
@@ -74,6 +74,7 @@
 		"@types/node": "^20",
 		"@types/react": "^19",
 		"@types/react-dom": "^19",
+		"cpy": "^10.1.0",
 		"eslint": "^9",
 		"eslint-config-next": "15.1.7",
 		"postcss": "^8",

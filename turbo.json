@@ -1,5 +1,6 @@
 {
   "$schema": "https://turborepo.com/schema.json",
+  "globalDependencies": [".env"],
   "ui": "tui",
   "tasks": {
     "db#build": {
@@ -10,12 +11,20 @@
       "outputs": ["lib"]
     },
     "build": {
-      "with": ["db#build"],
+      "with": ["db#build", "shared#build"],
       "outputs": [".next/**", "!.next/cache/**", "dist", "lib"]
     },
-
+    "db#dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "shared#dev": {
+      "with": ["db#dev"],
+      "cache": false,
+      "persistent": true
+    },
     "dev": {
-      "with": ["db#dev", "shared#dev"],
+      "with": ["shared#dev"],
       "cache": false,
       "persistent": true
     }
