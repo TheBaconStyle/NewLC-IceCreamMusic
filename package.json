@@ -8,6 +8,6 @@
     "apps/*"
   ],
   "devDependencies": {
-    "turbo": "^2.5.2"
+    "turbo": "^2.5.3"
   }
 }
