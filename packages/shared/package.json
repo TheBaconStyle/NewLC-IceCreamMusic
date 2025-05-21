@@ -5,16 +5,11 @@
   "private": true,
   "exports": {
     "./schema/*": {
-      "types": "./lib/schema/*.d.ts",
-      "default": "./lib/schema/*.js"
-    },
-    "./api/*": {
-      "types": "./lib/api/*.d.ts",
-      "default": "./lib/api/*.js"
+      "types": "./lib/*.d.ts",
+      "default": "./lib/*.js"
     }
   },
   "scripts": {
-    "dev": "rimraf lib && tsc --watch",
     "build": "rimraf lib && tsc"
   },
   "keywords": [],
@@ -23,6 +18,11 @@
   "type": "commonjs",
   "devDependencies": {
     "rimraf": "^6.0.1",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.43.1",
+    "drizzle-zod": "^0.7.1",
+    "zod": "^3.25.1"
   }
 }

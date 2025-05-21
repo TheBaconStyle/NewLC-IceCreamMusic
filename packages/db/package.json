@@ -4,17 +4,18 @@
   "private": true,
   "exports": {
     ".": {
+      "require": "./lib/index.js",
       "types": "./lib/index.d.ts",
       "default": "./lib/index.js"
     },
     "./schema": {
+      "require": "./lib/schema.js",
       "types": "./lib/schema.d.ts",
       "default": "./lib/schema.js"
     }
   },
   "type": "commonjs",
   "scripts": {
-    "dev": "rimraf lib && tsc --watch",
     "generate": "dotenvx run -- drizzle-kit generate",
     "migrate": "dotenvx run -- drizzle-kit migrate",
     "drop": "dotenvx run -- drizzle-kit drop",
