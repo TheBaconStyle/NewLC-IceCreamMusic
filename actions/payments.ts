@@ -2,7 +2,7 @@
 
 import { checkout } from "@/config/aquiring";
 import { db } from "@/db";
-import { orders, payouts, users } from "@/db/schema";
+import { orders, payouts } from "@/db/schema";
 import { premiumPlans } from "@/helpers/premiumPlans";
 import {
   calculateReleaseEstimate,
@@ -11,7 +11,6 @@ import {
 } from "@/utils/calculateServices";
 import dateFormatter from "@/utils/dateFormatter";
 import { Payment } from "@a2seven/yoo-checkout";
-import { eq, sql } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { getAuthSession } from "./auth";
 
@@ -165,12 +164,13 @@ export async function makePayout(payoutToken: string) {
   }
 
   const isSuccess = await db
-    .transaction(async () => {
+    .transaction(async (tx) => {
       const payout = await (
         await fetch("https://api.yookassa.ru/v3/payouts", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Idempotence-Key": payoutToken,
             Authorization:
               "Basic " +
               btoa(
@@ -183,15 +183,28 @@ export async function makePayout(payoutToken: string) {
               currency: "RUB",
             },
             payout_token: payoutToken,
-            description: `Выплата за ${dateFormatter(new Date())}`,
+            description: `Выплата за ${dateFormatter(
+              new Date()
+            )} на учетную запись ${user.email}`,
           }),
         })
       ).json();
 
-      await db.insert(payouts).values({ id: payout.id, userId: user.id });
+      if (payout.type === "error") {
+        console.log(
+          new Date().toISOString(),
+          "Ошибка выплаты: ",
+          payout.code,
+          payout.id,
+          payout.description
+        );
+        throw new Error(payout.description);
+      }
+
+      await tx.insert(payouts).values({ id: payout.id, userId: user.id });
     })
-    .catch(() => false)
-    .then(() => true);
+    .then(() => true)
+    .catch(() => false);
 
   if (!isSuccess) {
     return {
