@@ -227,7 +227,7 @@ const SendRelease = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <ReleaseTracks />
+                <ReleaseTracks s3_url={process.env.NEXT_PUBLIC_S3_URL!} />
               </motion.div>
             )}
 
