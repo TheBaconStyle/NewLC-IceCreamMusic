@@ -5,8 +5,19 @@
   "private": true,
   "exports": {
     "./schema/*": {
-      "types": "./lib/*.d.ts",
-      "default": "./lib/*.js"
+      "types": "./lib/schema/*.d.ts",
+      "default": "./lib/schema/*.js",
+      "require": "./lib/schema/*.js"
+    },
+    "./config/*": {
+      "types": "./lib/config/*.d.ts",
+      "default": "./lib/config/*.js",
+      "require": "./lib/config/*.js"
+    },
+    "./helpers/*": {
+      "types": "./lib/helpers/*.d.ts",
+      "default": "./lib/helpers/*.js",
+      "require": "./lib/helpers/*.js"
     }
   },
   "scripts": {
