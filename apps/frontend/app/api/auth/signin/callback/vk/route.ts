@@ -213,15 +213,15 @@ export async function GET(request: NextRequest) {
 		)[0];
 	});
 
-	cookiesStore.delete('example-verifier');
+	cookiesStore.delete('icecream-vk-verifier');
 
-	cookiesStore.delete('example-state');
+	cookiesStore.delete('icecream-vk-state');
 
-	const callbackUrl = cookiesStore.get('example-callback')?.value;
+	const callbackUrl = cookiesStore.get('icecream-callback')?.value;
 
-	cookiesStore.delete('example-callback');
+	cookiesStore.delete('icecream-callback');
 
-	cookiesStore.set('example-session', session.sessionToken, {
+	cookiesStore.set('icecream-auth', session.sessionToken, {
 		httpOnly: true,
 		secure: true,
 		sameSite: 'lax',
