@@ -2,7 +2,7 @@ import { Inject, Logger } from '@nestjs/common';
 import * as schema from 'db/schema';
 import { and, eq, gte } from 'drizzle-orm';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import { Input, Query, Router } from 'nestjs-trpc';
+import { Input, Mutation, Query, Router } from 'nestjs-trpc';
 import z from 'zod';
 
 const getUserByTokenInput = z.object({
@@ -57,4 +57,29 @@ export class AuthRouter {
       user: session?.user,
     };
   }
+
+  @Mutation({})
+  async OAuthSignin() {}
+
+  @Mutation({
+    input: z.object({
+      authToken: z.string(),
+      emailToken: z.string(),
+    }),
+    output: z.object({}),
+  })
+  async emailSignIn(): Promise<void> {
+    return;
+  }
+
+  @Mutation({
+    input: z.object({
+      authToken: z.string(),
+      emailToken: z.string(),
+    }),
+    output: z.object({}),
+  })
+  async emailSignUp() {}
+
+  async recoverPassowrd() {}
 }

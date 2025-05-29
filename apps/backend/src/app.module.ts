@@ -4,6 +4,8 @@ import { DrizzlePGModule } from '@knaadh/nestjs-drizzle-pg';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TrpcModule } from './trpc/trpc.module';
 import { AuthModule } from './auth/auth.module';
+import { TaskModule } from './task/task.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -33,6 +35,8 @@ import { AuthModule } from './auth/auth.module';
       },
     }),
     AuthModule,
+    ScheduleModule.forRoot(),
+    TaskModule,
   ],
 })
 export class AppModule implements OnModuleInit {
