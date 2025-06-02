@@ -61,6 +61,9 @@ export class AuthRouter {
   @Mutation({})
   async OAuthSignin() {}
 
+  @Mutation({})
+  async createOauthAccount() {}
+
   @Mutation({
     input: z.object({
       authToken: z.string(),
