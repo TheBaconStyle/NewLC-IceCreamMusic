@@ -5,7 +5,7 @@ export default function Auth() {
 	return (
 		<div
 			className={
-				'text-white m-auto border-y-1 border-[#424242] w-full px-24 text-center relative'
+				'text-white m-auto border-y-1 border-[#424242] w-full py-20 text-center relative'
 			}>
 			<h1 className={'text-5xl mb-2'}>Авторизация</h1>
 			<p className={'mb-10'}>
@@ -14,7 +14,7 @@ export default function Auth() {
 			<Authorization />
 			<p className={'mt-5'}>
 				Или{' '}
-				<Link className={'text-white'} href='/signup'>
+				<Link className={'text-white underline'} href='/signup'>
 					зарегистрируйте
 				</Link>{' '}
 				новый, если у Вас нет аккаунта

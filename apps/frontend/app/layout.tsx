@@ -1,10 +1,5 @@
-import Image from 'next/image';
 import type { Metadata } from 'next';
 import './globals.css';
-import SideBarProvider from '@/providers/SideBar.provider';
-import SideBar from '@/components/Layout/SideBar/SideBar';
-import { Suspense } from 'react';
-import GlobalProvider from '@/providers/Global.provider';
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
@@ -18,31 +13,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='ru' className='h-full bg-[var(--background)]'>
-			<body className={`antialiased dark`}>
-				<GlobalProvider>
-					<Image
-						className='fixed bottom-0 '
-						src='/assets/BG/docs-left.png'
-						alt='dots1'
-						draggable='false'
-						width={550}
-						height={550}
-					/>
-					<Image
-						className='fixed right-0 aspect-square w-1/3'
-						src='/assets/BG/docs-right.png'
-						alt='dots2'
-						draggable='false'
-						width={550}
-						height={550}
-					/>
-					<SideBarProvider>
-						<SideBar>
-							<Suspense>{children}</Suspense>
-						</SideBar>
-					</SideBarProvider>
-				</GlobalProvider>
-			</body>
+			<body className={`antialiased dark`}>{children}</body>
 		</html>
 	);
 }

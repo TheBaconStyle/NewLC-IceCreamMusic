@@ -36,10 +36,26 @@ const RegistrationWidget = () => {
 					enqueueSnackbar({ message: e.message, variant: 'error' });
 				});
 			})}>
-			<Input {...register('email')} label='Email' type='email' />
-			<Input {...register('name')} label='Имя' type='text' />
-			<Input {...register('password')} label='Пароль' type='password' />
 			<Input
+				variant='underlined'
+				{...register('email')}
+				label='Email'
+				type='email'
+			/>
+			<Input
+				variant='underlined'
+				{...register('name')}
+				label='Имя'
+				type='text'
+			/>
+			<Input
+				variant='underlined'
+				{...register('password')}
+				label='Пароль'
+				type='password'
+			/>
+			<Input
+				variant='underlined'
 				{...register('confirmPassword')}
 				label='Подтвердите пароль'
 				type='password'

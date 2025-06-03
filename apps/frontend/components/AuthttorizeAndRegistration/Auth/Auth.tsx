@@ -19,7 +19,7 @@ const Authorization = () => {
 
 	return (
 		<form
-			className={'flex w-[70%] mx-auto flex-col gap-5'}
+			className={'flex w-[70%] mx-auto flex-col gap-5 '}
 			onSubmit={handleSubmit((data) => {
 				credentialsSignIn(data)
 					.then((res) => {
@@ -35,9 +35,21 @@ const Authorization = () => {
 						});
 					});
 			})}>
-			<Input {...register('email')} label='Email' type='text' />
-			<Input {...register('password')} label='Пароль' type='password' />
-			<Checkbox {...register('rememberMe')}>Запомнить пароль</Checkbox>
+			<Input
+				variant='underlined'
+				{...register('email')}
+				label='Email'
+				type='text'
+			/>
+			<Input
+				variant='underlined'
+				{...register('password')}
+				label='Пароль'
+				type='password'
+			/>
+			<Checkbox color='default' {...register('rememberMe')}>
+				Запомнить пароль
+			</Checkbox>
 			<Button type='submit'>Войти</Button>
 		</form>
 	);

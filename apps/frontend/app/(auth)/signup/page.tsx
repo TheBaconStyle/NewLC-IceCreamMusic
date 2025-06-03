@@ -5,7 +5,7 @@ export default function Registraion() {
 	return (
 		<div
 			className={
-				'text-white m-auto border-y-1 border-[#424242] w-full px-24 text-center relative'
+				'text-white m-auto border-y-1 border-[#424242] w-full py-24 text-center relative'
 			}>
 			<h1 className={'text-5xl mb-2'}>Добро пожаловать!</h1>
 			<p className={'mb-10'}>
@@ -14,8 +14,8 @@ export default function Registraion() {
 			</p>
 			<RegistrationWidget />
 			<p className={'mt-5'}>
-				Или
-				<Link className={'text-white'} href={'/signin'}>
+				Или{' '}
+				<Link className={'text-white underline'} href={'/signin'}>
 					войдите здесь
 				</Link>
 				, если у Вас есть аккаунт
