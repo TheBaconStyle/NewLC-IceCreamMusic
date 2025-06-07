@@ -21,6 +21,16 @@ const getUserByTokenOutput = z.object({
     .optional(),
 });
 
+const credentialsSignInInput = z.object({
+  email: z.string().email(),
+  password: z.string().min(1),
+});
+
+const credentialsSignUpInput = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
+
 @Router({ alias: 'auth' })
 export class AuthRouter {
   logger = new Logger(AuthRouter.name);
@@ -30,8 +40,8 @@ export class AuthRouter {
   ) {}
 
   @Query({
-    input: getUserByTokenInput,
-    output: getUserByTokenOutput,
+    // input: getUserByTokenInput,
+    // output: getUserByTokenOutput,
   })
   async getUserByToken(
     @Input('token') token: string,
@@ -64,23 +74,44 @@ export class AuthRouter {
   @Mutation({})
   async createOauthAccount() {}
 
+  @Mutation({})
+  async emailRecover() {}
+
+  @Mutation({})
+  async verifyEmailToken() {}
+
   @Mutation({
-    input: z.object({
-      authToken: z.string(),
-      emailToken: z.string(),
-    }),
-    output: z.object({}),
+    // input: credentialsSignInInput,
+    // output: z.object({
+    //   message: z.string(),
+    //   token: z.string().optional(),
+    // }),
   })
-  async emailSignIn(): Promise<void> {
-    return;
+  async emailSignIn(
+    @Input('email') email: string,
+    @Input('password') password: string,
+  ) {
+    const user = await this.db.query.users.findFirst({
+      where: eq(schema.users.email, email),
+    });
+
+    if (!user || !!!user.password) {
+      return {
+        message: 'Неверные данные для входа',
+      };
+    }
+
+    // const passwordVerified = await compare(password, user.password);
+
+    // const token = await generateToken()
   }
 
   @Mutation({
-    input: z.object({
-      authToken: z.string(),
-      emailToken: z.string(),
-    }),
-    output: z.object({}),
+    // input: z.object({
+    //   authToken: z.string(),
+    //   emailToken: z.string(),
+    // }),
+    // output: z.object({}),
   })
   async emailSignUp() {}
 

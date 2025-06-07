@@ -18,7 +18,19 @@ const appRouter = t.router({
           name: z.string(),
         })
         .optional(),
-    })).query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any)
+    })).query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
+    OAuthSignin: publicProcedure.mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
+    createOauthAccount: publicProcedure.mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
+    emailRecover: publicProcedure.mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
+    verifyEmailToken: publicProcedure.mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
+    emailSignIn: publicProcedure.input(z.object({
+      authToken: z.string(),
+      emailToken: z.string(),
+    })).output(z.object({})).mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
+    emailSignUp: publicProcedure.input(z.object({
+      authToken: z.string(),
+      emailToken: z.string(),
+    })).output(z.object({})).mutation(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
   })
 });
 export type AppRouter = typeof appRouter;

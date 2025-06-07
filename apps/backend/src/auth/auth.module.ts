@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AuthRouter } from './auth.router';
+import { AuthRouter } from './auth.router.js';
 @Module({
   providers: [AuthRouter],
 })
