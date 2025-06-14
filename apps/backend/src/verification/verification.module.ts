@@ -1,7 +1,4 @@
 import { Module } from '@nestjs/common';
-import { VerificationRouter } from './verification.router';
 
-@Module({
-  providers: [VerificationRouter],
-})
+@Module({})
 export class VerificationModule {}

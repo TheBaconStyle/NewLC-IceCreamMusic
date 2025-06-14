@@ -1,7 +1,4 @@
 import { Module } from '@nestjs/common';
-import { FAQRouter } from './faq.router';
 
-@Module({
-  providers: [FAQRouter],
-})
+@Module({})
 export class FAQModule {}

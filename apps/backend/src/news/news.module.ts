@@ -1,7 +1,4 @@
 import { Module } from '@nestjs/common';
-import { NewsRouter } from './news.router';
 
-@Module({
-  providers: [NewsRouter],
-})
+@Module({})
 export class NewsModule {}

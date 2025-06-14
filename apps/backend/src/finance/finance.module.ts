@@ -1,7 +1,4 @@
 import { Module } from '@nestjs/common';
-import { FinanceRouter } from './finance.router';
 
-@Module({
-  providers: [FinanceRouter],
-})
+@Module({})
 export class FincanceModule {}

@@ -1,15 +1,14 @@
-import { Logger, Module, OnModuleInit } from '@nestjs/common';
-import * as dbSchema from 'db/schema';
 import { DrizzlePGModule } from '@knaadh/nestjs-drizzle-pg';
+import { Logger, Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TrpcModule } from './trpc/trpc.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import * as dbSchema from 'db/schema';
+import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
 import { TaskModule } from './task/task.module';
-import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
-    TrpcModule,
     ConfigModule.forRoot({ isGlobal: true }),
     DrizzlePGModule.registerAsync({
       tag: 'DB_TAG',
@@ -38,6 +37,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     ScheduleModule.forRoot(),
     TaskModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule implements OnModuleInit {
   logger = new Logger(AppModule.name);

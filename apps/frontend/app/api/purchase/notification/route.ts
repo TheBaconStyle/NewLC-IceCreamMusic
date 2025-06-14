@@ -1,7 +1,7 @@
 import { checkout } from '@/shared/lib/config/aquiring';
 import { db } from 'db';
 import { orders, payment_method, payouts, release, users } from 'db/schema';
-import { premiumPlans } from '@/shared/helpers/premiumPlans';
+import { premiumPlans } from 'shared/helpers/premiumPlans';
 import {
 	releaseMetadataSchema,
 	subscriptionMetadataSchema,
@@ -10,24 +10,24 @@ import { WebHookEvents } from '@a2seven/yoo-checkout';
 import { eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
+const goodResponse = NextResponse.json(
+	{
+		message: 'Success',
+	},
+	{ status: 200 },
+);
+
+const badResponse = NextResponse.json(
+	{ message: 'Bad request' },
+	{ status: 400 },
+);
+
+const internalResponse = NextResponse.json(
+	{ message: 'Internal server error' },
+	{ status: 500 },
+);
+
 export async function POST(req: Request) {
-	const goodResponse = NextResponse.json(
-		{
-			message: 'Success',
-		},
-		{ status: 200 },
-	);
-
-	const badResponse = NextResponse.json(
-		{ message: 'Bad request' },
-		{ status: 400 },
-	);
-
-	const internalResponse = NextResponse.json(
-		{ message: 'Internal server error' },
-		{ status: 500 },
-	);
-
 	const data = await req.json();
 
 	if (
