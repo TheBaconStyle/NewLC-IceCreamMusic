@@ -6,7 +6,7 @@ import { eq, InferInsertModel, InferSelectModel } from 'drizzle-orm';
 
 type User = Pick<
   InferSelectModel<typeof schema.users>,
-  'id' | 'isAdmin' | 'email' | 'avatar'
+  'id' | 'isAdmin' | 'email' | 'avatar' | 'name'
 >;
 
 type Session = InferInsertModel<typeof schema.sessions>;

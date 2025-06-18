@@ -12,14 +12,18 @@ import {
   varchar,
   primaryKey,
 } from "drizzle-orm/pg-core";
+import {
+  subscriptionLevelValues,
+  verificationStatusValues,
+  verificationTokenTypeValues,
+} from "./types";
 
 export const schema = pgSchema("icecream");
 
-export const subscriptionLevels = schema.enum("subscribe_level", [
-  "standard",
-  "professional",
-  "enterprise",
-]);
+export const subscriptionLevels = schema.enum(
+  "subscribe_level",
+  subscriptionLevelValues
+);
 
 export const users = schema.table("user", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -100,12 +104,18 @@ export const sessionsRelations = relations(sessions, ({ one }) => ({
   user: one(users, { fields: [sessions.userId], references: [users.id] }),
 }));
 
+export const verificationTokenTypes = schema.enum(
+  "token_types",
+  verificationTokenTypeValues
+);
+
 export const verificationTokens = schema.table("verification_tokens", {
   userId: uuid("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   token: text("token").notNull().primaryKey(),
   expires: timestamp("expires", { mode: "date" }).notNull(),
+  type: verificationTokenTypes("type").notNull(),
 });
 
 export const verificationTokensRelations = relations(
@@ -132,11 +142,10 @@ export const faq = schema.table("faq", {
   answer: text("answer").notNull(),
 });
 
-export const verificationStatuses = schema.enum("verification_status", [
-  "moderating",
-  "approved",
-  "rejected",
-]);
+export const verificationStatuses = schema.enum(
+  "verification_status",
+  verificationStatusValues
+);
 
 export const verification = schema.table("verification", {
   id: uuid("id").defaultRandom().primaryKey(),

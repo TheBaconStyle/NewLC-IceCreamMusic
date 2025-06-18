@@ -3,7 +3,6 @@ import { Logger, Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import * as dbSchema from 'db/schema';
-import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
 import { TaskModule } from './task/task.module';
 
@@ -37,7 +36,6 @@ import { TaskModule } from './task/task.module';
     ScheduleModule.forRoot(),
     TaskModule,
   ],
-  controllers: [AppController],
 })
 export class AppModule implements OnModuleInit {
   logger = new Logger(AppModule.name);

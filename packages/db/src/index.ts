@@ -11,3 +11,5 @@ export const db = drizzle(connectionPool, { schema });
 export { schema };
 
 export type DB = NodePgDatabase<typeof schema>;
+
+export * from "./types";

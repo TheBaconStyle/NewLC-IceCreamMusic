@@ -40,6 +40,7 @@
     "drizzle-orm": "0.44.2",
     "drizzle-zod": "0.7.1",
     "minio": "^8.0.5",
+    "nodemailer": "^7.0.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "typia": "^9.3.1"
@@ -57,6 +58,7 @@
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.7",
+    "@types/nodemailer": "^6.4.17",
     "@types/pg": "^8.10.0",
     "@types/supertest": "^6.0.2",
     "@vercel/ncc": "^0.38.3",
