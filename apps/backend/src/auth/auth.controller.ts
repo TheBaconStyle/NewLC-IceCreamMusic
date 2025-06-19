@@ -13,6 +13,7 @@ import { and, eq, InferSelectModel } from 'drizzle-orm';
 import { AuthService } from './auth.service';
 import { Session } from './session.decorator';
 import { SessionService } from './session.service';
+import { TSuccessionResponse } from '../shared/types';
 
 export type TOauthAccountData = {
   providerAccountId: string;
@@ -42,10 +43,6 @@ export type TCredentialsSignUpBody = {
   email: string;
   password: string;
   name: string;
-};
-
-export type TSuccessionResponse = {
-  success: true;
 };
 
 export type TRecoverPasswordBody = {
@@ -193,7 +190,7 @@ export class AuthController {
     return { session_token: session.sessionToken };
   }
 
-  @TypedRoute.Post('link')
+  @TypedRoute.Patch('link')
   async linkAccount(
     @TypedBody() body: TOauthAccountData,
     @Session() token: string,
@@ -339,7 +336,7 @@ export class AuthController {
     return { success: true };
   }
 
-  @TypedRoute.Post('verification/:token')
+  @TypedRoute.Patch('verification/:token')
   async confirmEmail(
     @TypedParam('token') emailToken: string,
   ): Promise<TSuccessionResponse> {
@@ -350,7 +347,7 @@ export class AuthController {
     return { success: true };
   }
 
-  @TypedRoute.Post('reset')
+  @TypedRoute.Patch('reset')
   async resetPassword(
     @TypedBody() body: TRecoverPasswordBody,
   ): Promise<TSuccessionResponse> {

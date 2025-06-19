@@ -5,6 +5,8 @@ import { ScheduleModule } from '@nestjs/schedule';
 import * as dbSchema from 'db/schema';
 import { AuthModule } from './auth/auth.module';
 import { TaskModule } from './task/task.module';
+import { VerificationModule } from './verification/verification.module';
+import { AuthGuard } from './auth/auth.guard';
 
 @Module({
   imports: [
@@ -33,6 +35,7 @@ import { TaskModule } from './task/task.module';
       },
     }),
     AuthModule,
+    VerificationModule,
     ScheduleModule.forRoot(),
     TaskModule,
   ],
